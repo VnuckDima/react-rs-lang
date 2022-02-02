@@ -41,6 +41,14 @@
       }
     ],
     "no-unused-vars": 1,
-    "linebreak-style": 0
+    "linebreak-style": 0,
+    "react/jsx-indent": ["error", 2],
+    "indent": [2, "tab", { "SwitchCase": 1, "VariableDeclarator": 1 }],
+    "no-tabs": 0,
+    "react/prop-types": 0,
+    "react/jsx-indent": "off",
+    "react/jsx-indent-props": "off",
+	"indent" : "off",
+	"quotes": [2, "single", { "avoidEscape": true }]
   }
 }
