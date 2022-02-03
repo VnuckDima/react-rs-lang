@@ -1,6 +1,13 @@
 .header {
+  background-color: rgb(243, 243, 243);
+}
+
+.header__container {
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
+  padding: 20px 30px;
 }
 
 .header__button-sign {
@@ -13,3 +20,4 @@
       background-color: rgb(230, 230, 230);
     }
 }
+

@@ -16,23 +16,13 @@ export default function Header() {
 
   return (
     <header className="header">
-      <div className="header__games">
-        <Link to="/">
-          <button type="button">Home</button>
-        </Link>
-        <Link to="audio-call">
-          <button type="button">Audio Call</button>
-        </Link>
-        <Link to="sprint">
-          <button type="button">Sprint</button>
-        </Link>
+      <div className="header__container">
+        <h1 className="header__title">Главная</h1>
+          <button className="header__button-sign" onClick={handleSignIn} type="button">
+            sign in
+          </button>
+        <Modal modalState={{ modalActive, setModalActive }} />
       </div>
-      <div className="header__registration">
-        <button className="header__button-sign" onClick={handleSignIn} type="button">
-          sign in
-        </button>
-      </div>
-      <Modal modalState={{ modalActive, setModalActive }} />
     </header>
   );
 }
