@@ -1,3 +1,5 @@
+Для обновления своей ветки (feature) от ветки develop нужно перейти в ветку develop, сделать git pull, затем перейти в ветку feature и сделать git merge develop
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
