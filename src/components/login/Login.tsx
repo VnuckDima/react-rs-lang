@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { idText } from 'typescript';
 import { userActions } from '../../hooks/userAction';
 import { userType } from '../../types/types';
 import { login } from '../../utils/API';
@@ -11,12 +12,13 @@ type ILogin = {
   setIsLoginForm: (newState: boolean) => void
 }
 
-export default function Login({ modalState,setIsLoginForm }: ILogin) {
+export default function Login({ modalState, setIsLoginForm }: ILogin) {
   const { modalActive, setModalActive } = modalState;
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isCorrectLogin, setIsCorrectLogin] = useState(true);
   const dispatch = useDispatch();
+  const timeoutId:{current: NodeJS.Timeout | null} = useRef(null);
 
   async function signIn() {
     if (!validateLogin(email, password)) {
@@ -26,29 +28,33 @@ export default function Login({ modalState,setIsLoginForm }: ILogin) {
     await login(email, password)
     .then((data) => {
       setModalActive(false);
-      dispatch({ type: userType.UPDATE_USER_NAME, payload: data.name });
+      dispatch({ type: userType.UPDATE_USER_NAME, payload: data });
     })
     .catch((e) => setIsCorrectLogin(false));
   }
 
   function incorrectLogin() {
-    setTimeout(() => setIsCorrectLogin(true), 3500);
+    timeoutId.current = setTimeout(() => setIsCorrectLogin(true), 3500);
     return <h4 className="login__error">incorrect email or password</h4>;
   }
+
+  useEffect(() => () => {
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current);
+      }
+  });
 
   return (
     <div className="login">
       {!isCorrectLogin && incorrectLogin()}
-      <label htmlFor="login__email">
-        Enter email
-        <input onChange={(e) => setEmail(e.target.value)} id="login__email" type="email" pattern=".+@globex\.com" placeholder="Email" required />
-      </label>
-      <label htmlFor="login__password">
-        Enter password
-        <input onChange={(e) => setPassword(e.target.value)} id="login__password" type="password" placeholder="Password" minLength={8} required />
-      </label>
-      <button onClick={signIn} className="login__sumbit" type="button">Sign in</button>
-      <h4 onClick={() => setIsLoginForm(false)}>Зарегистрироваться</h4>
+      <h2>Вход</h2>
+      <input className="login__mail" onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" required />
+      <input className="login__password" onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" required />
+      <button className="login__sumbit" onClick={signIn} type="button">Войти</button>
+      <p className="login__text">
+        Еще не зарегистрированы?
+        <button onClick={() => setIsLoginForm(false)} type="button">Создать аккаунт</button>
+      </p>
     </div>
   );
 }

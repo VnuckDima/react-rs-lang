@@ -22,44 +22,19 @@
 }
 
 .modal__content {
-  width: 400px;
-  height: 200px;
-  padding: 20px;
+  max-width: 450px;
+  padding: 45px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
   z-index: 3;
   border-radius: 12px;
-  background: cornsilk;
+  background: #fff;
   transition: 0.4s all;
+  box-shadow: 0 0 20px 0 rgb(0 0 0 / 20%), 0 5px 5px 0 rgb(0 0 0 / 24%);
 }
 
 .modal__content.active {
   transform: scale(1);
-}
-
-.books-popup-clear {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 25px;
-  padding-top: 30px;
-  .button-wrap {
-      width: 200px;
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-      .btn {
-          width: 70px;
-          height: 50px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 3px solid #000;
-          border-radius: 30px;
-          background: #ffcc34;
-          cursor: pointer;
-      }
-  }
 }
