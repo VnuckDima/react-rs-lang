@@ -15,14 +15,14 @@ function App() {
       <Header />
       <div className="root">
         <Navigation />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="audio-call" element={<AudioCall />} />
+          <Route path="sprint" element={<Sprint />} />
+          <Route path="textbook" element={<Textbook />} />
+          <Route path="statistics" element={<Statistics />} />
+        </Routes>
       </div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="audio-call" element={<AudioCall />} />
-        <Route path="sprint" element={<Sprint />} />
-        <Route path="textbook" element={<Textbook />} />
-        <Route path="statistics" element={<Statistics />} />
-      </Routes>
     </div>
   );
 }
