@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Login from '../login/Login';
+import Registration from '../registration/Registration';
 import './modal.scss';
 
 type IPopUp = {
-  state: {modalActive: boolean, setModalActive: (newState: boolean) => void}
-  children: any
+  modalState: {modalActive: boolean, setModalActive: (newState: boolean) => void}
 }
 
-function Modal({ state, children }:IPopUp) {
-  const { modalActive, setModalActive } = state;
+export default function Modal({ modalState }:IPopUp) {
+  const { modalActive, setModalActive } = modalState;
+  const [isLoginForm, setIsLoginForm] = useState(true);
 
   return (
     <div
@@ -24,10 +26,16 @@ function Modal({ state, children }:IPopUp) {
         onClick={(e) => e.stopPropagation()}
         onKeyPress={(e) => e.stopPropagation()}
       >
-        {children}
+        {isLoginForm
+        ? <Login modalState={{ modalActive, setModalActive }} setIsLoginForm={setIsLoginForm} />
+        : (
+        <Registration
+        modalState={{ modalActive, setModalActive }}
+        setIsLoginForm={setIsLoginForm}
+        />
+        )}
       </div>
     </div>
   );
 }
-
-export default Modal;
+// закинул setIsLoginForm={setIsLoginForm} в логин, нужно так же закинуть в регистрацию для переключения между регистрацией и логином

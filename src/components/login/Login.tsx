@@ -1,28 +1,34 @@
 import React, { useRef, useState } from 'react';
-import { login, validateEmail, validatePassword } from '../../utils/utils';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../hooks/userAction';
+import { userType } from '../../types/types';
+import { login } from '../../utils/API';
+import { validateLogin } from '../../utils/utils';
 import './login.scss';
 
 type ILogin = {
-  state: {modalActive: boolean, setModalActive: (newState: boolean) => void}
+  modalState: {modalActive: boolean, setModalActive: (newState: boolean) => void}
+  setIsLoginForm: (newState: boolean) => void
 }
 
-export default function Login({ state }: ILogin) {
-  const { modalActive, setModalActive } = state;
+export default function Login({ modalState,setIsLoginForm }: ILogin) {
+  const { modalActive, setModalActive } = modalState;
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isCorrectLogin, setIsCorrectLogin] = useState(true);
+  const dispatch = useDispatch();
 
   async function signIn() {
-    const validEmail = validateEmail(email);
-    const validPassword = validatePassword(password);
-    if (!validEmail && !validPassword) {
+    if (!validateLogin(email, password)) {
       setIsCorrectLogin(false);
+      return;
     }
-    const loginData = await login(email, password).then((data) => {
+    await login(email, password)
+    .then((data) => {
       setModalActive(false);
-      return data;
-    }).catch((e) => setIsCorrectLogin(false));
-    console.log(loginData);
+      dispatch({ type: userType.UPDATE_USER_NAME, payload: data.name });
+    })
+    .catch((e) => setIsCorrectLogin(false));
   }
 
   function incorrectLogin() {
@@ -42,6 +48,7 @@ export default function Login({ state }: ILogin) {
         <input onChange={(e) => setPassword(e.target.value)} id="login__password" type="password" placeholder="Password" minLength={8} required />
       </label>
       <button onClick={signIn} className="login__sumbit" type="button">Sign in</button>
+      <h4 onClick={() => setIsLoginForm(false)}>Зарегистрироваться</h4>
     </div>
   );
 }

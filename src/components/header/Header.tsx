@@ -1,27 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTypedSelector } from '../../hooks/useTypeSelector';
 import Login from '../login/Login';
 import Modal from '../modal/Modal';
+import Registration from '../registration/Registration';
 import './style.scss';
 
 export default function Header() {
   const [modalActive, setModalActive] = useState(false);
+  const { hardWords, studiedWords, name } = useTypedSelector((state) => state.user);
 
   async function getWords() {
-    const res = await fetch("http://localhost:3001/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: "test1",
-        email: "test1@mail.ru",
-        password: "12345678",
-      }),
-    });
-    const data = await res.json();
-    console.log(data);
+    console.log(name);
   }
 
-  async function func() {
+  async function handleSignIn() {
     setModalActive(true);
   }
 
@@ -39,16 +32,16 @@ export default function Header() {
         </Link>
       </div>
       <div className="header__registration">
-        <button onClick={func} type="button">
+        <button onClick={handleSignIn} type="button">
           sign in
         </button>
         <button onClick={getWords} type="button">
           registration
         </button>
       </div>
-      <Modal state={{ modalActive, setModalActive }}>
-        <Login state={{ modalActive, setModalActive }} />
-      </Modal>
+      <Modal modalState={{ modalActive, setModalActive }} />
     </header>
   );
 }
+// <Login state={{ modalActive, setModalActive }} />
+// <Registration state={{ modalActive, setModalActive }} />

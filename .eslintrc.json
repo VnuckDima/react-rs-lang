@@ -48,7 +48,8 @@
     "react/prop-types": 0,
     "react/jsx-indent": "off",
     "react/jsx-indent-props": "off",
-	"indent" : "off",
-	"quotes": [2, "single", { "avoidEscape": true }]
+	  "indent" : "off",
+	  "quotes": [2, "single", { "avoidEscape": true }],
+    "default-param-last": "off"
   }
 }
