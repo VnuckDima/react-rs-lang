@@ -11,9 +11,9 @@ function App() {
     <div className="container">
       <Header />
       <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="audio-call" element={<AudioCall />} />
-	  <Route path="sprint" element={<Sprint />} />
+        <Route path="/" element={<Home />} />
+        <Route path="audio-call" element={<AudioCall />} />
+        <Route path="sprint" element={<Sprint />} />
       </Routes>
     </div>
   );

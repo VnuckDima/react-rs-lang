@@ -1,0 +1,17 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  input {
+    margin-bottom: 10%;
+  }
+}
+
+.login__sumbit {
+  text-align: center;
+  width: 100px;
+}
+
+.login__error {
+  color: red;
+}
