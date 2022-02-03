@@ -2,3 +2,14 @@
   display: flex;
   justify-content: space-between;
 }
+
+.header__button-sign {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border-width: 1px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+    &:hover {
+      background-color: rgb(230, 230, 230);
+    }
+}

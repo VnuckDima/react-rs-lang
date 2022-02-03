@@ -2,14 +2,50 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 360px;
   input {
-    margin-bottom: 10%;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  h2 {
+    margin-bottom: 20px;
   }
 }
 
 .login__sumbit {
-  text-align: center;
-  width: 100px;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4caf50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #ffffff;
+  font-size: 14px;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  &:hover {
+    background: #4b9b4e;
+  }
+}
+
+.login__text {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+  button {
+    margin-left: 5px;
+    border: none;
+    background-color: #ffffff;
+    color: #4caf50;
+    cursor: pointer;
+  }
 }
 
 .login__error {

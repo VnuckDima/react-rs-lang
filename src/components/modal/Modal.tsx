@@ -38,4 +38,3 @@ export default function Modal({ modalState }:IPopUp) {
     </div>
   );
 }
-// закинул setIsLoginForm={setIsLoginForm} в логин, нужно так же закинуть в регистрацию для переключения между регистрацией и логином

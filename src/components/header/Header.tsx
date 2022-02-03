@@ -8,11 +8,7 @@ import './style.scss';
 
 export default function Header() {
   const [modalActive, setModalActive] = useState(false);
-  const { hardWords, studiedWords, name } = useTypedSelector((state) => state.user);
-
-  async function getWords() {
-    console.log(name);
-  }
+  const { hardWords, studiedWords, user } = useTypedSelector((state) => state.user);
 
   async function handleSignIn() {
     setModalActive(true);
@@ -32,16 +28,11 @@ export default function Header() {
         </Link>
       </div>
       <div className="header__registration">
-        <button onClick={handleSignIn} type="button">
+        <button className="header__button-sign" onClick={handleSignIn} type="button">
           sign in
-        </button>
-        <button onClick={getWords} type="button">
-          registration
         </button>
       </div>
       <Modal modalState={{ modalActive, setModalActive }} />
     </header>
   );
 }
-// <Login state={{ modalActive, setModalActive }} />
-// <Registration state={{ modalActive, setModalActive }} />

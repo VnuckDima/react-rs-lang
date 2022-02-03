@@ -33,7 +33,7 @@ export interface ILoginData {
 export interface IUserData {
   hardWords: word[],
   studiedWords: word[],
-  name: string,
+  user: ILoginData,
 }
 
 interface IActionAddWord {
@@ -43,7 +43,7 @@ interface IActionAddWord {
 
 interface IActionUpdateName {
   type: userType.UPDATE_USER_NAME,
-  payload: string,
+  payload: ILoginData,
 }
 
 export type IUserAction = IActionAddWord | IActionUpdateName;

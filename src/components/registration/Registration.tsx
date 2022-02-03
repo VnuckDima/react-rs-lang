@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { userType } from '../../types/types';
 import { login, registration } from '../../utils/API';
@@ -16,6 +16,7 @@ export default function Registration({ modalState, setIsLoginForm }:IRegistratio
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [isCorrectRegistration, setIsCorrectRegistration] = useState(true);
+  const timeoutId:{current: NodeJS.Timeout | null} = useRef(null);
 
   function handleRegistration() {
     if (!validateRegistration(email, password, name)) {
@@ -26,7 +27,7 @@ export default function Registration({ modalState, setIsLoginForm }:IRegistratio
     .then(() => {
       modalState.setModalActive(false);
       login(email, password)
-      .then((data) => dispatch({ type: userType.UPDATE_USER_NAME, payload: data.name }));
+      .then((data) => dispatch({ type: userType.UPDATE_USER_NAME, payload: data }));
     })
     .catch(() => setIsCorrectRegistration(false));
   }
@@ -36,23 +37,24 @@ export default function Registration({ modalState, setIsLoginForm }:IRegistratio
     return <h4 className="login__error">incorrect email or password</h4>;
   }
 
+  useEffect(() => () => {
+    if (timeoutId.current) {
+      clearTimeout(timeoutId.current);
+    }
+});
+
   return (
   <div className="login">
     {!isCorrectRegistration && incorrectRegistration()}
-    <label htmlFor="login__name">
-      Enter name
-      <input onChange={(e) => setName(e.target.value)} id="login__name" type="text" pattern=".+@globex\.com" placeholder="Email" required />
-    </label>
-    <label htmlFor="login__email">
-      Enter email
-      <input onChange={(e) => setEmail(e.target.value)} id="login__email" type="email" pattern=".+@globex\.com" placeholder="Email" required />
-    </label>
-    <label htmlFor="login__password">
-      Enter password
-      <input onChange={(e) => setPassword(e.target.value)} id="login__password" type="password" placeholder="Password" minLength={8} required />
-    </label>
-    <button onClick={handleRegistration} className="login__sumbit" type="button">Sign in</button>
-    <button type="button" onClick={() => setIsLoginForm(true)}>Войти</button>
+    <h2>Регистрация</h2>
+    <input onChange={(e) => setName(e.target.value)} type="text" placeholder="Имя" required />
+    <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" required />
+    <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Пароль" required />
+    <button className="login__sumbit" onClick={handleRegistration} type="button">Зарегистрироваться</button>
+    <p className="login__text">
+      Уже зарегистрированы?
+      <button onClick={() => setIsLoginForm(true)} type="button">Войти</button>
+    </p>
   </div>
 );
 }
