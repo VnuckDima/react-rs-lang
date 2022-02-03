@@ -1,7 +1,10 @@
 import React from 'react';
+import Main from './main/Main';
 
 function Home() {
-  return <div>Home</div>;
+  return <div className="root">
+    <Main />
+  </div>;
 }
 
 export default Home;
