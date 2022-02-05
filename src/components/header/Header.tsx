@@ -8,17 +8,12 @@ import './style.scss';
 
 export default function Header() {
   const [modalActive, setModalActive] = useState(false);
-  const { hardWords, studiedWords, user } = useTypedSelector((state) => state.user);
-
-  async function handleSignIn() {
-    setModalActive(true);
-  }
 
   return (
     <header className="header">
       <div className="header__container">
         <h1 className="header__title">Главная</h1>
-          <button className="header__button-sign" onClick={handleSignIn} type="button">
+          <button className="header__button-sign" onClick={() => setModalActive(true)} type="button">
             sign in
           </button>
         <Modal modalState={{ modalActive, setModalActive }} />

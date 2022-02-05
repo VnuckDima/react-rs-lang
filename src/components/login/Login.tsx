@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { idText } from 'typescript';
-import { userActions } from '../../hooks/userAction';
 import { userType } from '../../types/types';
 import { login } from '../../utils/API';
 import { validateLogin } from '../../utils/utils';
@@ -39,9 +38,9 @@ export default function Login({ modalState, setIsLoginForm }: ILogin) {
   }
 
   useEffect(() => () => {
-      if (timeoutId.current) {
-        clearTimeout(timeoutId.current);
-      }
+    if (timeoutId.current) {
+      clearTimeout(timeoutId.current);
+    }
   });
 
   return (

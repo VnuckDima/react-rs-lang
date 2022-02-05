@@ -5,7 +5,7 @@ export const enum userType {
   RESET_USER_DATA = 'RESET_USER_DATA',
 }
 
-type word = {
+export type word = {
   id: string,
   group: number,
   page: number,
@@ -47,3 +47,8 @@ interface IActionUpdateName {
 }
 
 export type IUserAction = IActionAddWord | IActionUpdateName;
+
+export interface IWordsAction {
+  type: string
+  payload: word[]
+}

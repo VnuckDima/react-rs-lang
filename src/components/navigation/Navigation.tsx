@@ -17,12 +17,12 @@ function Navigation() {
       </Link>
       <Link to="audio-call" style={{ textDecoration: 'none', color: 'black' }}>
         <li>
-          <span>Мини-игра &quotАудиовызов&quot</span>
+          <span>Мини-игра &quot;Аудиовызов&quot;</span>
         </li>
       </Link>
       <Link to="sprint" style={{ textDecoration: 'none', color: 'black' }}>
         <li>
-          <span>Мини-игра &quotСпринт&quot</span>
+          <span>Мини-игра &quot;Спринт&quot;</span>
         </li>
       </Link>
       <Link to="statistics" style={{ textDecoration: 'none', color: 'black' }}>

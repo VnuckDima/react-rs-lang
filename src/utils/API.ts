@@ -28,3 +28,10 @@ export async function registration(email: string, password: string, name: string
   });
   const data = await res.json();
 }
+
+export async function loadWords(page: number, group: number) {
+  const res = await fetch(`${HEAD_URL}/words?group=${group}&page=${page}`);
+  const data = await res.json();
+  console.log(data);
+  return data;
+}
