@@ -2,6 +2,8 @@
 @import './components/navigation/Navigation.scss';
 @import './components/home/main/Main.scss';
 @import './components/footer/Footer.scss';
+@import './components/textbook/Textbook.scss';
+@import './components/word/word.scss';
 
 *,
 ::before,
