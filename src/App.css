@@ -4,6 +4,7 @@
 @import './components/footer/Footer.scss';
 @import './components/textbook/Textbook.scss';
 @import './components/word/word.scss';
+@import './components/games/audio-call/AudioCall.scss';
 
 *,
 ::before,

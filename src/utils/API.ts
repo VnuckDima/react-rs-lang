@@ -1,6 +1,6 @@
 import { saveUserDataInLS } from './utils';
 
-export const HEAD_URL = 'http://localhost:3001';
+export const HEAD_URL = 'https://react-learn-words-rs-school.herokuapp.com';
 
 export async function login(email: string, password: string) {
   const res = await fetch(`${HEAD_URL}/signin`, {

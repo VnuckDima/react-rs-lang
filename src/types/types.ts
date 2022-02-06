@@ -52,3 +52,8 @@ export interface IWordsAction {
   type: string
   payload: word[]
 }
+
+export type audioCallAnswer = {
+  wordTranslate: string,
+  id: string,
+}
