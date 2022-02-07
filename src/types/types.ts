@@ -78,10 +78,18 @@ export interface IWordsAction {
   payload: word[]
 }
 
+
+export type audioCallAnswer = {
+  wordTranslate: string,
+  id: string,
+}
+
+
 export interface IWordReducer {
   words: word[];
   isLoaded: boolean;
 }
+
 
 export interface IAggregatedWord extends word {
   userWord: {
@@ -89,3 +97,4 @@ export interface IAggregatedWord extends word {
   }
   _id: string
 }
+

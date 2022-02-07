@@ -10,6 +10,7 @@ function Textbook() {
   const { words } = useTypedSelector((state) => state.words);
   const { user, hardWords, learnedWords } = useTypedSelector((state) => state.user);
   const { uploadUserWords } = useUserActions();
+
   const { loadWords } = useWordsActions();
   const [isLoaded, setIsLoaded] = useState(false);
   const [pageState, setPageState] = useState(1);
