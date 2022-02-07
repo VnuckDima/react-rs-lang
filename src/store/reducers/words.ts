@@ -1,5 +1,5 @@
 import React from 'react';
-import { IWordsAction, IWordReducer } from '../../types/types';
+import { IWordReducer, IWordsAction, word } from '../../types/types';
 
 const initialState: IWordReducer = {
   words: [],

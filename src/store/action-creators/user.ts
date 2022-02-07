@@ -1,31 +1,52 @@
 import React, { Dispatch } from 'react';
-import { IUserAction, userType } from '../../types/types';
-import { HEAD_URL } from '../../utils/API';
+import { IAggregatedWord, IUserAction, userType } from '../../types/types';
+import { HEADERS_WHEN_USER_LOGIN, HEAD_URL, token } from '../../utils/API';
 
-const token = JSON.parse(localStorage.getItem('userData')!).token || '';
-
-export function addHardWord(wordId: string, userId: string, word: { difficulty: string }) {
+export function addUserWord(wordId: string, userId: string, difficulty: string) {
   return async (dispatch: Dispatch<IUserAction>) => {
     const res = await fetch(`${HEAD_URL}/users/${userId}/words/${wordId}`, {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(word),
+      headers: HEADERS_WHEN_USER_LOGIN(token()),
+      body: JSON.stringify({ difficulty, optional: {} }),
     });
     const data = await res.json();
-    console.log(data);
-    // dispatch({ type: userType.ADD_HARD_WORD, payload: data });
+    if (difficulty === 'hard') {
+      dispatch({ type: userType.ADD_HARD_WORD, payload: data });
+    } else {
+      dispatch({ type: userType.ADD_LEARNED_WORD, payload: data });
+    }
   };
 }
 
-export function addLearnedWord(wordId: string, userId: string, word: { difficulty: string }) {
+export function deleteUserWord(wordId: string, userId: string, difficulty: string) {
   return async (dispatch: Dispatch<IUserAction>) => {
-    const res = await fetch(`${HEAD_URL}/users/${userId}/words/${wordId}`);
+    const res = await fetch(`${HEAD_URL}/users/${userId}/words/${wordId}`, {
+      method: 'DELETE',
+      headers: HEADERS_WHEN_USER_LOGIN(token()),
+    });
+    const data = { wordId, difficulty };
+    dispatch({ type: userType.DELETE_USER_WORD, payload: data });
+  };
+}
+
+export function uploadUserWords(userId: string, difficulty: string) {
+  return async (dispatch: Dispatch<IUserAction>) => {
+    const res = await fetch(`${HEAD_URL}/users/${userId}/aggregatedWords?filter={"userWord.difficulty":"${difficulty}"}`, {
+      method: 'GET',
+      headers: HEADERS_WHEN_USER_LOGIN(token()),
+    });
     const data = await res.json();
-    console.log(data);
-    // dispatch({ type: userType.ADD_HARD_WORD, payload: data });
+    data[0].paginatedResults.forEach((word: IAggregatedWord) => {
+      const result = {
+        id: userId,
+        difficulty: word.userWord.difficulty,
+        wordId: word._id,
+      };
+      if (difficulty === 'hard') {
+        dispatch({ type: userType.ADD_HARD_WORD, payload: result });
+      } else {
+        dispatch({ type: userType.ADD_LEARNED_WORD, payload: result });
+      }
+    });
   };
 }
