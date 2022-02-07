@@ -1,16 +1,19 @@
 import React from 'react';
-import { IWordsAction, word } from '../../types/types';
+import { IWordReducer, IWordsAction, word } from '../../types/types';
 
-const initialState: word[] = [];
+const initialState: IWordReducer = {
+  words: [],
+  isLoaded: false,
+};
 
-function userReducer(state: word[] = initialState, action: IWordsAction): word[] {
+function wordsReducer(state: IWordReducer = initialState, action: IWordsAction): IWordReducer {
   switch (action.type) {
     case 'UPLOAD_WORDS': {
-      return action.payload;
+      return { isLoaded: true, words: action.payload };
     }
     default:
       return state;
   }
 }
 
-export default userReducer;
+export default wordsReducer;

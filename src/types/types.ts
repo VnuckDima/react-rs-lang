@@ -1,8 +1,9 @@
 export const enum userType {
   ADD_HARD_WORD = 'ADD_HARD_WORD',
-  ADD_STUDIED_WORD = 'ADD_STUDIED_WORD',
+  ADD_LEARNED_WORD = 'ADD_LEARNED_WORD',
   UPDATE_USER_NAME = 'UPDATE_USER_NAME',
   RESET_USER_DATA = 'RESET_USER_DATA',
+  DELETE_USER_WORD = 'DELETE_USER_WORD',
 }
 
 export type word = {
@@ -30,25 +31,61 @@ export interface ILoginData {
   name: string,
 }
 
+interface IUserAddWords {
+  [id: string]: {
+    id: string,
+    difficulty: string,
+    wordId: string
+  }
+}
+
 export interface IUserData {
-  hardWords: word[],
-  studiedWords: word[],
+  hardWords: IUserAddWords,
+  learnedWords: IUserAddWords,
   user: ILoginData,
 }
 
 interface IActionAddWord {
-  type: userType.ADD_HARD_WORD | userType.ADD_STUDIED_WORD,
-  payload: word,
+  type: userType.ADD_HARD_WORD | userType.ADD_LEARNED_WORD,
+  payload: {
+    id: string,
+    difficulty: string,
+    wordId: string
+  },
 }
 
-interface IActionUpdateName {
+interface IActionDeleteWord {
+  type: userType.DELETE_USER_WORD,
+  payload: {
+    wordId: string,
+    difficulty: string
+  },
+}
+
+interface IActionUpdateUser {
   type: userType.UPDATE_USER_NAME,
   payload: ILoginData,
 }
 
-export type IUserAction = IActionAddWord | IActionUpdateName;
+interface IActionResetUser {
+  type: userType.RESET_USER_DATA,
+}
+
+export type IUserAction = IActionAddWord | IActionUpdateUser | IActionDeleteWord | IActionResetUser
 
 export interface IWordsAction {
   type: string
   payload: word[]
+}
+
+export interface IWordReducer {
+  words: word[];
+  isLoaded: boolean;
+}
+
+export interface IAggregatedWord extends word {
+  userWord: {
+    difficulty: string
+  }
+  _id: string
 }

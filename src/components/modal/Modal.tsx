@@ -5,9 +5,10 @@ import './modal.scss';
 
 type IPopUp = {
   modalState: {modalActive: boolean, setModalActive: (newState: boolean) => void}
+  setLoginButtonState: (state: boolean) => void
 }
 
-export default function Modal({ modalState }:IPopUp) {
+export default function Modal({ modalState, setLoginButtonState }:IPopUp) {
   const { modalActive, setModalActive } = modalState;
   const [isLoginForm, setIsLoginForm] = useState(true);
 
@@ -27,11 +28,18 @@ export default function Modal({ modalState }:IPopUp) {
         onKeyPress={(e) => e.stopPropagation()}
       >
         {isLoginForm
-        ? <Login modalState={{ modalActive, setModalActive }} setIsLoginForm={setIsLoginForm} />
+        ? (
+        <Login
+          modalState={{ modalActive, setModalActive }}
+          setIsLoginForm={setIsLoginForm}
+          setLoginButtonState={setLoginButtonState}
+        />
+        )
         : (
         <Registration
-        modalState={{ modalActive, setModalActive }}
-        setIsLoginForm={setIsLoginForm}
+          modalState={{ modalActive, setModalActive }}
+          setIsLoginForm={setIsLoginForm}
+          setLoginButtonState={setLoginButtonState}
         />
         )}
       </div>
