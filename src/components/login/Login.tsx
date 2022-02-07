@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { idText } from 'typescript';
+import useUserActions from '../../hooks/userAction';
 import { userType } from '../../types/types';
 import { login } from '../../utils/API';
 import { validateLogin } from '../../utils/utils';
@@ -9,9 +10,11 @@ import './login.scss';
 type ILogin = {
   modalState: {modalActive: boolean, setModalActive: (newState: boolean) => void}
   setIsLoginForm: (newState: boolean) => void
+  setLoginButtonState: (state: boolean) => void
 }
 
-export default function Login({ modalState, setIsLoginForm }: ILogin) {
+export default function Login({ modalState, setIsLoginForm, setLoginButtonState }: ILogin) {
+  const { uploadUserWords } = useUserActions();
   const { modalActive, setModalActive } = modalState;
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -28,8 +31,11 @@ export default function Login({ modalState, setIsLoginForm }: ILogin) {
     .then((data) => {
       setModalActive(false);
       dispatch({ type: userType.UPDATE_USER_NAME, payload: data });
+      uploadUserWords(data.id, 'hard');
+      uploadUserWords(data.id, 'learned');
     })
     .catch((e) => setIsCorrectLogin(false));
+    setLoginButtonState(false);
   }
 
   function incorrectLogin() {

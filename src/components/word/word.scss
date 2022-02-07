@@ -6,9 +6,8 @@
 }
 
 .textbook__card {
-  width: 300px;
+  width: 400px;
   border: 1px solid grey;
-  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -27,11 +26,13 @@
 .card__image {
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex-grow: 1;
+  height: 260px;
 }
 
 .card__header {
@@ -70,4 +71,38 @@
 
 .card-bold {
   font-weight: bold;
+}
+
+.card__statistics {
+  display: flex;
+  flex-direction: row;
+}
+
+.statistics-count {
+  display: flex;
+  align-items: center;
+  padding: 5px 15px;
+  border-radius: 5px;
+}
+
+.wrong-answers-count {
+  background-color: rgba(255, 110, 110, 0.8);
+  margin-right: 10px;
+}
+
+.right-answers-count {
+  background-color: rgba(110, 255, 110, 0.8);
+}
+
+.card__btn {
+  background-color: transparent;
+  background-image: url(../../../public/assets/sound.svg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 35px;
+  height: 30px;
+  border: none;
+  font-size: 0;
+  cursor: pointer;
 }
