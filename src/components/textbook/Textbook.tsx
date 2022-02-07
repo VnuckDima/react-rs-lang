@@ -5,7 +5,7 @@ import useWordsActions from '../../hooks/useWordsAction';
 import Word from '../word/Word';
 
 function Textbook() {
-  const words = useTypedSelector((state) => state.words);
+  const { words, isLoaded } = useTypedSelector((state) => state.words);
   const { loadWords } = useWordsActions();
   useEffect(() => {
     loadWords(0, 0);

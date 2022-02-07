@@ -57,3 +57,8 @@ export type audioCallAnswer = {
   wordTranslate: string,
   id: string,
 }
+
+export interface IWordReducer {
+  words: word[];
+  isLoaded: boolean;
+}
