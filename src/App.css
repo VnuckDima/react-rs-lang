@@ -1,8 +1,15 @@
+@import 'antd/dist/antd.css';
 @import './components/home/Home.scss';
 @import './components/navigation/Navigation.scss';
 @import './components/home/main/Main.scss';
 @import './components/footer/Footer.scss';
+<<<<<<< HEAD
 @import './components/games/sprint/Sprint.scss';
+=======
+@import './components/textbook/Textbook.scss';
+@import './components/word/word.scss';
+@import './components/games/audio-call/AudioCall.scss';
+>>>>>>> origin/develop
 
 *,
 ::before,

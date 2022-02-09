@@ -1,7 +1,7 @@
 import React from 'react';
 import { IUserAction, IUserData, userType } from '../../types/types';
 
-const initialUserState = {
+const resetUserState = {
   message: '',
   token: '',
   refreshToken: '',
@@ -9,9 +9,11 @@ const initialUserState = {
   name: 'Guest',
 };
 
+const initialUserState = JSON.parse(localStorage.getItem('userData')!) || resetUserState;
+
 const initialState = {
-  hardWords: [],
-  studiedWords: [],
+  hardWords: {},
+  learnedWords: {},
   user: initialUserState,
 };
 
@@ -19,6 +21,36 @@ function userReducer(state: IUserData = initialState, action: IUserAction): IUse
   switch (action.type) {
     case userType.UPDATE_USER_NAME: {
       return { ...state, user: action.payload };
+    }
+    case userType.ADD_HARD_WORD: {
+      return {
+        ...state,
+        hardWords: {
+          ...state.hardWords,
+          [action.payload.wordId]: action.payload,
+        },
+      };
+    }
+    case userType.ADD_LEARNED_WORD: {
+      return (
+        {
+          ...state,
+          learnedWords:
+            { ...state.learnedWords, [action.payload.wordId]: action.payload },
+        }
+      );
+    }
+    case userType.DELETE_USER_WORD: {
+      const newState = { ...state };
+      if (action.payload.difficulty === 'hard') {
+        delete newState.hardWords[action.payload.wordId];
+      } else {
+        delete newState.learnedWords[action.payload.wordId];
+      }
+      return newState;
+    }
+    case userType.RESET_USER_DATA: {
+      return { ...initialState, user: resetUserState };
     }
     default:
       return state;

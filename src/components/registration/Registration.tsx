@@ -8,9 +8,10 @@ import './registration.scss';
 type IRegistration = {
   modalState: {modalActive: boolean, setModalActive: (newState: boolean) => void}
   setIsLoginForm: (newState: boolean) => void
+  setLoginButtonState: (state: boolean) => void
 }
 
-export default function Registration({ modalState, setIsLoginForm }:IRegistration) {
+function Registration({ modalState, setIsLoginForm, setLoginButtonState }:IRegistration) {
   const dispatch = useDispatch();
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -26,10 +27,11 @@ export default function Registration({ modalState, setIsLoginForm }:IRegistratio
     registration(email, password, name)
     .then(() => {
       modalState.setModalActive(false);
-      login(email, password)
+      return login(email, password)
       .then((data) => dispatch({ type: userType.UPDATE_USER_NAME, payload: data }));
     })
     .catch(() => setIsCorrectRegistration(false));
+    setLoginButtonState(false);
   }
 
   function incorrectRegistration() {
@@ -58,3 +60,5 @@ export default function Registration({ modalState, setIsLoginForm }:IRegistratio
   </div>
 );
 }
+
+export default Registration;
