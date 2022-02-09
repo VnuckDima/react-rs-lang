@@ -1,3 +1,22 @@
 footer {
   background-color: rgb(243, 243, 243);
 }
+
+.footer-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 0;
+}
+
+.footer-container ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-container li {
+  margin-left: 10px;
+}

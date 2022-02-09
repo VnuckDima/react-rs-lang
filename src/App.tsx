@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Footer from './components/footer/Footer';
 import AudioCall from './components/games/audio-call/AudioCall';
 import Sprint from './components/games/sprint/Sprint';
 import Header from './components/header/Header';
@@ -23,6 +24,7 @@ function App() {
           <Route path="statistics" element={<Statistics />} />
         </Routes>
       </div>
+	  <Footer />
     </div>
   );
 }

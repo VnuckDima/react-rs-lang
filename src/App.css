@@ -2,6 +2,7 @@
 @import './components/navigation/Navigation.scss';
 @import './components/home/main/Main.scss';
 @import './components/footer/Footer.scss';
+@import './components/games/sprint/Sprint.scss';
 
 *,
 ::before,
