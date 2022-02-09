@@ -9,6 +9,10 @@ li {
 
 nav {
   background-color: lightsteelblue;
+  position: fixed;
+  height: 100%;
+  width: 14%;
+  grid-area: nav;
 }
 
 nav span {

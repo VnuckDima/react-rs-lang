@@ -11,6 +11,9 @@ function wordsReducer(state: IWordReducer = initialState, action: IWordsAction):
     case 'UPLOAD_WORDS': {
       return { isLoaded: true, words: action.payload };
     }
+    case 'IS_LOADING': {
+      return { ...state, isLoaded: false };
+    }
     default:
       return state;
   }

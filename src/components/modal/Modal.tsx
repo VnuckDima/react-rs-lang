@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Login from '../login/Login';
 import Registration from '../registration/Registration';
 import './modal.scss';
@@ -17,14 +17,14 @@ export default function Modal({ modalState, setLoginButtonState }:IPopUp) {
       role="textbox"
       tabIndex={0}
       className={modalActive ? 'modal active' : 'modal'}
-      onClick={() => setModalActive(false)}
+      onMouseDown={() => setModalActive(false)}
       onKeyPress={(e) => e.stopPropagation()}
     >
       <div
         role="textbox"
         tabIndex={0}
         className={modalActive ? 'modal__content active' : 'modal__content'}
-        onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
         onKeyPress={(e) => e.stopPropagation()}
       >
         {isLoginForm

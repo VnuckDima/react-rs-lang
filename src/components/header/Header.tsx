@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
 import { userType } from '../../types/types';
-import { getUserHardWords, testToken, token } from '../../utils/API';
+import { token } from '../../utils/API';
 import Login from '../login/Login';
 import Modal from '../modal/Modal';
 import Registration from '../registration/Registration';
@@ -28,6 +28,7 @@ export default function Header() {
   function handleSignOut() {
     localStorage.clear();
     dispatch({ type: userType.RESET_USER_DATA });
+    dispatch({ type: userType.END_LOADING });
     setLoginButtonState(true);
   }
 

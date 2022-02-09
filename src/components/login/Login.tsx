@@ -14,7 +14,6 @@ type ILogin = {
 }
 
 export default function Login({ modalState, setIsLoginForm, setLoginButtonState }: ILogin) {
-  const { uploadUserWords } = useUserActions();
   const { modalActive, setModalActive } = modalState;
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -30,9 +29,7 @@ export default function Login({ modalState, setIsLoginForm, setLoginButtonState 
     await login(email, password)
     .then((data) => {
       setModalActive(false);
-      dispatch({ type: userType.UPDATE_USER_NAME, payload: data });
-      uploadUserWords(data.id, 'hard');
-      uploadUserWords(data.id, 'learned');
+      dispatch({ type: userType.UPDATE_USER, payload: data });
     })
     .catch((e) => setIsCorrectLogin(false));
     setLoginButtonState(false);

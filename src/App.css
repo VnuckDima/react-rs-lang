@@ -3,13 +3,12 @@
 @import './components/navigation/Navigation.scss';
 @import './components/home/main/Main.scss';
 @import './components/footer/Footer.scss';
-<<<<<<< HEAD
-@import './components/games/sprint/Sprint.scss';
-=======
 @import './components/textbook/Textbook.scss';
 @import './components/word/word.scss';
 @import './components/games/audio-call/AudioCall.scss';
->>>>>>> origin/develop
+@import './components/games/audio-call/CategorySelect/category.scss';
+@import './components/games/audio-call/EndAudioGame/endAudioGame.scss';
+
 
 *,
 ::before,
@@ -22,4 +21,13 @@
 .container {
   width: 100%;
   margin: 0 auto;
+  display: grid;
+  grid-template-areas: "nav header header" "nav main main" "nav main main";
+  grid-template-columns: 14% 43% 43%;;
+}
+
+.main {
+  height: calc(100vh - 98px);
+  width: 100%;
+  grid-area: main;
 }

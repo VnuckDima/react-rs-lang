@@ -15,11 +15,12 @@ const initialState = {
   hardWords: {},
   learnedWords: {},
   user: initialUserState,
+  isLoaded: false,
 };
 
 function userReducer(state: IUserData = initialState, action: IUserAction): IUserData {
   switch (action.type) {
-    case userType.UPDATE_USER_NAME: {
+    case userType.UPDATE_USER: {
       return { ...state, user: action.payload };
     }
     case userType.ADD_HARD_WORD: {
@@ -40,6 +41,14 @@ function userReducer(state: IUserData = initialState, action: IUserAction): IUse
         }
       );
     }
+    case userType.UPLOAD_USER_WORDS: {
+      return {
+        ...state,
+        hardWords: action.payload.hardWords,
+        learnedWords: action.payload.learnedWords,
+        isLoaded: true,
+      };
+    }
     case userType.DELETE_USER_WORD: {
       const newState = { ...state };
       if (action.payload.difficulty === 'hard') {
@@ -51,6 +60,12 @@ function userReducer(state: IUserData = initialState, action: IUserAction): IUse
     }
     case userType.RESET_USER_DATA: {
       return { ...initialState, user: resetUserState };
+    }
+    case userType.START_LOADING: {
+      return { ...state, isLoaded: false };
+    }
+    case userType.END_LOADING: {
+      return { ...state, isLoaded: true };
     }
     default:
       return state;
