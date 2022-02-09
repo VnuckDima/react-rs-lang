@@ -28,7 +28,7 @@ function Registration({ modalState, setIsLoginForm, setLoginButtonState }:IRegis
     .then(() => {
       modalState.setModalActive(false);
       return login(email, password)
-      .then((data) => dispatch({ type: userType.UPDATE_USER_NAME, payload: data }));
+      .then((data) => dispatch({ type: userType.UPDATE_USER, payload: data }));
     })
     .catch(() => setIsCorrectRegistration(false));
     setLoginButtonState(false);

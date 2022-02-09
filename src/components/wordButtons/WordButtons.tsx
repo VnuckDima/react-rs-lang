@@ -1,7 +1,10 @@
 import React from 'react';
+import { DownloadOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import useUserActions from '../../hooks/userAction';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
 import { word } from '../../types/types';
+import { getSecondClass } from '../../utils/utils';
 
 type TWordButtons = {
   data: word;
@@ -15,12 +18,10 @@ export default function WordButtons({ data, buttonsState }: TWordButtons) {
 
   function handleAddHardWord() {
     addUserWord(data.id, user.userId, 'hard');
-    console.log(hardWords);
     setDifficulty('сложных');
   }
   function handleAddLearnedWord() {
     addUserWord(data.id, user.userId, 'learned');
-    console.log(learnedWords);
     setDifficulty('изученных');
   }
   function handleDeleteWord() {
@@ -34,37 +35,28 @@ export default function WordButtons({ data, buttonsState }: TWordButtons) {
 
   if (difficulty === 'сложных' || difficulty === 'изученных') {
     return (
-      <button
-        className="card__hard-word_add"
-        onClick={handleDeleteWord}
-        type="button"
-        title="Добавить в сложные слова"
+      <Button
+      className={`card__btns-${getSecondClass(difficulty)}_delete`}
+        type="primary"
+        onClick={() => handleDeleteWord()}
+        shape="round"
+        size="large"
       >
         Удалить из
         {` ${difficulty} `}
         слов
-      </button>
+      </Button>
     );
   }
 
   return (
     <div className="card__btns-left">
-      <button
-        className="card__hard-word_add"
-        onClick={handleAddHardWord}
-        type="button"
-        title="Добавить в сложные слова"
-      >
+      <Button className="card__btns-hard" type="primary" onClick={() => handleAddHardWord()} shape="round" size="large">
         Cложное
-      </button>
-      <button
-        className="card__learned-word_add"
-        onClick={handleAddLearnedWord}
-        type="button"
-        title="Добавить в изученные слова"
-      >
+      </Button>
+      <Button className="card__btns-learned" type="primary" onClick={() => handleAddLearnedWord()} shape="round" size="large">
         Изученное
-      </button>
+      </Button>
     </div>
   );
 }

@@ -1,9 +1,12 @@
 export const enum userType {
   ADD_HARD_WORD = 'ADD_HARD_WORD',
   ADD_LEARNED_WORD = 'ADD_LEARNED_WORD',
-  UPDATE_USER_NAME = 'UPDATE_USER_NAME',
+  UPLOAD_USER_WORDS = 'UPLOAD_USER_WORDS',
+  UPDATE_USER = 'UPDATE_USER',
   RESET_USER_DATA = 'RESET_USER_DATA',
   DELETE_USER_WORD = 'DELETE_USER_WORD',
+  START_LOADING = 'START_LOADING',
+  END_LOADING = 'END_LOADING',
 }
 
 export type word = {
@@ -31,7 +34,7 @@ export interface ILoginData {
   name: string,
 }
 
-interface IUserAddWords {
+export interface IUserAddWords {
   [id: string]: {
     id: string,
     difficulty: string,
@@ -43,15 +46,18 @@ export interface IUserData {
   hardWords: IUserAddWords,
   learnedWords: IUserAddWords,
   user: ILoginData,
+  isLoaded: boolean,
+}
+
+interface IUserWord {
+  id: string,
+  difficulty: string,
+  wordId: string
 }
 
 interface IActionAddWord {
   type: userType.ADD_HARD_WORD | userType.ADD_LEARNED_WORD,
-  payload: {
-    id: string,
-    difficulty: string,
-    wordId: string
-  },
+  payload: IUserWord,
 }
 
 interface IActionDeleteWord {
@@ -63,33 +69,37 @@ interface IActionDeleteWord {
 }
 
 interface IActionUpdateUser {
-  type: userType.UPDATE_USER_NAME,
+  type: userType.UPDATE_USER,
   payload: ILoginData,
 }
 
-interface IActionResetUser {
-  type: userType.RESET_USER_DATA,
+interface IActionUploadUserWords {
+  type: userType.UPLOAD_USER_WORDS,
+  payload: {
+    hardWords: IUserAddWords,
+    learnedWords: IUserAddWords,
+  },
 }
 
-export type IUserAction = IActionAddWord | IActionUpdateUser | IActionDeleteWord | IActionResetUser
+interface IActionResetUser {
+  type: userType.RESET_USER_DATA | userType.START_LOADING | userType.END_LOADING,
+}
+
+export type IUserAction = IActionAddWord |
+  IActionUpdateUser |
+  IActionDeleteWord |
+  IActionResetUser |
+  IActionUploadUserWords
 
 export interface IWordsAction {
   type: string
   payload: word[]
 }
 
-
-export type audioCallAnswer = {
-  wordTranslate: string,
-  id: string,
-}
-
-
 export interface IWordReducer {
   words: word[];
   isLoaded: boolean;
 }
-
 
 export interface IAggregatedWord extends word {
   userWord: {
@@ -98,3 +108,8 @@ export interface IAggregatedWord extends word {
   _id: string
 }
 
+export type TAnswers = {
+  word: string
+  audio: string
+  translateWord: string
+}

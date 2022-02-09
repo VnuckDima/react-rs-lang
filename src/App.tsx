@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import AudioCall from './components/games/audio-call/AudioCall';
+import AudioCallCategory from './components/games/audio-call/AudioCallCategory';
 import Sprint from './components/games/sprint/Sprint';
 import Header from './components/header/Header';
 import Home from './components/home/Home';
@@ -13,16 +13,16 @@ function App() {
   return (
     <div className="container">
       <Header />
-      <div className="root">
         <Navigation />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="audio-call" element={<AudioCall />} />
-          <Route path="sprint" element={<Sprint />} />
-          <Route path="textbook" element={<Textbook />} />
-          <Route path="statistics" element={<Statistics />} />
-        </Routes>
-      </div>
+        <main className="main">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="audio-call" element={<AudioCallCategory />} />
+            <Route path="sprint" element={<Sprint />} />
+            <Route path="textbook" element={<Textbook />} />
+            <Route path="statistics" element={<Statistics />} />
+          </Routes>
+        </main>
     </div>
   );
 }
