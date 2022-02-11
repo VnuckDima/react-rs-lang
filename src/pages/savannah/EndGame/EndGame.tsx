@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { TAnswers } from '../../../../types/types';
-import { playAudio } from '../../../../utils/utils';
-import { HEAD_URL } from '../../../../utils/API';
+import { TAnswers } from '../../../types/types';
+import { playAudio } from '../../../utils/utils';
+import { HEAD_URL } from '../../../utils/API';
 
 type TEndAudioGame = {
   answers: {correctAnswers: TAnswers[], incorrectAnswers: TAnswers[]}

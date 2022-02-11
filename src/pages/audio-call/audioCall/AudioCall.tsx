@@ -9,53 +9,6 @@ import { HEAD_URL } from '../../../utils/API';
 import { makeArrayQuestions, playAudio, randomNum } from '../../../utils/utils';
 import AudioBtn from '../AudioBtn/AudioBtn';
 
-<<<<<<< HEAD:src/components/games/audio-call/AudioCallCategory.tsx
-// Вспомогательная функция для makeArrayQuestions
-// Создает и возвращает массив из 5 переводов слова, первым идет переданное в функцию.
-// Слова выбираются из массива words от 0 до 19
-function makeQuestion(words: word[], firstWord:string): string[] {
-  const set = new Set<string>();
-  set.add(firstWord);
-  for (let i = 0; ; i += 1) {
-    set.add(words[randomNum(0, 19)].wordTranslate);
-    if (set.size === 5) {
-      // console.log([...set]);
-      return [...set];
-    }
-  }
-}
-
-// Создает и возвращает полный массив слов на всю игру.
-// В нем 20 элементов, в каждом элементе массив из 5 перемешанных
-// переводов - 1 правильный и 4 неправильных.
-// Исходные данные - массив words.
-function makeArrayQuestions(words: word[]) {
-  const arrayQuestions:[string[]] = [shuffle([...makeQuestion(words, words[0].wordTranslate)])];
-  for (let i = 1; i < 20; i += 1) {
-    const oneQuestion = shuffle([...makeQuestion(words, words[i].wordTranslate)]);
-    arrayQuestions.push(oneQuestion);
-  }
-  return arrayQuestions;
-}
-
-// TODO прокинуть пропсом isGame, selectedCategory
-function AudioCallCategory() {
-  // загружен ли массив words?
-  const { words, isLoaded } = useTypedSelector((state) => state.words);
-  // хз что
-  const dispatch = useDispatch();
-  // хз что
-  const { loadWords } = useWordsActions();
-  // isGame: bool - идет игра, или выбор категории
-  const [isGame, setIsGame] = useState(false);
-  // выбор категории
-  const [selectedCategory, setSelectedCategory] = useState(0);
-  // создание полного массива слов на игру
-  const [questions, setQuestions] = useState<[string[]]>([[]]);
-  // номер вопроса
-  const [questionNumber, setQuestionNumber] = useState(0);
-  // правильные ответы
-=======
 type TAudioCall = {
   category: number
 }
@@ -64,7 +17,6 @@ export default function AudioCall({ category } : TAudioCall) {
   const { words, isLoaded } = useTypedSelector((state) => state.words);
   const { loadWords } = useWordsActions();
   const dispatch = useDispatch();
->>>>>>> develop:src/pages/audio-call/audioCall/AudioCall.tsx
   const [correctAnswers, setCorrectAnswers] = useState<TAnswers[]>([]);
   // неправильные ответы
   const [incorrectAnswers, setIncorrectAnswers] = useState<TAnswers[]>([]);
@@ -97,11 +49,6 @@ export default function AudioCall({ category } : TAudioCall) {
     }
   }, [questionNumber]);
 
-<<<<<<< HEAD:src/components/games/audio-call/AudioCallCategory.tsx
-  // начало отрисовки, собственно компоненты АудиоВызов
-  // если номер вопроса равен 6, то рисуется компонента EndAudioGame
-  if (questionNumber === 6 && isGame) {
-=======
   if (!isLoaded) {
     return (
       <div id="preloader">
@@ -111,22 +58,12 @@ export default function AudioCall({ category } : TAudioCall) {
   }
 
   if (questionNumber === 6) {
->>>>>>> develop:src/pages/audio-call/audioCall/AudioCall.tsx
     return (
       <EndAudioGame
       answers={{ correctAnswers, incorrectAnswers }}
       />
     );
   }
-<<<<<<< HEAD:src/components/games/audio-call/AudioCallCategory.tsx
-
-  if (!isGame) {
-    return <CategorySelect setIsGame={setIsGame} setSelectedCategory={setSelectedCategory} />;
-  }
-
-  // иначе рисуется сама игра и AudioBtn
-=======
->>>>>>> develop:src/pages/audio-call/audioCall/AudioCall.tsx
   return (
     <div className="audiocall">
       <div className="audiocall__container">

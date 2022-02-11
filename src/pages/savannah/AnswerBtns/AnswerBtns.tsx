@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TAnswers } from '../../../../types/types';
+import { TAnswers } from '../../../types/types';
 
 // описание переданного сюда пропса
 type TAnswerBtn = {

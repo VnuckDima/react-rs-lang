@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import useWordsActions from '../../../hooks/useWordsAction';
-import { useTypedSelector } from '../../../hooks/useTypeSelector';
-import { TAnswers, word } from '../../../types/types';
 import CategorySelect from './CategorySelect/CategorySelect';
-import { playAudio, randomNum, shuffle } from '../../../utils/utils';
 import EndGame from './EndGame/EndGame';
-import { HEAD_URL } from '../../../utils/API';
 import AnswerBtns from './AnswerBtns/AnswerBtns';
 import Question from './Question/Question';
 import RoundNumber from './RoundNumber/RoundNumber';
+import { randomNum, shuffle } from '../../utils/utils';
+import { useTypedSelector } from '../../hooks/useTypeSelector';
+import useWordsActions from '../../hooks/useWordsAction';
+import { TAnswers, word } from '../../types/types';
 
 const NUMBEROFQUESTIONS = 5;
 
