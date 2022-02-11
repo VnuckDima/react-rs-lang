@@ -6,13 +6,18 @@ const initialState: IWordReducer = {
   isLoaded: false,
 };
 
+export enum wordsTypes {
+  UPLOAD_WORDS = 'UPLOAD_WORDS',
+  RESET_WORDS = 'RESET_WORDS'
+}
+
 function wordsReducer(state: IWordReducer = initialState, action: IWordsAction): IWordReducer {
   switch (action.type) {
-    case 'UPLOAD_WORDS': {
+    case wordsTypes.UPLOAD_WORDS: {
       return { isLoaded: true, words: action.payload };
     }
-    case 'IS_LOADING': {
-      return { ...state, isLoaded: false };
+    case wordsTypes.RESET_WORDS: {
+      return { words: [], isLoaded: false };
     }
     default:
       return state;

@@ -64,3 +64,21 @@ export function playAudio(sound: string, url: string) {
   audio.volume = 0.5;
   audio.play();
 }
+
+function makeQuestion(words: word[], firstWord: string): string[] {
+  const set = new Set<string>();
+  set.add(firstWord);
+  for (let i = 0; ; i += 1) {
+    set.add(words[randomNum(0, 19)].wordTranslate);
+    if (set.size === 5) return [...set];
+  }
+}
+
+export function makeArrayQuestions(words: word[]) {
+  const arrayQuestions: [string[]] = [shuffle([...makeQuestion(words, words[0].wordTranslate)])];
+  for (let i = 1; i < 20; i += 1) {
+    const oneQuestion = shuffle([...makeQuestion(words, words[i].wordTranslate)]);
+    arrayQuestions.push(oneQuestion);
+  }
+  return arrayQuestions;
+}

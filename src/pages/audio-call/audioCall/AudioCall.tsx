@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import useWordsActions from '../../../hooks/useWordsAction';
+import EndAudioGame from '../../../components/EndGame/EndGame';
 import { useTypedSelector } from '../../../hooks/useTypeSelector';
-import { TAnswers, word } from '../../../types/types';
-import CategorySelect from './CategorySelect/CategorySelect';
-import { playAudio, randomNum, shuffle } from '../../../utils/utils';
-import EndAudioGame from './EndAudioGame/EndAudioGame';
+import useWordsActions from '../../../hooks/useWordsAction';
+import { wordsTypes } from '../../../store/reducers/words';
+import { TAnswers } from '../../../types/types';
 import { HEAD_URL } from '../../../utils/API';
-import AudioBtn from './AudioBtn/AudioBtn';
+import { makeArrayQuestions, playAudio, randomNum } from '../../../utils/utils';
+import AudioBtn from '../AudioBtn/AudioBtn';
 
+<<<<<<< HEAD:src/components/games/audio-call/AudioCallCategory.tsx
 // Вспомогательная функция для makeArrayQuestions
 // Создает и возвращает массив из 5 переводов слова, первым идет переданное в функцию.
 // Слова выбираются из массива words от 0 до 19
@@ -54,57 +55,78 @@ function AudioCallCategory() {
   // номер вопроса
   const [questionNumber, setQuestionNumber] = useState(0);
   // правильные ответы
+=======
+type TAudioCall = {
+  category: number
+}
+
+export default function AudioCall({ category } : TAudioCall) {
+  const { words, isLoaded } = useTypedSelector((state) => state.words);
+  const { loadWords } = useWordsActions();
+  const dispatch = useDispatch();
+>>>>>>> develop:src/pages/audio-call/audioCall/AudioCall.tsx
   const [correctAnswers, setCorrectAnswers] = useState<TAnswers[]>([]);
   // неправильные ответы
   const [incorrectAnswers, setIncorrectAnswers] = useState<TAnswers[]>([]);
+  const [questionNumber, setQuestionNumber] = useState(0);
+  const [questions, setQuestions] = useState<[string[]]>([[]]);
 
   // при выборе категории или активном состоянии игры загрузка слов из выбранной категории
   // и обнуление массивов правильных и неправильных ответов
   useEffect(() => {
-    if (isGame) {
-      loadWords(randomNum(0, 19), selectedCategory);
-      setCorrectAnswers([]);
-      setIncorrectAnswers([]);
-    }
-  }, [selectedCategory, isGame]);
+    loadWords(randomNum(0, 19), category);
+    return () => {
+      dispatch({ type: wordsTypes.RESET_WORDS });
+    };
+  }, []);
 
   // после загрузки слов создание массива на всю игру и воспроизведение первого слова
   // если слова не загружены, диспатч "IS_LOADING"
   useEffect(() => {
     if (isLoaded) {
+      setTimeout(() => playAudio(words[questionNumber].audio, HEAD_URL), 300); // first word sound
       setQuestions(makeArrayQuestions(words));
-      setTimeout(() => playAudio(words[0].audio, HEAD_URL), 1000);
     }
-    return () => {
-      dispatch({ type: 'IS_LOADING' });
-    };
   }, [isLoaded]);
 
   // при смене номера вопроса воспроизведение следующего слова
   // TODO в if добавить второе условие, чтобы в конце игры не воспроизводилось лишнее слово
   useEffect(() => {
-    if (questionNumber > 0 && isGame) {
-      setTimeout(() => playAudio(words[questionNumber].audio, HEAD_URL), 500);
+    if (words.length > 0) {
+      setTimeout(() => playAudio(words[questionNumber].audio, HEAD_URL), 300); // other words sound
     }
   }, [questionNumber]);
 
+<<<<<<< HEAD:src/components/games/audio-call/AudioCallCategory.tsx
   // начало отрисовки, собственно компоненты АудиоВызов
   // если номер вопроса равен 6, то рисуется компонента EndAudioGame
   if (questionNumber === 6 && isGame) {
+=======
+  if (!isLoaded) {
+    return (
+      <div id="preloader">
+        <div id="loader" />
+      </div>
+    );
+  }
+
+  if (questionNumber === 6) {
+>>>>>>> develop:src/pages/audio-call/audioCall/AudioCall.tsx
     return (
       <EndAudioGame
-      setIsGame={setIsGame}
       answers={{ correctAnswers, incorrectAnswers }}
-      setQuestionNumber={setQuestionNumber}
       />
     );
   }
+<<<<<<< HEAD:src/components/games/audio-call/AudioCallCategory.tsx
 
   if (!isGame) {
     return <CategorySelect setIsGame={setIsGame} setSelectedCategory={setSelectedCategory} />;
   }
 
   // иначе рисуется сама игра и AudioBtn
+=======
+>>>>>>> develop:src/pages/audio-call/audioCall/AudioCall.tsx
   return (
     <div className="audiocall">
       <div className="audiocall__container">
@@ -138,5 +160,3 @@ function AudioCallCategory() {
     </div>
   );
 }
-
-export default AudioCallCategory;
