@@ -9,6 +9,7 @@
 @import './components/CategorySelect/category.scss';
 @import './components/EndGame/endGame.scss';
 
+
 *,
 ::before,
 ::after {
