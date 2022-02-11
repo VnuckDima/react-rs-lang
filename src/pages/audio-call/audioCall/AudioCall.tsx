@@ -1,79 +1,61 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import useWordsActions from '../../../hooks/useWordsAction';
+import EndAudioGame from '../../../components/EndGame/EndGame';
 import { useTypedSelector } from '../../../hooks/useTypeSelector';
-import { TAnswers, word } from '../../../types/types';
-import CategorySelect from './CategorySelect/CategorySelect';
-import { playAudio, randomNum, shuffle } from '../../../utils/utils';
-import EndAudioGame from './EndAudioGame/EndAudioGame';
+import useWordsActions from '../../../hooks/useWordsAction';
+import { wordsTypes } from '../../../store/reducers/words';
+import { TAnswers } from '../../../types/types';
 import { HEAD_URL } from '../../../utils/API';
-import AudioBtn from './AudioBtn/AudioBtn';
+import { makeArrayQuestions, playAudio, randomNum } from '../../../utils/utils';
+import AudioBtn from '../AudioBtn/AudioBtn';
 
-function makeQuestion(words: word[], firstWord:string): string[] {
-  const set = new Set<string>();
-  set.add(firstWord);
-  for (let i = 0; ; i += 1) {
-    set.add(words[randomNum(0, 19)].wordTranslate);
-    if (set.size === 5) return [...set];
-  }
+type TAudioCall = {
+  category: number
 }
 
-function makeArrayQuestions(words: word[]) {
-  const arrayQuestions:[string[]] = [shuffle([...makeQuestion(words, words[0].wordTranslate)])];
-  for (let i = 1; i < 20; i += 1) {
-    const oneQuestion = shuffle([...makeQuestion(words, words[i].wordTranslate)]);
-    arrayQuestions.push(oneQuestion);
-  }
-  return arrayQuestions;
-}
-// прокинуть пропсом isGame, selectedCategory
-function AudioCallCategory() {
+export default function AudioCall({ category } : TAudioCall) {
   const { words, isLoaded } = useTypedSelector((state) => state.words);
-  const dispatch = useDispatch();
   const { loadWords } = useWordsActions();
-  const [isGame, setIsGame] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(0);
-  const [questions, setQuestions] = useState<[string[]]>([[]]);
-  const [questionNumber, setQuestionNumber] = useState(0);
+  const dispatch = useDispatch();
   const [correctAnswers, setCorrectAnswers] = useState<TAnswers[]>([]);
   const [incorrectAnswers, setIncorrectAnswers] = useState<TAnswers[]>([]);
+  const [questionNumber, setQuestionNumber] = useState(0);
+  const [questions, setQuestions] = useState<[string[]]>([[]]);
 
   useEffect(() => {
-    if (isGame) {
-      loadWords(randomNum(0, 19), selectedCategory);
-      setCorrectAnswers([]);
-      setIncorrectAnswers([]);
-    }
-  }, [selectedCategory, isGame]);
+    loadWords(randomNum(0, 19), category);
+    return () => {
+      dispatch({ type: wordsTypes.RESET_WORDS });
+    };
+  }, []);
 
   useEffect(() => {
     if (isLoaded) {
+      setTimeout(() => playAudio(words[questionNumber].audio, HEAD_URL), 300); // first word sound
       setQuestions(makeArrayQuestions(words));
-      setTimeout(() => playAudio(words[0].audio, HEAD_URL), 1000);
     }
-    return () => {
-      dispatch({ type: 'IS_LOADING' });
-    };
   }, [isLoaded]);
 
   useEffect(() => {
-    if (questionNumber > 0 && isGame) {
-      setTimeout(() => playAudio(words[questionNumber].audio, HEAD_URL), 500);
+    if (words.length > 0) {
+      setTimeout(() => playAudio(words[questionNumber].audio, HEAD_URL), 300); // other words sound
     }
   }, [questionNumber]);
 
-  if (questionNumber === 6 && isGame) {
+  if (!isLoaded) {
     return (
-      <EndAudioGame
-      setIsGame={setIsGame}
-      answers={{ correctAnswers, incorrectAnswers }}
-      setQuestionNumber={setQuestionNumber}
-      />
+      <div id="preloader">
+        <div id="loader" />
+      </div>
     );
   }
 
-  if (!isGame) {
-    return <CategorySelect setIsGame={setIsGame} setSelectedCategory={setSelectedCategory} />;
+  if (questionNumber === 6) {
+    return (
+      <EndAudioGame
+      answers={{ correctAnswers, incorrectAnswers }}
+      />
+    );
   }
   return (
     <div className="audiocall">
@@ -108,5 +90,3 @@ function AudioCallCategory() {
     </div>
   );
 }
-
-export default AudioCallCategory;

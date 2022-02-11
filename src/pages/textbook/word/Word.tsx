@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import useUserActions from '../../hooks/userAction';
-import { useTypedSelector } from '../../hooks/useTypeSelector';
-import { word } from '../../types/types';
-import { HEAD_URL } from '../../utils/API';
-import { getSecondClass } from '../../utils/utils';
-import WordButtons from '../wordButtons/WordButtons';
+import useUserActions from '../../../hooks/userAction';
+import { useTypedSelector } from '../../../hooks/useTypeSelector';
+import { word } from '../../../types/types';
+import { HEAD_URL } from '../../../utils/API';
+import { getSecondClass } from '../../../utils/utils';
+import WordButtons from './wordButtons/WordButtons';
 
 type TWord = {
   data: word;

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { TAnswers } from '../../../../types/types';
+import { TAnswers } from '../../../types/types';
 
 type TAnswerBtn = {
   text: string[]

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import AudioCallCategory from './components/games/audio-call/AudioCallCategory';
-import Sprint from './components/games/sprint/Sprint';
 import Header from './components/header/Header';
-import Home from './components/home/Home';
+import Home from './pages/home/Home';
 import Navigation from './components/navigation/Navigation';
-import Statistics from './components/statistics/Statistics';
-import Textbook from './components/textbook/Textbook';
+import Textbook from './pages/textbook/Textbook';
+import Statistics from './pages/statistics/Statistics';
+import AudioCallMenu from './pages/audio-call/AudioCallMenu';
+import Sprint from './pages/sprint/Sprint';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         <main className="main">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="audio-call" element={<AudioCallCategory />} />
+            <Route path="audio-call" element={<AudioCallMenu />} />
             <Route path="sprint" element={<Sprint />} />
             <Route path="textbook" element={<Textbook />} />
             <Route path="statistics" element={<Statistics />} />
