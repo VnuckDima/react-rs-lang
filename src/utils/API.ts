@@ -1,6 +1,6 @@
 import { saveUserDataInLS } from './utils';
 
-export const HEAD_URL = 'http://localhost:3001';
+export const HEAD_URL = 'https://react-learn-words-rs-school.herokuapp.com';
 export const token = () => {
   const value = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData')!).token : '';
   return value;

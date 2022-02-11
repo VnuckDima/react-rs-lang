@@ -5,9 +5,9 @@ import { useTypedSelector } from '../../../hooks/useTypeSelector';
 import { TAnswers, word } from '../../../types/types';
 import CategorySelect from './CategorySelect/CategorySelect';
 import { playAudio, randomNum, shuffle } from '../../../utils/utils';
-import EndAudioGame from './EndAudioGame/EndAudioGame';
+import EndAudioGame from './EndGame/EndGame';
 import { HEAD_URL } from '../../../utils/API';
-import AudioBtn from './AudioBtn/AudioBtn';
+import QuestionBtns from './QuestionBtns/QuestionBtns';
 
 // Вспомогательная функция для makeArrayQuestions
 // Создает и возвращает массив из 5 переводов слова, первым идет переданное в функцию.
@@ -16,7 +16,7 @@ function makeQuestion(words: word[], firstWord:string): string[] {
   const set = new Set<string>();
   set.add(firstWord);
   for (let i = 0; ; i += 1) {
-    set.add(words[randomNum(0, 19)].wordTranslate);
+    set.add(words[randomNum(0, 19)].image);
     if (set.size === 5) {
       // console.log([...set]);
       return [...set];
@@ -29,16 +29,16 @@ function makeQuestion(words: word[], firstWord:string): string[] {
 // переводов - 1 правильный и 4 неправильных.
 // Исходные данные - массив words.
 function makeArrayQuestions(words: word[]) {
-  const arrayQuestions:[string[]] = [shuffle([...makeQuestion(words, words[0].wordTranslate)])];
+  const arrayQuestions:[string[]] = [shuffle([...makeQuestion(words, words[0].image)])];
   for (let i = 1; i < 20; i += 1) {
-    const oneQuestion = shuffle([...makeQuestion(words, words[i].wordTranslate)]);
+    const oneQuestion = shuffle([...makeQuestion(words, words[i].image)]);
     arrayQuestions.push(oneQuestion);
   }
   return arrayQuestions;
 }
 
 // TODO прокинуть пропсом isGame, selectedCategory
-function AudioCallCategory() {
+function ImaginariumCategory() {
   // загружен ли массив words?
   const { words, isLoaded } = useTypedSelector((state) => state.words);
   // хз что
@@ -119,7 +119,7 @@ function AudioCallCategory() {
         </svg>
         <div className="answers__container">
           {words.length > 0 && (
-          <AudioBtn
+          <QuestionBtns
             addAnswer={{
               setCorrectAnswers,
               setIncorrectAnswers,
@@ -139,4 +139,4 @@ function AudioCallCategory() {
   );
 }
 
-export default AudioCallCategory;
+export default ImaginariumCategory;

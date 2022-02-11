@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import AudioCallCategory from './components/games/audio-call/AudioCallCategory';
 import Sprint from './components/games/sprint/Sprint';
+import SavannahCategory from './components/games/savannah/SavannahCategory';
 import Header from './components/header/Header';
 import Home from './components/home/Home';
 import Navigation from './components/navigation/Navigation';
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="audio-call" element={<AudioCallCategory />} />
             <Route path="sprint" element={<Sprint />} />
+            <Route path="savannah" element={<SavannahCategory />} />
             <Route path="textbook" element={<Textbook />} />
             <Route path="statistics" element={<Statistics />} />
           </Routes>

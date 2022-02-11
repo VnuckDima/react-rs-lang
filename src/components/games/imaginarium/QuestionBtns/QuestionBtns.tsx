@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { TAnswers } from '../../../../types/types';
+import { HEAD_URL } from '../../../../utils/API';
 
 // описание переданного сюда пропса
 type TAnswerBtn = {
@@ -29,7 +30,7 @@ function AnswerBtn({
   }
   return (
     <>
-      {text.map((button) => <button className="audio__answer-button" onClick={(e) => handleAnswer(e)} key={button} type="button">{button}</button>)}
+      {text.map((button) => <button className="audio__answer-button" aria-label="Answer button" onClick={(e) => handleAnswer(e)} key={button} type="button"><img alt="Answer button" src={`${HEAD_URL}/${button}`} /></button>)}
     </>
   );
 }
