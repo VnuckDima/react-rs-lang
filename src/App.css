@@ -1,13 +1,13 @@
 @import 'antd/dist/antd.css';
-@import './components/home/Home.scss';
+@import './pages/home/Home.scss';
 @import './components/navigation/Navigation.scss';
-@import './components/home/main/Main.scss';
+@import './pages/home/main/Main.scss';
 @import './components/footer/Footer.scss';
-@import './components/textbook/Textbook.scss';
-@import './components/word/word.scss';
-@import './components/games/audio-call/AudioCall.scss';
-@import './components/games/audio-call/CategorySelect/category.scss';
-@import './components/games/audio-call/EndAudioGame/endAudioGame.scss';
+@import './pages/textbook/Textbook.scss';
+@import './pages/textbook/word/word.scss';
+@import './pages/audio-call/AudioCallMenu.scss';
+@import './components/CategorySelect/category.scss';
+@import './components/EndGame/endGame.scss';
 
 *,
 ::before,

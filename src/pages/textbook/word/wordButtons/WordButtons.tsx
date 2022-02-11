@@ -1,10 +1,10 @@
 import React from 'react';
 import { DownloadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
-import useUserActions from '../../hooks/userAction';
-import { useTypedSelector } from '../../hooks/useTypeSelector';
-import { word } from '../../types/types';
-import { getSecondClass } from '../../utils/utils';
+import useUserActions from '../../../../hooks/userAction';
+import { useTypedSelector } from '../../../../hooks/useTypeSelector';
+import { word } from '../../../../types/types';
+import { getSecondClass } from '../../../../utils/utils';
 
 type TWordButtons = {
   data: word;

@@ -1,11 +1,11 @@
 import React from 'react';
 
 type TCategorySelect = {
-  setIsGame: (state: boolean) => void,
   setSelectedCategory: (selectedCategory: number) => void
+  setIsGame: (state: boolean) => void
 }
 
-export default function CategorySelect({ setIsGame, setSelectedCategory }: TCategorySelect) {
+export default function CategorySelect({ setSelectedCategory, setIsGame }: TCategorySelect) {
   function handleCategory(number: number) {
     setSelectedCategory(number);
     setIsGame(true);

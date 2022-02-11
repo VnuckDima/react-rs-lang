@@ -2,32 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { TAnswers } from '../../../../types/types';
-import { playAudio } from '../../../../utils/utils';
-import { HEAD_URL } from '../../../../utils/API';
+import { TAnswers } from '../../types/types';
+import { playAudio } from '../../utils/utils';
+import { HEAD_URL } from '../../utils/API';
 
 type TEndAudioGame = {
   answers: {correctAnswers: TAnswers[], incorrectAnswers: TAnswers[]}
-  setIsGame: (state: boolean) => void
-  setQuestionNumber: (state: number) => void
 }
 
-export default function EndAudioGame({ answers, setIsGame, setQuestionNumber }: TEndAudioGame) {
+export default function EndAudioGame({ answers }: TEndAudioGame) {
   const [modalShow, setModalShow] = useState(true);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   function handleOk() {
     navigate('/');
   }
 
   function handleCancel() {
-    setIsGame(false);
     setModalShow(false);
-    setQuestionNumber(0);
   }
-  useEffect(() => () => {
-    dispatch({ type: 'IS_LOADING' });
-  }, []);
   return (
     <Modal
     title="Результаты"

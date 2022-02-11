@@ -4,8 +4,9 @@ import { Pagination } from 'antd';
 import useUserActions from '../../hooks/userAction';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
 import useWordsActions from '../../hooks/useWordsAction';
-import Word from '../word/Word';
+import Word from './word/Word';
 import { userType } from '../../types/types';
+import { wordsTypes } from '../../store/reducers/words';
 
 function Textbook() {
   const { words } = useTypedSelector((state) => state.words);
@@ -22,6 +23,9 @@ function Textbook() {
     } else {
       dispatch({ type: userType.END_LOADING });
     }
+    return () => {
+      dispatch({ type: wordsTypes.RESET_WORDS });
+    };
   }, []);
 
   useEffect(() => {
