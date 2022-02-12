@@ -8,6 +8,7 @@ import Textbook from './pages/textbook/Textbook';
 import Statistics from './pages/statistics/Statistics';
 import AudioCallMenu from './pages/audio-call/AudioCallMenu';
 import Sprint from './pages/sprint/Sprint';
+import SavannahMenu from './pages/savannah/SavannahMenu';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="audio-call" element={<AudioCallMenu />} />
             <Route path="sprint" element={<Sprint />} />
+            <Route path="savannah" element={<SavannahMenu />} />
             <Route path="textbook" element={<Textbook />} />
             <Route path="statistics" element={<Statistics />} />
           </Routes>
