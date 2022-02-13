@@ -24,6 +24,7 @@ export default function SavannahGame({ category, page }: TSavannahGame) {
     const [questionNumber, setQuestionNumber] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState<TAnswers[]>([]);
     const [incorrectAnswers, setIncorrectAnswers] = useState<TAnswers[]>([]);
+    const [questionStart, setQuestionStart] = useState(false);
 
     useEffect(() => {
       loadWords(page, category);
@@ -36,7 +37,6 @@ export default function SavannahGame({ category, page }: TSavannahGame) {
       if (isLoaded) {
         setQuestions(makeArrayQuestions(words));
       }
-      console.log('Сколько раз загружается.');
     }, [isLoaded]);
 
     useEffect(() => {
@@ -63,9 +63,10 @@ export default function SavannahGame({ category, page }: TSavannahGame) {
     return (
     <div className="audiocall">
       <div className="audiocall__container">
+      <button style={{ textAlign: 'left' }} type="button" onClick={() => setQuestionStart(!questionStart)}>Button</button>
         <RoundNumber questionNumber={questionNumber} numberOfQuestions={NUMBEROFQUESTIONS} />
         {/* <h1>{words[questionNumber].audio}</h1> */}
-        <Question question={words[questionNumber].word} />
+        <Question question={words[questionNumber].word} start={questionStart} />
         <div className="answers__container">
           {words.length > 0 && (
           <AnswerBtns
@@ -73,6 +74,7 @@ export default function SavannahGame({ category, page }: TSavannahGame) {
               setCorrectAnswers,
               setIncorrectAnswers,
             }}
+            setQuestionStart={setQuestionStart}
             correctAnswer={{
               word: words[questionNumber].word,
               audio: words[questionNumber].audio,
