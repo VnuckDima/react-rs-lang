@@ -15,7 +15,7 @@ const initialState = {
   hardWords: {},
   learnedWords: {},
   user: initialUserState,
-  isLoaded: false,
+  isLoadedUserData: false,
 };
 
 function userReducer(state: IUserData = initialState, action: IUserAction): IUserData {
@@ -46,7 +46,7 @@ function userReducer(state: IUserData = initialState, action: IUserAction): IUse
         ...state,
         hardWords: action.payload.hardWords,
         learnedWords: action.payload.learnedWords,
-        isLoaded: true,
+        isLoadedUserData: true,
       };
     }
     case userType.DELETE_USER_WORD: {
@@ -62,10 +62,10 @@ function userReducer(state: IUserData = initialState, action: IUserAction): IUse
       return { ...initialState, user: resetUserState };
     }
     case userType.START_LOADING: {
-      return { ...state, isLoaded: false };
+      return { ...state, isLoadedUserData: false };
     }
     case userType.END_LOADING: {
-      return { ...state, isLoaded: true };
+      return { ...state, isLoadedUserData: true };
     }
     default:
       return state;

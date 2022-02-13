@@ -3,7 +3,7 @@ import { IWordReducer, IWordsAction, word } from '../../types/types';
 
 const initialState: IWordReducer = {
   words: [],
-  isLoaded: false,
+  isLoadedWords: false,
 };
 
 export enum wordsTypes {
@@ -14,10 +14,10 @@ export enum wordsTypes {
 function wordsReducer(state: IWordReducer = initialState, action: IWordsAction): IWordReducer {
   switch (action.type) {
     case wordsTypes.UPLOAD_WORDS: {
-      return { isLoaded: true, words: action.payload };
+      return { isLoadedWords: true, words: action.payload };
     }
     case wordsTypes.RESET_WORDS: {
-      return { words: [], isLoaded: false };
+      return { words: [], isLoadedWords: false };
     }
     default:
       return state;
