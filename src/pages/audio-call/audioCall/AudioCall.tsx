@@ -19,6 +19,7 @@ export default function AudioCall({ questions, answers } : TAudioCall) {
   const { words } = useTypedSelector((state) => state.words);
   const dispatch = useDispatch();
   const [correctAnswers, setCorrectAnswers] = useState<TAnswers[]>([]);
+  // неправильные ответы
   const [incorrectAnswers, setIncorrectAnswers] = useState<TAnswers[]>([]);
   const [questionNumber, setQuestionNumber] = useState(0);
 
@@ -26,6 +27,8 @@ export default function AudioCall({ questions, answers } : TAudioCall) {
     dispatch({ type: wordsTypes.RESET_WORDS });
   }, []);
 
+  // после загрузки слов создание массива на всю игру и воспроизведение первого слова
+  // если слова не загружены, диспатч "IS_LOADING"
   useEffect(() => {
     if (words.length > 0) {
       setTimeout(() => playAudio(words[questionNumber].audio, HEAD_URL), 300);

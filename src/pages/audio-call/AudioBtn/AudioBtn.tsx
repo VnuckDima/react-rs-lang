@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { TAnswers } from '../../../types/types';
 
+// описание переданного сюда пропса
 type TAnswerBtn = {
   text: string[]
   addAnswer: {
