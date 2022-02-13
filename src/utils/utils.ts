@@ -3,8 +3,16 @@ import {
   IAggregatedWord,
   ILoginData,
   IUserAddWords,
+  IUserDataInLS,
+  IUserTokensInLS,
   word,
 } from '../types/types';
+
+export enum games {
+  AUDIO_CALL = 'AUDIO_CALL',
+  SPRINT = 'SPRINT',
+  NONE = 'NONE',
+}
 
 export function validateLogin(email: string, password: string): boolean {
   const validateEmail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
@@ -15,8 +23,12 @@ export function validateLogin(email: string, password: string): boolean {
   return false;
 }
 
-export function saveUserDataInLS(data: ILoginData) {
+export function saveUserDataInLS(data: IUserDataInLS) {
   localStorage.setItem('userData', JSON.stringify(data));
+}
+
+export function saveUserTokenInLS(data: IUserTokensInLS) {
+  localStorage.setItem('userTokens', JSON.stringify(data));
 }
 
 export function validateRegistration(email: string, password: string, name: string): boolean {
@@ -49,7 +61,7 @@ export function randomNum(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export function shuffle(array: string[]): string[] {
+export function shuffle<T>(array: T[]): T[] {
   const newArray = [...array];
   for (let i = newArray.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));

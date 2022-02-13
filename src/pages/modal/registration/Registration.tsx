@@ -1,23 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { userType } from '../../types/types';
-import { login, registration } from '../../utils/API';
-import { validateRegistration } from '../../utils/utils';
+import { useNavigate } from 'react-router-dom';
+import { userType } from '../../../types/types';
+import { login, registration } from '../../../utils/API';
+import { validateRegistration } from '../../../utils/utils';
 import './registration.scss';
 
 type IRegistration = {
-  modalState: {modalActive: boolean, setModalActive: (newState: boolean) => void}
+  // modalState: {modalActive: boolean, setModalActive: (newState: boolean) => void}
   setIsLoginForm: (newState: boolean) => void
-  setLoginButtonState: (state: boolean) => void
+  // setLoginButtonState: (state: boolean) => void
 }
 
-function Registration({ modalState, setIsLoginForm, setLoginButtonState }:IRegistration) {
+function Registration({ setIsLoginForm }:IRegistration) {
   const dispatch = useDispatch();
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [isCorrectRegistration, setIsCorrectRegistration] = useState(true);
   const timeoutId:{current: NodeJS.Timeout | null} = useRef(null);
+  const navigate = useNavigate();
 
   function handleRegistration() {
     if (!validateRegistration(email, password, name)) {
@@ -26,12 +28,13 @@ function Registration({ modalState, setIsLoginForm, setLoginButtonState }:IRegis
     }
     registration(email, password, name)
     .then(() => {
-      modalState.setModalActive(false);
+      navigate('/');
+      // modalState.setModalActive(false);
       return login(email, password)
       .then((data) => dispatch({ type: userType.UPDATE_USER, payload: data }));
     })
     .catch(() => setIsCorrectRegistration(false));
-    setLoginButtonState(false);
+    // setLoginButtonState(false);
   }
 
   function incorrectRegistration() {

@@ -26,6 +26,17 @@ export type word = {
   textExampleTranslate: string,
 }
 
+export interface IUserDataInLS {
+  message: string,
+  userId: string,
+  name: string,
+}
+
+export interface IUserTokensInLS {
+  token: string,
+  refreshToken: string,
+}
+
 export interface ILoginData {
   message: string,
   token: string,
@@ -46,7 +57,7 @@ export interface IUserData {
   hardWords: IUserAddWords,
   learnedWords: IUserAddWords,
   user: ILoginData,
-  isLoaded: boolean,
+  isLoadedUserData: boolean,
 }
 
 interface IUserWord {
@@ -98,7 +109,7 @@ export interface IWordsAction {
 
 export interface IWordReducer {
   words: word[];
-  isLoaded: boolean;
+  isLoadedWords: boolean;
 }
 
 export interface IAggregatedWord extends word {
