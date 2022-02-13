@@ -4,53 +4,35 @@ import EndAudioGame from '../../../components/EndGame/EndGame';
 import { useTypedSelector } from '../../../hooks/useTypeSelector';
 import useWordsActions from '../../../hooks/useWordsAction';
 import { wordsTypes } from '../../../store/reducers/words';
-import { TAnswers } from '../../../types/types';
+import { TAnswers, word } from '../../../types/types';
 import { HEAD_URL } from '../../../utils/API';
 import { makeArrayQuestions, playAudio, randomNum } from '../../../utils/utils';
 import AudioBtn from '../AudioBtn/AudioBtn';
 
 type TAudioCall = {
-  category: number
+  questions: [string[]]
+  answers: word[]
 }
+const COUNT_QUESTIONS = 20;
 
-export default function AudioCall({ category } : TAudioCall) {
-  const { words, isLoaded } = useTypedSelector((state) => state.words);
-  const { loadWords } = useWordsActions();
+export default function AudioCall({ questions, answers } : TAudioCall) {
+  const { words } = useTypedSelector((state) => state.words);
   const dispatch = useDispatch();
   const [correctAnswers, setCorrectAnswers] = useState<TAnswers[]>([]);
   const [incorrectAnswers, setIncorrectAnswers] = useState<TAnswers[]>([]);
   const [questionNumber, setQuestionNumber] = useState(0);
-  const [questions, setQuestions] = useState<[string[]]>([[]]);
 
-  useEffect(() => {
-    loadWords(randomNum(0, 19), category);
-    return () => {
-      dispatch({ type: wordsTypes.RESET_WORDS });
-    };
+  useEffect(() => () => {
+    dispatch({ type: wordsTypes.RESET_WORDS });
   }, []);
 
   useEffect(() => {
-    if (isLoaded) {
-      setTimeout(() => playAudio(words[questionNumber].audio, HEAD_URL), 300); // first word sound
-      setQuestions(makeArrayQuestions(words));
-    }
-  }, [isLoaded]);
-
-  useEffect(() => {
     if (words.length > 0) {
-      setTimeout(() => playAudio(words[questionNumber].audio, HEAD_URL), 300); // other words sound
+      setTimeout(() => playAudio(words[questionNumber].audio, HEAD_URL), 300);
     }
   }, [questionNumber]);
 
-  if (!isLoaded) {
-    return (
-      <div id="preloader">
-        <div id="loader" />
-      </div>
-    );
-  }
-
-  if (questionNumber === 6) {
+  if (questionNumber === COUNT_QUESTIONS - 1) {
     return (
       <EndAudioGame
       answers={{ correctAnswers, incorrectAnswers }}
@@ -77,9 +59,9 @@ export default function AudioCall({ category } : TAudioCall) {
               setIncorrectAnswers,
             }}
             correctAnswer={{
-              word: words[questionNumber].word,
-              audio: words[questionNumber].audio,
-              translateWord: words[questionNumber].wordTranslate,
+              word: answers[questionNumber].word,
+              audio: answers[questionNumber].audio,
+              translateWord: answers[questionNumber].wordTranslate,
             }}
             text={questions[questionNumber]}
             setQuestionNumber={setQuestionNumber}

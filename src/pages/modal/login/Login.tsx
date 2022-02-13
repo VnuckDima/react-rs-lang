@@ -1,38 +1,35 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { idText } from 'typescript';
-import useUserActions from '../../hooks/userAction';
-import { userType } from '../../types/types';
-import { login } from '../../utils/API';
-import { validateLogin } from '../../utils/utils';
+import { useNavigate } from 'react-router-dom';
+import { userType } from '../../../types/types';
+import { login } from '../../../utils/API';
+import { validateLogin } from '../../../utils/utils';
 import './login.scss';
 
 type ILogin = {
-  modalState: {modalActive: boolean, setModalActive: (newState: boolean) => void}
   setIsLoginForm: (newState: boolean) => void
-  setLoginButtonState: (state: boolean) => void
 }
 
-export default function Login({ modalState, setIsLoginForm, setLoginButtonState }: ILogin) {
-  const { modalActive, setModalActive } = modalState;
+export default function Login({ setIsLoginForm }: ILogin) {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isCorrectLogin, setIsCorrectLogin] = useState(true);
   const dispatch = useDispatch();
   const timeoutId:{current: NodeJS.Timeout | null} = useRef(null);
+  const navigate = useNavigate();
 
   async function signIn() {
+    navigate('/login');
     if (!validateLogin(email, password)) {
       setIsCorrectLogin(false);
       return;
     }
     await login(email, password)
     .then((data) => {
-      setModalActive(false);
+      navigate('/');
       dispatch({ type: userType.UPDATE_USER, payload: data });
     })
     .catch((e) => setIsCorrectLogin(false));
-    setLoginButtonState(false);
   }
 
   function incorrectLogin() {
