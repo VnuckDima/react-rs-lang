@@ -26,6 +26,24 @@ export type word = {
   textExampleTranslate: string,
 }
 
+export type wordExtended = {
+  id: string,
+  group: number,
+  page: number,
+  word: string,
+  image: string,
+  audio: string,
+  audioMeaning: string,
+  audioExample: string,
+  textMeaning: string,
+  textExample: string,
+  transcription: string,
+  wordTranslate: string,
+  textMeaningTranslate: string,
+  textExampleTranslate: string,
+  answers: string[],
+}
+
 export interface IUserDataInLS {
   message: string,
   userId: string,

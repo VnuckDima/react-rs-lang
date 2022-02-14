@@ -2,16 +2,16 @@ import React from 'react';
 
 type TRoundInfo = {
   questionNumber: number;
-  numberOfQuestions: number;
+  COUNT_QUESTIONS: number;
 }
 
-function RoundNumber({ questionNumber, numberOfQuestions }: TRoundInfo) {
+function RoundNumber({ questionNumber, COUNT_QUESTIONS }: TRoundInfo) {
   return (
     <h1>
       Раунд:&nbsp;
       {questionNumber + 1}
       /
-      {numberOfQuestions}
+      {COUNT_QUESTIONS}
     </h1>
   );
 }

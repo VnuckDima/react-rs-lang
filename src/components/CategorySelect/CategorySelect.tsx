@@ -12,6 +12,7 @@ export default function CategorySelect({ setSelectedCategory, setIsGame }: TCate
   }
 
   return (
+    // TODO надо переименовать className на более общий, т. к. это у нас переиспользуемый компонент.
     <div className="audio__category">
       <div className="audio__category-wrapper">
         <h2 className="audio__title">Выберите сложность</h2>
