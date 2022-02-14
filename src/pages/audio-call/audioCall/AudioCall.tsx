@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import EndAudioGame from '../../../components/EndGame/EndGame';
 import { useTypedSelector } from '../../../hooks/useTypeSelector';
-import useWordsActions from '../../../hooks/useWordsAction';
 import { wordsTypes } from '../../../store/reducers/words';
 import { TAnswers, word } from '../../../types/types';
 import { HEAD_URL } from '../../../utils/API';
-import { makeArrayQuestions, playAudio, randomNum } from '../../../utils/utils';
+import { playAudio } from '../../../utils/utils';
 import AudioBtn from '../AudioBtn/AudioBtn';
 
 type TAudioCall = {
@@ -19,7 +18,6 @@ export default function AudioCall({ questions, answers } : TAudioCall) {
   const { words } = useTypedSelector((state) => state.words);
   const dispatch = useDispatch();
   const [correctAnswers, setCorrectAnswers] = useState<TAnswers[]>([]);
-  // неправильные ответы
   const [incorrectAnswers, setIncorrectAnswers] = useState<TAnswers[]>([]);
   const [questionNumber, setQuestionNumber] = useState(0);
 
@@ -27,14 +25,13 @@ export default function AudioCall({ questions, answers } : TAudioCall) {
     dispatch({ type: wordsTypes.RESET_WORDS });
   }, []);
 
-  // после загрузки слов создание массива на всю игру и воспроизведение первого слова
-  // если слова не загружены, диспатч "IS_LOADING"
   useEffect(() => {
     if (words.length > 0) {
       setTimeout(() => playAudio(words[questionNumber].audio, HEAD_URL), 300);
     }
   }, [questionNumber]);
 
+  // TODO Исправить на EndGame
   if (questionNumber === COUNT_QUESTIONS - 1) {
     return (
       <EndAudioGame

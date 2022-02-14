@@ -6,6 +6,7 @@ import {
   IUserDataInLS,
   IUserTokensInLS,
   word,
+  wordExtended,
 } from '../types/types';
 
 export enum games {
@@ -93,4 +94,20 @@ export function makeArrayQuestions(words: word[]) {
     arrayQuestions.push(oneQuestion);
   }
   return arrayQuestions;
+}
+
+export function makeBVFROMRUArrayQuestions(words: word[]): wordExtended[] {
+  const questionsArr: wordExtended[] = [];
+  for (let i = 0; i < 20; i += 1) {
+    // Не придумал как сделать код ниже изящнее чтобы побороть Typescript
+    const answers = shuffle([...makeQuestion(words, words[i].wordTranslate)]);
+    const questionObj = Object.assign(words[i]);
+    questionObj.answers = answers;
+    questionsArr[i] = questionObj;
+  }
+  console.log('questions');
+  console.log(questionsArr);
+  console.log('words');
+  console.log(words);
+  return shuffle(questionsArr);
 }
