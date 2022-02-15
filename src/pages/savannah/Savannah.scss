@@ -85,12 +85,12 @@
 }
 
 .savannah__question.fall {
-  animation: fall 3s linear forwards;
+  animation: fall 5s linear forwards;
   animation-play-state: running;  
 }
 
 .savannah__question.right {
-  animation: fall 3s linear forwards;
+  animation: fall 5s linear forwards;
   animation-play-state: paused;
   transform: translate(-50%, -1000px);
   transition: 1s ease-in;
@@ -103,7 +103,7 @@
 }
 
 .savannah__question.broken {
-  animation: fall 3s linear forwards;
+  animation: fall 5s linear forwards;
   animation-play-state: paused;
 }
 
