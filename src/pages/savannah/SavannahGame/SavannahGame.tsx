@@ -4,7 +4,9 @@ import EndGame from '../../../components/EndGame/EndGame';
 import { useTypedSelector } from '../../../hooks/useTypeSelector';
 import { wordsTypes } from '../../../store/reducers/words';
 import { TAnswers, wordExtended } from '../../../types/types';
-import { soundCorrect, soundIncorrect, soundsPath } from '../../../utils/const';
+import {
+  soundBroken, soundCorrect, soundIncorrect, soundsPath,
+} from '../../../utils/const';
 import { playAudio } from '../../../utils/utils';
 import AnswerBtns from '../AnswerBtns/AnswerBtns';
 import Question from '../Question/Question';
@@ -19,6 +21,7 @@ const ROUND_TIME = 3000;
 const SHOW_ANSWERS_TIME = 2000;
 let roundTimeout: ReturnType<typeof setTimeout> = setTimeout(() => { });
 let showAnswersTimeout: ReturnType<typeof setTimeout> = setTimeout(() => { });
+let isDisabledKeyboard = false;
 
 export default function SavannahGame({ questions }: TSavannahGame) {
   const { words } = useTypedSelector((state) => state.words);
@@ -49,58 +52,76 @@ export default function SavannahGame({ questions }: TSavannahGame) {
     };
     setIncorrectAnswers((state) => [...state, incorrectAnswer]);
     setRightOrWrong('wrong');
-    playAudio(soundIncorrect, soundsPath);
+    playAudio(soundBroken, soundsPath);
+  }
+
+  function handleNoAnswer() {
+    const incorrectAnswer = {
+      word: questions[questionNumber].word,
+      audio: questions[questionNumber].audio,
+      translateWord: questions[questionNumber].wordTranslate,
+    };
+    setIncorrectAnswers((state) => [...state, incorrectAnswer]);
+    setRightOrWrong('broken');
+    playAudio(soundBroken, soundsPath);
   }
 
   function nextRound() {
-    setRightOrWrong(' ');
+    // setRightOrWrong(' ');
+    setQuestionNumber((state) => state + 1);
+    console.log('setquestionnumber');
+    console.log(questionNumber);
     clearTimeout(showAnswersTimeout);
     setIsDisabled(false);
+    isDisabledKeyboard = false;
     setQuestionStart(true);
-    setQuestionNumber((state) => state + 1);
     setRightOrWrong('fall');
   }
 
   const handleAnswer = (text: string):void => {
     clearTimeout(roundTimeout);
-    if (text.includes(questions[questionNumber].wordTranslate)) {
-      handleRightAnswer();
-    } else {
-      handleWrongAnswer();
+    if (text === 'noAnswer') {
+      handleNoAnswer();
+    } else if (text.includes(questions[questionNumber].wordTranslate)) {
+        handleRightAnswer();
+      } else {
+        handleWrongAnswer();
     }
     setIsDisabled(true);
     setQuestionStart(false);
     showAnswersTimeout = setTimeout(() => nextRound(), SHOW_ANSWERS_TIME);
   };
 
-  function handleNoAnswer() {
-    handleAnswer('wrong');
-  }
-
   function handleAnswerKeypress(key: string) {
-    switch (key) {
-      case '1':
-        handleAnswer(questions[questionNumber].answers[0]);
-        break;
-      case '2':
-        handleAnswer(questions[questionNumber].answers[1]);
-        break;
-      case '3':
-        handleAnswer(questions[questionNumber].answers[2]);
-        break;
-      case '4':
-        handleAnswer(questions[questionNumber].answers[3]);
-        break;
-      case '5':
-        handleAnswer(questions[questionNumber].answers[4]);
-        break;
-      default:
-        break;
+    if (!isDisabledKeyboard) {
+      isDisabledKeyboard = true;
+      switch (key) {
+        case '1':
+          handleAnswer(questions[questionNumber].answers[0]);
+          console.log(questions[questionNumber].answers[0]);
+          console.log(questionNumber);
+          break;
+        case '2':
+          handleAnswer(questions[questionNumber].answers[1]);
+          break;
+        case '3':
+          handleAnswer(questions[questionNumber].answers[2]);
+          break;
+        case '4':
+          handleAnswer(questions[questionNumber].answers[3]);
+          break;
+        case '5':
+          handleAnswer(questions[questionNumber].answers[4]);
+          break;
+        default:
+          break;
+      }
     }
   }
 
   useEffect(() => {
     setQuestionStart(true);
+    setRightOrWrong('fall');
     document.addEventListener('keypress', (e) => { handleAnswerKeypress(e.key); });
     return () => {
       dispatch({ type: wordsTypes.RESET_WORDS });
@@ -112,7 +133,7 @@ export default function SavannahGame({ questions }: TSavannahGame) {
 
   useEffect(() => {
     if (questions.length > 0) {
-      roundTimeout = setTimeout(() => handleNoAnswer(), ROUND_TIME);
+      roundTimeout = setTimeout(() => handleAnswer('noAnswer'), ROUND_TIME);
     }
   }, [questionNumber]);
 
@@ -126,7 +147,6 @@ export default function SavannahGame({ questions }: TSavannahGame) {
     return (
     <div className="audiocall">
       <div className="audiocall__container">
-      <button style={{ textAlign: 'left' }} type="button" onClick={() => setQuestionStart(!questionStart)}>Button</button>
         <RoundNumber questionNumber={questionNumber} COUNT_QUESTIONS={COUNT_QUESTIONS} />
         <Question
           rightOrWrong={rightOrWrong}
