@@ -1,11 +1,16 @@
 export const enum userType {
   ADD_HARD_WORD = 'ADD_HARD_WORD',
   ADD_LEARNED_WORD = 'ADD_LEARNED_WORD',
+  UPDATE_WORD = 'UPDATE_WORD',
   UPLOAD_USER_WORDS = 'UPLOAD_USER_WORDS',
+  UPLOAD_ALL_WORDS = 'UPLOAD_ALL_WORDS',
+  ADD_ALL_WORD = 'ADD_ALL_WORD',
   UPDATE_USER = 'UPDATE_USER',
   RESET_USER_DATA = 'RESET_USER_DATA',
   DELETE_USER_WORD = 'DELETE_USER_WORD',
   START_LOADING = 'START_LOADING',
+  UPDATE_STATISTIC = 'UPDATE_STATISTIC',
+  UPLOAD_USER_STATISTIC = 'UPLOAD_USER_STATISTIC',
   END_LOADING = 'END_LOADING',
 }
 
@@ -44,6 +49,12 @@ export type wordExtended = {
   answers: string[],
 }
 
+export type TBody = {
+  correct?: number,
+  incorrect?: number,
+  correctOnTheRow?: number,
+}
+
 export interface IUserDataInLS {
   message: string,
   userId: string,
@@ -66,26 +77,54 @@ export interface ILoginData {
 export interface IUserAddWords {
   [id: string]: {
     id: string,
-    difficulty: string,
-    wordId: string
+    wordId: string,
+    userWord: {
+      difficulty: string,
+      optional?: TBody
+    }
+  }
+}
+
+export interface IStatisticGames {
+  corrected: number
+  incorrected: number
+}
+
+export interface IStatistic {
+  learnedWords: number,
+  optional: {
+    games: IStatisticGames[],
   }
 }
 
 export interface IUserData {
   hardWords: IUserAddWords,
   learnedWords: IUserAddWords,
+  newWords: IUserAddWords,
+  allWords: IUserAddWords,
+  statistics: IStatistic,
   user: ILoginData,
   isLoadedUserData: boolean,
 }
 
 interface IUserWord {
   id: string,
-  difficulty: string,
   wordId: string
+  userWord: {
+    difficulty: string,
+    optional?: TBody
+  }
+}
+
+type TAllWords = {
+  type: userType.UPLOAD_ALL_WORDS
+  payload: IUserAddWords
 }
 
 interface IActionAddWord {
-  type: userType.ADD_HARD_WORD | userType.ADD_LEARNED_WORD,
+  type: userType.ADD_HARD_WORD |
+  userType.ADD_LEARNED_WORD |
+  userType.ADD_ALL_WORD,
   payload: IUserWord,
 }
 
@@ -114,11 +153,24 @@ interface IActionResetUser {
   type: userType.RESET_USER_DATA | userType.START_LOADING | userType.END_LOADING,
 }
 
+type TUpdateWord = {
+  type: userType.UPDATE_WORD
+  payload: IUserWord
+}
+
+type TUpdateStaticstic = {
+  type: userType.UPDATE_STATISTIC | userType.UPLOAD_USER_STATISTIC
+  payload: IStatistic
+}
+
 export type IUserAction = IActionAddWord |
   IActionUpdateUser |
   IActionDeleteWord |
   IActionResetUser |
-  IActionUploadUserWords
+  IActionUploadUserWords |
+  TAllWords |
+  TUpdateWord |
+  TUpdateStaticstic
 
 export interface IWordsAction {
   type: string
@@ -133,6 +185,7 @@ export interface IWordReducer {
 export interface IAggregatedWord extends word {
   userWord: {
     difficulty: string
+    optional: TBody
   }
   _id: string
 }
@@ -141,4 +194,11 @@ export type TAnswers = {
   word: string
   audio: string
   translateWord: string
+}
+
+export type TAllWordsArray = {
+  difficulty: string
+  id: string
+  wordId: string
+  optional: TBody
 }

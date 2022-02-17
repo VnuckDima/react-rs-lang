@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { makeArrayQuestions, makeBVFROMRUArrayQuestions, randomNum } from '../../utils/utils';
+import { makeBVFROMRUArrayQuestions, randomNum } from '../../utils/utils';
 import SavannahGame from './SavannahGame/SavannahGame';
 import CategorySelect from '../../components/CategorySelect/CategorySelect';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
 import useWordsActions from '../../hooks/useWordsAction';
 import { word, wordExtended } from '../../types/types';
 import Preloader from '../../components/Preloader/Preloader';
+
+const COUNT_QUESTIONS = 20;
 
 export default function SavannahMenu() {
   const { words, isLoadedWords } = useTypedSelector((state) => state.words);

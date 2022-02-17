@@ -3,8 +3,8 @@ import CategorySelect from '../../components/CategorySelect/CategorySelect';
 import Preloader from '../../components/Preloader/Preloader';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
 import useWordsActions from '../../hooks/useWordsAction';
-import { word } from '../../types/types';
-import { makeArrayQuestions, randomNum, shuffle } from '../../utils/utils';
+import { word, wordExtended } from '../../types/types';
+import { makeBVFROMRUArrayQuestions, randomNum, shuffle } from '../../utils/utils';
 import AudioCall from './audioCall/AudioCall';
 
 // TODO Переименовать AudioCallCategory в AudioCallMenu?
@@ -13,8 +13,7 @@ function AudioCallCategory() {
   const { loadWords } = useWordsActions();
   const [isGame, setIsGame] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(0);
-  const [answers, setAnswers] = useState<word[]>([]);
-  const [questions, setQuestions] = useState<[string[]]>([[]]);
+  const [questions, setQuestions] = useState<wordExtended[]>([]);
 
   useEffect(() => {
     if (isGame) {
@@ -25,8 +24,7 @@ function AudioCallCategory() {
   useEffect(() => {
     if (isLoadedWords) {
       const answersArray = shuffle(words);
-      setAnswers(answersArray);
-      setQuestions(makeArrayQuestions(words));
+      setQuestions(makeBVFROMRUArrayQuestions(words));
     }
   }, [isLoadedWords]);
 
@@ -34,10 +32,10 @@ function AudioCallCategory() {
     return <CategorySelect setIsGame={setIsGame} setSelectedCategory={setSelectedCategory} />;
   }
 
-  if (!isLoadedWords || answers.length === 0) {
+  if (!isLoadedWords || questions.length === 0) {
     return <Preloader />;
   }
-  return <AudioCall answers={answers} questions={questions} />;
+  return <AudioCall questions={questions} />;
 }
 
 export default AudioCallCategory;

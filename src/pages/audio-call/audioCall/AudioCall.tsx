@@ -3,19 +3,16 @@ import { useDispatch } from 'react-redux';
 import EndAudioGame from '../../../components/EndGame/EndGame';
 import { useTypedSelector } from '../../../hooks/useTypeSelector';
 import { wordsTypes } from '../../../store/reducers/words';
-import { TAnswers, word } from '../../../types/types';
+import { TAnswers, word, wordExtended } from '../../../types/types';
 import { HEAD_URL } from '../../../utils/API';
 import { playAudio } from '../../../utils/utils';
 import AudioBtn from '../AudioBtn/AudioBtn';
 
 type TAudioCall = {
-  questions: [string[]]
-  answers: word[]
+  questions: wordExtended[]
 }
-const COUNT_QUESTIONS = 20;
 
-export default function AudioCall({ questions, answers } : TAudioCall) {
-  const { words } = useTypedSelector((state) => state.words);
+export default function AudioCall({ questions } : TAudioCall) {
   const dispatch = useDispatch();
   const [correctAnswers, setCorrectAnswers] = useState<TAnswers[]>([]);
   const [incorrectAnswers, setIncorrectAnswers] = useState<TAnswers[]>([]);
@@ -26,13 +23,13 @@ export default function AudioCall({ questions, answers } : TAudioCall) {
   }, []);
 
   useEffect(() => {
-    if (words.length > 0) {
-      setTimeout(() => playAudio(words[questionNumber].audio, HEAD_URL), 300);
+    if (questionNumber < questions.length) {
+      setTimeout(() => playAudio(questions[questionNumber].audio, HEAD_URL), 300);
     }
   }, [questionNumber]);
 
   // TODO Исправить на EndGame
-  if (questionNumber === COUNT_QUESTIONS - 1) {
+  if (questionNumber === questions.length) {
     return (
       <EndAudioGame
       answers={{ correctAnswers, incorrectAnswers }}
@@ -43,7 +40,7 @@ export default function AudioCall({ questions, answers } : TAudioCall) {
     <div className="audiocall">
       <div className="audiocall__container">
         <svg
-          onClick={() => playAudio(words[questionNumber].audio, HEAD_URL)}
+          onClick={() => playAudio(questions[questionNumber].audio, HEAD_URL)}
           className="bi bi-volume-up-fill audiocall__svg"
           viewBox="0 0 16 16"
         >
@@ -52,21 +49,19 @@ export default function AudioCall({ questions, answers } : TAudioCall) {
           <path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z" />
         </svg>
         <div className="answers__container">
-          {words.length > 0 && (
           <AudioBtn
             addAnswer={{
               setCorrectAnswers,
               setIncorrectAnswers,
             }}
             correctAnswer={{
-              word: answers[questionNumber].word,
-              audio: answers[questionNumber].audio,
-              translateWord: answers[questionNumber].wordTranslate,
+              word: questions[questionNumber].word,
+              audio: questions[questionNumber].audio,
+              translateWord: questions[questionNumber].wordTranslate,
             }}
-            text={questions[questionNumber]}
+            text={questions[questionNumber].answers}
             setQuestionNumber={setQuestionNumber}
           />
-          )}
         </div>
       </div>
     </div>

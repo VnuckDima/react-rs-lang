@@ -1,35 +1,81 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { DownloadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import useUserActions from '../../../../hooks/userAction';
 import { useTypedSelector } from '../../../../hooks/useTypeSelector';
-import { word } from '../../../../types/types';
+import { userType, word } from '../../../../types/types';
 import { getSecondClass } from '../../../../utils/utils';
 
 type TWordButtons = {
-  data: word;
+  word: word;
   buttonsState: { difficulty: string; setDifficulty: (state: string) => void };
 };
 
-export default function WordButtons({ data, buttonsState }: TWordButtons) {
-  const { user, hardWords, learnedWords } = useTypedSelector((state) => state.user);
-  const { addUserWord, deleteUserWord } = useUserActions();
+export default function WordButtons({ word, buttonsState }: TWordButtons) {
+  const { user, allWords } = useTypedSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { addUserWord, updateWord } = useUserActions();
   const { difficulty, setDifficulty } = buttonsState;
 
+  function toggleDifficulty(wordId: string, newDifficulty: string) {
+    if (wordId in allWords) {
+      const newOptions = allWords[wordId].userWord.optional;
+      if (newDifficulty === 'hard') {
+        dispatch({
+          type: userType.ADD_HARD_WORD,
+          payload: {
+            id: user.userId,
+            wordId,
+            userWord: {
+              difficulty,
+              optional: newOptions,
+            },
+          },
+        });
+      } else {
+        dispatch({
+          type: userType.ADD_LEARNED_WORD,
+          payload: {
+            id: user.userId,
+            wordId,
+            userWord: {
+              difficulty,
+              optional: newOptions,
+            },
+          },
+        });
+      }
+      updateWord(user.userId, wordId, newDifficulty, newOptions);
+    } else {
+      addUserWord(word.id, user.userId, newDifficulty);
+    }
+  }
+
+  function deleteDifficulty() {
+    const oldOptional = allWords[word.id].userWord.optional;
+    updateWord(user.userId, word.id, 'newWord', oldOptional);
+  }
+
   function handleAddHardWord() {
-    addUserWord(data.id, user.userId, 'hard');
+    toggleDifficulty(word.id, 'hard');
     setDifficulty('сложных');
   }
   function handleAddLearnedWord() {
-    addUserWord(data.id, user.userId, 'learned');
+    toggleDifficulty(word.id, 'learned');
     setDifficulty('изученных');
   }
   function handleDeleteWord() {
     if (difficulty === 'сложных') {
-      deleteUserWord(data.id, user.userId, 'hard');
+      dispatch({ type: userType.DELETE_USER_WORD, payload: { wordId: word.id, difficulty: 'hard' } });
     } else {
-      deleteUserWord(data.id, user.userId, 'learned');
+      dispatch({ type: userType.DELETE_USER_WORD, payload: { wordId: word.id, difficulty: 'learned' } });
     }
+    deleteDifficulty();
+      // deleteUserWord(word.id, user.userId, 'hard');
+     // else {
+    //   deleteUserWord(word.id, user.userId, 'learned');
+    // }
     setDifficulty('none');
   }
 
