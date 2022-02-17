@@ -4,7 +4,7 @@ import { useTypedSelector } from '../../../hooks/useTypeSelector';
 import { IUserAddWords, word } from '../../../types/types';
 import { games } from '../../../utils/utils';
 import AudioCall from '../../audio-call/audioCall/AudioCall';
-import Sprint from '../../sprint/Sprint';
+import SprintGame from '../../sprint/SprintGame/SprintGame';
 
 type TLoadGame = {
   gameOptions: { group: number, pageState:number, game:string }
@@ -44,9 +44,9 @@ export default function LoadGame({ gameOptions }: TLoadGame) {
     case games.AUDIO_CALL: {
       return <AudioCall answers={[]} questions={[[]]} />;
     }
-    case games.SPRINT: {
-      return <Sprint />;
-    }
+    // case games.SPRINT: {
+    //   return <SprintGame />;
+    // }
     default: {
       return <>Error</>;
     }
