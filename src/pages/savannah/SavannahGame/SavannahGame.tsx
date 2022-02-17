@@ -107,7 +107,9 @@ export default function SavannahGame({ questions }: TSavannahGame) {
 
   const handleAnswer = (text: string, wordId: string):void => {
     clearTimeout(roundTimeout);
-    if (text.includes(questions[questionNumber].wordTranslate)) {
+    if (text === 'noAnswer') {
+      handleNoAnswer();
+    } else if (text.includes(questions[questionNumber].wordTranslate)) {
         handleRightAnswer();
         changeStatistic(user.userId, wordId, true);
       } else {
@@ -131,7 +133,7 @@ export default function SavannahGame({ questions }: TSavannahGame) {
 
   useEffect(() => {
     if (questionNumber < questions.length) {
-      roundTimeout = setTimeout(() => handleNoAnswer(), ROUND_TIME);
+      roundTimeout = setTimeout(() => handleAnswer('noAnswer', questions[questionNumber].id), ROUND_TIME);
     }
   }, [questionNumber]);
 
