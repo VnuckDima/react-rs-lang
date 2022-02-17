@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { TAnswers } from '../../types/types';
 import { playAudio } from '../../utils/utils';
 import { HEAD_URL } from '../../utils/API';
+import { useTypedSelector } from '../../hooks/useTypeSelector';
+import useUserActions from '../../hooks/userAction';
 
 type TEndAudioGame = {
   answers: {correctAnswers: TAnswers[], incorrectAnswers: TAnswers[]}
@@ -13,10 +15,28 @@ type TEndAudioGame = {
 
 export default function EndAudioGame({ answers, score }: TEndAudioGame) {
   const [modalShow, setModalShow] = useState(true);
+  const { user, statistics } = useTypedSelector((state) => state.user);
+  const { updateUserStatistic } = useUserActions();
   const navigate = useNavigate();
+  const { correctAnswers, incorrectAnswers } = answers;
   function handleOk() {
     navigate('/');
   }
+
+  useEffect(() => () => {
+    const learnedWords = correctAnswers.length + incorrectAnswers.length;
+    const optional = {
+      games: [{ corrected: correctAnswers.length, incorrected: incorrectAnswers.length }],
+    };
+    updateUserStatistic(
+      user.userId,
+      statistics,
+      {
+        learnedWords,
+        optional,
+      },
+    );
+  }, []);
 
   function handleCancel() {
     setModalShow(false);
@@ -39,10 +59,10 @@ export default function EndAudioGame({ answers, score }: TEndAudioGame) {
       <div className="audio__answers">
         <h2 className="audio__answers-title">
           Ошибок
-          <span>{`${answers.incorrectAnswers.length}`}</span>
+          <span>{`${incorrectAnswers.length}`}</span>
         </h2>
       <ul>
-        {answers.incorrectAnswers.map((answer) => (
+        {incorrectAnswers.map((answer) => (
         <li className="audio__list-item" key={answer.word}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -63,10 +83,10 @@ export default function EndAudioGame({ answers, score }: TEndAudioGame) {
       <div className="audio__answers">
         <h2 className="audio__answers-title">
           Знаю
-          <span className="correct__count">{`${answers.correctAnswers.length}`}</span>
+          <span className="correct__count">{`${correctAnswers.length}`}</span>
         </h2>
       <ul>
-        {answers.correctAnswers.map((answer) => (
+        {correctAnswers.map((answer) => (
         <li className="audio__list-item" key={answer.word}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

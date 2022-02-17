@@ -1,24 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import useUserActions from '../../hooks/userAction';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
 import { userType } from '../../types/types';
 import { token } from '../../utils/API';
 import './style.scss';
 
 export default function Header() {
-  const [modalActive, setModalActive] = useState(false);
   const [loginButtonState, setLoginButtonState] = useState(true);
+  const {
+    uploadAllWords,
+    uploadUserWords,
+    getUserStatistic,
+    updateUserStatistic,
+  } = useUserActions();
   const dispatch = useDispatch();
-  const { user, hardWords, learnedWords } = useTypedSelector((state) => state.user);
+  const { user, statistics } = useTypedSelector((state) => state.user);
   const navigate = useNavigate();
   async function test() {
-    console.log(hardWords, 'hard');
-    console.log(learnedWords);
+    console.log(statistics, 'statistics');
+    // getUserStatistic(user.userId)
   }
 
   useEffect(() => {
     if (user.message === 'Authenticated') {
+      (async () => {
+        await uploadAllWords(user.userId);
+        uploadUserWords(user.userId);
+        // await updateUserStatistic(user.userId, { learnedWords: 0, optional:
+        // { games: [] } }, { learnedWords: 1, optional: { games: [] } });
+        // getUserStatistic(user.userId);
+      })();
       setLoginButtonState(false);
     } else {
       setLoginButtonState(true);

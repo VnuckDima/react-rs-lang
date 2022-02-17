@@ -14,7 +14,6 @@ function TextbookMenu() {
   const { user, isLoadedUserData } = useTypedSelector((state) => state.user);
   const { isLoadedWords } = useTypedSelector((state) => state.words);
   const { loadWords } = useWordsActions();
-  const { uploadUserWords } = useUserActions();
   const dispatch = useDispatch();
   const [authorizedUser, setAuthorizedUser] = useState(false);
   const [isGame, setIsGame] = useState(false);
@@ -36,7 +35,6 @@ function TextbookMenu() {
 
   useEffect(() => {
     if (user.message === 'Authenticated') {
-      uploadUserWords(user.userId);
       setAuthorizedUser(true);
     } else {
       setAuthorizedUser(false);
@@ -51,7 +49,6 @@ function TextbookMenu() {
     // dispatch({ type: wordsTypes.RESET_WORDS });
     return <LoadGame gameOptions={{ group, pageState, game }} />;
   }
-
   return (
     <TextBook
       authorizedUser={authorizedUser}

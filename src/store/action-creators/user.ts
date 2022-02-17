@@ -1,5 +1,12 @@
 import React, { Dispatch } from 'react';
-import { IUserAction, IUserAddWords, userType } from '../../types/types';
+import {
+  IStatistic,
+  IStatisticGames,
+  IUserAction,
+  IUserAddWords,
+  TBody,
+  userType,
+} from '../../types/types';
 import {
   fetchWithAuth,
   FILTER_WORDS_URL,
@@ -7,23 +14,53 @@ import {
   HEAD_URL,
   token,
 } from '../../utils/API';
-import { makeObjectFromArray } from '../../utils/utils';
+import {
+  getInitialBody,
+  makeObjectFromAllWordsArray,
+  makeObjectFromArray,
+  updateBody,
+} from '../../utils/utils';
 
-export function addUserWord(wordId: string, userId: string, difficulty: string) {
+export function addUserWord(wordId: string, userId: string, difficulty: string, correct?: boolean) {
   return async (dispatch: Dispatch<IUserAction>) => {
+    const body = typeof correct === 'undefined' ? {} : getInitialBody(correct);
     const res = await fetchWithAuth(`${HEAD_URL}/users/${userId}/words/${wordId}`, {
       method: 'POST',
       headers: HEADERS_WHEN_USER_LOGIN(token()),
-      body: JSON.stringify({ difficulty, optional: {} }),
+      body: JSON.stringify({ difficulty, optional: body }),
     });
     if (res) {
-      const data = await res.json();
-      if (difficulty === 'hard') {
-        dispatch({ type: userType.ADD_HARD_WORD, payload: data });
-      } else {
-        dispatch({ type: userType.ADD_LEARNED_WORD, payload: data });
+      const data = { id: userId, wordId, userWord: { difficulty, optional: body } };
+      dispatch({ type: userType.ADD_ALL_WORD, payload: data });
+      switch (difficulty) {
+        case 'hard': {
+          dispatch({ type: userType.ADD_HARD_WORD, payload: data });
+          break;
+        }
+        case 'learned': {
+          dispatch({ type: userType.ADD_LEARNED_WORD, payload: data });
+          break;
+        }
+        default: {
+          break;
+        }
       }
     }
+  };
+}
+
+export function updateWord(userId: string, wordId: string, difficulty: string, newBody?: TBody) {
+  return async (dispatch: Dispatch<IUserAction>) => {
+    fetchWithAuth(
+      `${HEAD_URL}/users/${userId}/words/${wordId}`,
+      {
+        headers: HEADERS_WHEN_USER_LOGIN(token()),
+        method: 'PUT',
+        body: JSON.stringify({ difficulty, optional: newBody }),
+      },
+    );
+    const data = { id: userId, wordId, userWord: { difficulty, optional: newBody } };
+    dispatch({ type: userType.UPDATE_WORD, payload: data });
   };
 }
 
@@ -51,7 +88,57 @@ export function uploadUserWords(userId: string) {
         responseLearnedWords[0].paginatedResults,
         userId,
       );
-      dispatch(({ type: userType.UPLOAD_USER_WORDS, payload: { hardWords, learnedWords } }));
+      dispatch(({
+        type: userType.UPLOAD_USER_WORDS,
+        payload: {
+          hardWords,
+          learnedWords,
+        },
+      }));
+    }
+  };
+}
+
+export function uploadAllWords(userId: string) {
+  return async (dispatch: Dispatch<IUserAction>) => {
+    // alert('Загрузка всех слов');
+    const userAllWords = await fetchWithAuth(`${HEAD_URL}/users/${userId}/words`, { headers: HEADERS_WHEN_USER_LOGIN(token()) });
+    if (userAllWords) {
+      const responseAllWords = await userAllWords.json();
+      const allWords: IUserAddWords = makeObjectFromAllWordsArray(
+        responseAllWords,
+        userId,
+      );
+      dispatch(({ type: userType.UPLOAD_ALL_WORDS, payload: allWords }));
+    }
+  };
+}
+
+export function updateUserStatistic(userId: string, oldStats: IStatistic, newData: IStatistic) {
+  return async (dispatch: Dispatch<IUserAction>) => {
+    const newStats: IStatistic = {
+      learnedWords: oldStats.learnedWords + newData.learnedWords,
+      optional: { games: [...oldStats.optional.games, ...newData.optional.games] },
+    };
+    fetchWithAuth(
+      `${HEAD_URL}/users/${userId}/statistics`,
+      {
+        method: 'PUT',
+        headers: HEADERS_WHEN_USER_LOGIN(token()),
+        body: JSON.stringify(newStats),
+      },
+    );
+    dispatch(({ type: userType.UPDATE_STATISTIC, payload: newStats }));
+  };
+}
+
+export function getUserStatistic(userId: string) {
+  return async (dispatch: Dispatch<IUserAction>) => {
+    const res = await fetchWithAuth(`${HEAD_URL}/users/${userId}/statistics`, { headers: HEADERS_WHEN_USER_LOGIN(token()) });
+    if (res) {
+      const data = await res.json();
+      console.log(data, 'statistic add redux');
+      dispatch(({ type: userType.UPDATE_STATISTIC, payload: data }));
     }
   };
 }

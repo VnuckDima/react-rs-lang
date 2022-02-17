@@ -14,6 +14,14 @@ const initialUserState = JSON.parse(localStorage.getItem('userData')!) || resetU
 const initialState = {
   hardWords: {},
   learnedWords: {},
+  newWords: {},
+  allWords: {},
+  statistics: {
+    learnedWords: 0,
+    optional: {
+      games: [],
+    },
+  },
   user: initialUserState,
   isLoadedUserData: false,
 };
@@ -25,21 +33,22 @@ function userReducer(state: IUserData = initialState, action: IUserAction): IUse
     }
     case userType.ADD_HARD_WORD: {
       return {
-        ...state,
-        hardWords: {
-          ...state.hardWords,
-          [action.payload.wordId]: action.payload,
-        },
+        ...state, hardWords: { ...state.hardWords, [action.payload.wordId]: action.payload },
       };
     }
     case userType.ADD_LEARNED_WORD: {
-      return (
-        {
-          ...state,
-          learnedWords:
-            { ...state.learnedWords, [action.payload.wordId]: action.payload },
-        }
-      );
+      return {
+        ...state, learnedWords: { ...state.learnedWords, [action.payload.wordId]: action.payload },
+      };
+    }
+    case userType.ADD_ALL_WORD: {
+      return { ...state, allWords: { ...state.allWords, [action.payload.wordId]: action.payload } };
+    }
+    case userType.UPLOAD_ALL_WORDS: {
+      return { ...state, allWords: action.payload };
+    }
+    case userType.UPDATE_WORD: {
+      return { ...state, allWords: { ...state.allWords, [action.payload.wordId]: action.payload } };
     }
     case userType.UPLOAD_USER_WORDS: {
       return {
@@ -47,6 +56,18 @@ function userReducer(state: IUserData = initialState, action: IUserAction): IUse
         hardWords: action.payload.hardWords,
         learnedWords: action.payload.learnedWords,
         isLoadedUserData: true,
+      };
+    }
+    case userType.UPLOAD_USER_STATISTIC: {
+      return { ...state, statistics: action.payload };
+    }
+    case userType.UPDATE_STATISTIC: {
+      return {
+        ...state,
+        statistics: {
+          learnedWords: action.payload.learnedWords,
+          optional: action.payload.optional,
+        },
       };
     }
     case userType.DELETE_USER_WORD: {

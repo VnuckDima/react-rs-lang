@@ -12,8 +12,10 @@ type TWord = {
 };
 
 export default function Word({ data, authorizedUser }: TWord) {
-  const { user, hardWords, learnedWords } = useTypedSelector((state) => state.user);
+  const { allWords, hardWords, learnedWords } = useTypedSelector((state) => state.user);
   const [difficulty, setDifficulty] = useState('выбор');
+  const [countAnswers, setCountAnswers] = useState({ correct: 0, incorrect: 0 });
+  const [isShowStatistic, setIsShowStatistic] = useState(false);
   // const sounds = [data.audio, data.audioExample, data.audioMeaning];
   function playAudio() {
     const audio = new Audio(`${HEAD_URL}/${data.audio}`);
@@ -32,15 +34,24 @@ export default function Word({ data, authorizedUser }: TWord) {
     if (data.id in learnedWords) {
       setDifficulty('изученных');
     }
+    if (data.id in allWords) {
+      const optional = allWords[data.id].userWord?.optional!;
+      if (optional) {
+        if (optional.correct !== 0 || optional.incorrect !== 0) {
+          setCountAnswers({ correct: optional.correct!, incorrect: optional.incorrect! });
+          setIsShowStatistic(true);
+        }
+      }
+    }
   }, []);
 
-  const statisticCount = (
+  const statisticCount = (countAnswers: {correct: number, incorrect: number}) => (
     <>
-      <div className="statistics-count wrong-answers-count" title="Неправильных ответов">
-        0
-      </div>
       <div className="statistics-count right-answers-count" title="Правильных ответов">
-        0
+        {countAnswers.correct}
+      </div>
+      <div className="statistics-count wrong-answers-count" title="Неправильных ответов">
+        {countAnswers.incorrect}
       </div>
     </>
   );
@@ -50,7 +61,7 @@ export default function Word({ data, authorizedUser }: TWord) {
     <div className="card__image" style={{ backgroundImage: `linear-gradient(transparent, rgba(255, 255, 255, 1)), url(${HEAD_URL}/${data.image})` }}>
     <div className="card__header">
       {authorizedUser && (
-        <WordButtons data={data} buttonsState={{ difficulty, setDifficulty }} />
+        <WordButtons word={data} buttonsState={{ difficulty, setDifficulty }} />
       )}
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +75,7 @@ export default function Word({ data, authorizedUser }: TWord) {
       </svg>
     </div>
     <div className="card__main">
-      <div className="card__statistics">{authorizedUser && statisticCount}</div>
+      <div className="card__statistics">{isShowStatistic && statisticCount(countAnswers)}</div>
       <div className="card__main-info">
         <span className="card__name_bold">{`${data.word} `}</span>
         <span>{data.transcription}</span>

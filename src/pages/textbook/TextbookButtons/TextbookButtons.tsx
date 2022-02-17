@@ -19,6 +19,7 @@ export default function TextbookButtons({ pageStateProp, setGame }: TTextbookBut
     <Pagination current={pageState} onChange={(page) => setPageState(page)} total={300} />
     <button onClick={() => openGame(games.AUDIO_CALL)} type="button">audio game</button>
     <button onClick={() => openGame(games.SPRINT)} type="button">sprint game</button>
+    <button onClick={() => openGame(games.SAVANNAH)} type="button">savannah game</button>
   </>
   );
 }

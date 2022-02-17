@@ -4,7 +4,7 @@ import { wordExtended } from '../../../types/types';
 type TSavannahGame = {
   currentQuestion: wordExtended
   isDisabled: boolean
-  handleAnswer: (text: string) => void
+  handleAnswer: (text: string, wordId: string) => void
 }
 
 export default function AnswerBtns({ currentQuestion, isDisabled, handleAnswer }: TSavannahGame) {
@@ -27,7 +27,7 @@ export default function AnswerBtns({ currentQuestion, isDisabled, handleAnswer }
       }
     });
 
-    handleAnswer(target.innerHTML);
+    handleAnswer(target.innerHTML, currentQuestion.id);
   }
 
   function handleAnswerKeypress(key: string) {
