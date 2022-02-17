@@ -42,7 +42,7 @@ export default function LoadGame({ gameOptions }: TLoadGame) {
   switch (gameOptions.game) {
     case games.AUDIO_CALL: {
       return <AudioCall questions={gameWords} />;
-    }    
+    }
     case games.SAVANNAH: {
       return <SavannahGame questions={gameWords} />;
     }

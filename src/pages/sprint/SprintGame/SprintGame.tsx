@@ -8,7 +8,7 @@ import { useTypedSelector } from '../../../hooks/useTypeSelector';
 import { wordsTypes } from '../../../store/reducers/words';
 import { TAnswers, wordExtended } from '../../../types/types';
 import {
-  soundBroken, soundCorrect, soundsPath,
+  soundBroken, soundCorrect, soundIncorrect, soundsPath,
 } from '../../../utils/const';
 import { playAudio, randomNum } from '../../../utils/utils';
 import AnswerBtns from '../AnswerBtns/AnswerBtns';
@@ -22,6 +22,7 @@ const COUNT_QUESTIONS = 20;
 const SHOW_ANSWERS_TIME = 2000;
 const GAME_TIME = 60;
 let showAnswersTimeout: ReturnType<typeof setTimeout> = setTimeout(() => { });
+let gameTimer: ReturnType<typeof setTimeout> = setTimeout(() => { });
 let scoreMultiplier = 1;
 let randomTranslation = '';
 
@@ -39,9 +40,9 @@ export default function SprintGame({ questions }: TSprintGame) {
   const [timer, setTimer] = useState(GAME_TIME);
 
   function handleTimer() {
-    setTimer(timer - 1);
+    setTimer((state) => state - 1);
     if (timer > 0) {
-      setTimeout(() => handleTimer(), 1000);
+      gameTimer = setTimeout(() => handleTimer(), 1000);
     }
   }
 
@@ -57,7 +58,7 @@ export default function SprintGame({ questions }: TSprintGame) {
 
   function updateEquality() {
     if (randomTranslation !== questions[questionNumber].wordTranslate) {
-      setEquality('<>');
+      setEquality('≠');
     } else {
       setEquality('=');
     }
@@ -93,7 +94,7 @@ export default function SprintGame({ questions }: TSprintGame) {
     };
     setIncorrectAnswers((state) => [...state, incorrectAnswer]);
     setRightOrWrong('wrong');
-    playAudio(soundBroken, soundsPath);
+    playAudio(soundIncorrect, soundsPath);
     updateScore(false);
     updateEquality();
   }
@@ -125,15 +126,16 @@ export default function SprintGame({ questions }: TSprintGame) {
     return () => {
       dispatch({ type: wordsTypes.RESET_WORDS });
       clearTimeout(showAnswersTimeout);
+      clearTimeout(gameTimer);
     };
   }, []);
 
   useEffect(() => {
     generateRandomTranslation();
-    updateEquality();
+    setEquality('=');
   }, [questionNumber]);
 
-  if (questionNumber === COUNT_QUESTIONS) {
+  if (questionNumber === COUNT_QUESTIONS || timer <= 0) {
     return (
       <EndGame
       answers={{ correctAnswers, incorrectAnswers }}

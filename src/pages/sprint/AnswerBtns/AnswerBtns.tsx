@@ -7,6 +7,8 @@ type TSavannahGame = {
   handleAnswer: (text: string) => void
 }
 
+let keydown = false;
+
 export default function AnswerBtns({ currentQuestion, isDisabled, handleAnswer }: TSavannahGame) {
   const buttons = ['Неверно', 'Верно'];
   const refs = new Array(buttons.length);
@@ -31,6 +33,7 @@ export default function AnswerBtns({ currentQuestion, isDisabled, handleAnswer }
   }
 
   function handleAnswerKeypress(key: string) {
+    if (keydown) return;
     switch (key) {
       case 'ArrowLeft':
         refs[0].current.click();
@@ -41,12 +44,15 @@ export default function AnswerBtns({ currentQuestion, isDisabled, handleAnswer }
       default:
         break;
     }
+    keydown = true;
   }
 
   useEffect(() => {
     document.addEventListener('keydown', (e) => { handleAnswerKeypress(e.key); });
+    document.addEventListener('keyup', (e) => { keydown = false; });
     return () => {
       document.removeEventListener('keydown', (e) => { handleAnswerKeypress(e.key); });
+      document.removeEventListener('keyup', (e) => { keydown = false; });
     };
   }, []);
 

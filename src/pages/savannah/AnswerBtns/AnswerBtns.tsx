@@ -12,20 +12,10 @@ export default function AnswerBtns({ currentQuestion, isDisabled, handleAnswer }
   for (let i = 0; i < refs.length; i += 1) {
     refs[i] = useRef(null);
   }
-  // const refs = useRef(new Array(currentQuestion.answers.length));
 
   function handleAnswerClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     const target = e.target as HTMLButtonElement;
     target.style.outline = '3px solid black';
-
-    refs.forEach((button) => {
-      const target = button.current;
-      if (target.innerHTML.includes(currentQuestion.wordTranslate)) {
-        target.style.background = 'green';
-      } else {
-        target.style.background = 'red';
-      }
-    });
 
     handleAnswer(target.innerHTML, currentQuestion.id);
   }
@@ -54,21 +44,27 @@ export default function AnswerBtns({ currentQuestion, isDisabled, handleAnswer }
 
   useEffect(() => {
     document.addEventListener('keypress', (e) => { handleAnswerKeypress(e.key); });
-    console.log(refs);
     return () => {
       document.removeEventListener('keypress', (e) => { handleAnswerKeypress(e.key); });
-      console.log(refs);
     };
   }, []);
+
+  useEffect(() => {
+    if (isDisabled) {
+      refs.forEach((button) => {
+        const target = button.current;
+        if (target.innerHTML.includes(currentQuestion.wordTranslate)) {
+          target.style.background = 'green';
+        } else {
+          target.style.background = 'red';
+        }
+      });
+    }
+  }, [isDisabled]);
 
   return (
     <>
       {currentQuestion.answers.map((answer, index) => <button ref={refs[index]} style={{ backgroundColor: 'yellow' }} onClick={(e) => handleAnswerClick(e)} key={currentQuestion.id + answer} disabled={isDisabled} className="savannah__answer-button" type="button">{`${index + 1}. ${answer}`}</button>)}
     </>
   );
-
-  // return (
-  //   <button onClick={(e) => handleAnswerClick(e)} disabled={isDisabled}
-  // className="savannah__answer-button" type="button">{text}</button>
-  // );
 }

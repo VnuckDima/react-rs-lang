@@ -6,7 +6,7 @@ import {
 } from '../types/types';
 import { makeBVFROMRUArrayQuestions, saveUserDataInLS, saveUserTokenInLS } from './utils';
 
-export const HEAD_URL = 'http://localhost:3001';
+export const HEAD_URL = 'https://react-learn-words-rs-school.herokuapp.com';
 export const token = () => {
   const value = localStorage.getItem('userTokens') ? JSON.parse(localStorage.getItem('userTokens')!).token : '';
   return value;
