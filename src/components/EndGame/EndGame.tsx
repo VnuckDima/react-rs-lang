@@ -10,9 +10,10 @@ import useUserActions from '../../hooks/userAction';
 
 type TEndAudioGame = {
   answers: {correctAnswers: TAnswers[], incorrectAnswers: TAnswers[]}
+  score: number
 }
 
-export default function EndAudioGame({ answers }: TEndAudioGame) {
+export default function EndAudioGame({ answers, score }: TEndAudioGame) {
   const [modalShow, setModalShow] = useState(true);
   const { user, statistics } = useTypedSelector((state) => state.user);
   const { updateUserStatistic } = useUserActions();
@@ -49,6 +50,12 @@ export default function EndAudioGame({ answers }: TEndAudioGame) {
     cancelText="Попробовать еще раз"
     onCancel={() => handleCancel()}
     >
+      <div className="score__container">
+        <h2 className="score__container-title">
+          Счет:&nbsp;
+          <span>{`${score}`}</span>
+        </h2>
+      </div>
       <div className="audio__answers">
         <h2 className="audio__answers-title">
           Ошибок

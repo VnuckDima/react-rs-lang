@@ -17,6 +17,7 @@ export default function AudioCall({ questions } : TAudioCall) {
   const [correctAnswers, setCorrectAnswers] = useState<TAnswers[]>([]);
   const [incorrectAnswers, setIncorrectAnswers] = useState<TAnswers[]>([]);
   const [questionNumber, setQuestionNumber] = useState(0);
+  const [score, setScore] = useState(0);
 
   useEffect(() => () => {
     dispatch({ type: wordsTypes.RESET_WORDS });
@@ -33,6 +34,7 @@ export default function AudioCall({ questions } : TAudioCall) {
     return (
       <EndAudioGame
       answers={{ correctAnswers, incorrectAnswers }}
+      score={score}
       />
     );
   }

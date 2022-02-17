@@ -6,7 +6,7 @@ import { buildArrayQuestions, HEAD_URL } from '../../../utils/API';
 import { games, makeBVFROMRUArrayQuestions } from '../../../utils/utils';
 import AudioCall from '../../audio-call/audioCall/AudioCall';
 import SavannahGame from '../../savannah/SavannahGame/SavannahGame';
-import Sprint from '../../sprint/Sprint';
+import SprintGame from '../../sprint/SprintGame/SprintGame';
 
 type TLoadGame = {
   gameOptions: { group: number, pageState:number, game:string }
@@ -42,13 +42,13 @@ export default function LoadGame({ gameOptions }: TLoadGame) {
   switch (gameOptions.game) {
     case games.AUDIO_CALL: {
       return <AudioCall questions={gameWords} />;
-    }
-    case games.SPRINT: {
-      return <Sprint />;
-    }
+    }    
     case games.SAVANNAH: {
       return <SavannahGame questions={gameWords} />;
     }
+    // case games.SPRINT: {
+    //   return <SprintGame />;
+    // }
     default: {
       return <>Error</>;
     }

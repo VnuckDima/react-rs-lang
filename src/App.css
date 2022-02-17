@@ -7,6 +7,7 @@
 @import './pages/textbook/word/word.scss';
 @import './pages/audio-call/AudioCallMenu.scss';
 @import './pages/savannah/Savannah.scss';
+@import './pages/sprint/Sprint.scss';
 @import './components/CategorySelect/category.scss';
 @import './components/EndGame/endGame.scss';
 
