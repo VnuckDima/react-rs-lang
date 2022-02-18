@@ -10,6 +10,7 @@ import SprintMenu from './pages/sprint/SprintMenu';
 import SavannahMenu from './pages/savannah/SavannahMenu';
 import TextbookMenu from './pages/textbook/TextbookMenu';
 import Modal from './pages/modal/Modal';
+import Footer from './components/footer/Footer';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="login" element={<Modal />} />
           </Routes>
         </main>
+        <Footer />
     </div>
   );
 }

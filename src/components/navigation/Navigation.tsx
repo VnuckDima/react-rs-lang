@@ -1,40 +1,40 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 function Navigation() {
   return (
     <nav className="nav">
       <ul>
-      <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
         <li>
-          <span>Главная</span>
+          <NavLink to="/" className={({ isActive }) => `nav__link ${(isActive ? 'active' : 'inactive')}`}>
+            Главная
+          </NavLink>
         </li>
-      </Link>
-      <Link to="textbook" style={{ textDecoration: 'none', color: 'black' }}>
         <li>
-          <span>Учебник</span>
+          <NavLink to="textbook" className={({ isActive }) => `nav__link ${(isActive ? 'active' : 'inactive')}`}>
+            Учебник
+          </NavLink>
         </li>
-      </Link>
-      <Link to="audio-call" style={{ textDecoration: 'none', color: 'black' }}>
         <li>
-          <span>Мини-игра Аудиовызов</span>
+          <NavLink to="audio-call" className={({ isActive }) => `nav__link ${(isActive ? 'active' : 'inactive')}`}>
+            Мини-игра Аудиовызов
+          </NavLink>
         </li>
-      </Link>
-      <Link to="sprint" style={{ textDecoration: 'none', color: 'black' }}>
         <li>
-          <span>Мини-игра Спринт</span>
+          <NavLink to="sprint" className={({ isActive }) => `nav__link ${(isActive ? 'active' : 'inactive')}`}>
+            Мини-игра Спринт
+          </NavLink>
         </li>
-      </Link>
-      <Link to="savannah" style={{ textDecoration: 'none', color: 'black' }}>
         <li>
-          <span>Мини-игра Саванна</span>
+          <NavLink to="savannah" className={({ isActive }) => `nav__link ${(isActive ? 'active' : 'inactive')}`}>
+            Мини-игра Саванна
+          </NavLink>
         </li>
-      </Link>
-      <Link to="statistics" style={{ textDecoration: 'none', color: 'black' }}>
         <li>
-          <span>Статистика</span>
+          <NavLink to="statistics" className={({ isActive }) => `nav__link ${(isActive ? 'active' : 'inactive')}`}>
+            Статистика
+          </NavLink>
         </li>
-      </Link>
       </ul>
     </nav>
   );

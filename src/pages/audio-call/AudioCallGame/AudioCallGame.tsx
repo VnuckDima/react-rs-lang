@@ -99,8 +99,8 @@ export default function AudioCallGame({ questions } : TAudioCall) {
   };
 
   useEffect(() => () => {
-    dispatch({ type: wordsTypes.RESET_WORDS });
-  }, []);
+      dispatch({ type: wordsTypes.RESET_WORDS });
+    }, []);
 
   useEffect(() => {
     if (questionNumber < questions.length) {
