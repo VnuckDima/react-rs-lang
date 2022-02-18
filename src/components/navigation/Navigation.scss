@@ -15,7 +15,7 @@ nav {
   grid-area: nav;
 }
 
-nav span {
+nav__link {
   display: block;
   text-decoration: none;
   padding: 10px 20px;
@@ -29,4 +29,8 @@ nav ul {
 nav span:hover {
   background-color: rgb(158, 178, 206);
   cursor: pointer;
+}
+
+.nav__link.active {
+  color: black;
 }

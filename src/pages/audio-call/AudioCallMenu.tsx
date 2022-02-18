@@ -23,7 +23,6 @@ function AudioCallCategory() {
 
   useEffect(() => {
     if (isLoadedWords) {
-      const answersArray = shuffle(words);
       setQuestions(makeBVFROMRUArrayQuestions(words));
     }
   }, [isLoadedWords]);
