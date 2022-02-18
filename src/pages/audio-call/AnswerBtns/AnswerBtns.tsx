@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { TAnswers } from '../../../types/types';
 
 // описание переданного сюда пропса
-type TAnswerBtn = {
+type TAnswerBtns = {
   text: string[]
   addAnswer: {
     setCorrectAnswers: (state: TAnswers[] | ((prevVar: TAnswers[]) => TAnswers[])) => void
@@ -12,12 +12,12 @@ type TAnswerBtn = {
   setQuestionNumber: (value: number | ((prevVar: number) => number)) => void
 }
 
-function AnswerBtn({
+export default function AnswerBtns({
   text,
   addAnswer,
   correctAnswer,
   setQuestionNumber,
-}: TAnswerBtn) {
+}: TAnswerBtns) {
   function handleAnswer(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     const target = e.target as HTMLButtonElement;
     if (target.innerHTML === correctAnswer.translateWord) {
@@ -33,5 +33,3 @@ function AnswerBtn({
     </>
   );
 }
-
-export default AnswerBtn;

@@ -11,14 +11,13 @@ import {
   soundBroken, soundCorrect, soundIncorrect, soundsPath,
 } from '../../../utils/const';
 import { playAudio, randomNum } from '../../../utils/utils';
-import AnswerBtns from '../AnswerBtns/AnswerBtns';
 import Question from '../Question/Question';
+import RightOrWrongBtns from '../../../components/RightOrWrongBtns/RightOrWrongBtns';
 
 type TSprintGame = {
   questions: wordExtended[]
 }
 
-const COUNT_QUESTIONS = 20;
 const SHOW_ANSWERS_TIME = 2000;
 const GAME_TIME = 60;
 let showAnswersTimeout: ReturnType<typeof setTimeout> = setTimeout(() => { });
@@ -135,7 +134,7 @@ export default function SprintGame({ questions }: TSprintGame) {
     setEquality('=');
   }, [questionNumber]);
 
-  if (questionNumber === COUNT_QUESTIONS || timer <= 0) {
+  if (questionNumber === questions.length || timer <= 0) {
     return (
       <EndGame
       answers={{ correctAnswers, incorrectAnswers }}
@@ -155,7 +154,7 @@ export default function SprintGame({ questions }: TSprintGame) {
           randomTranslation={randomTranslation}
         />
         <div className="answers__container">
-          <AnswerBtns
+          <RightOrWrongBtns
           currentQuestion={questions[questionNumber]}
           isDisabled={isDisabled}
           handleAnswer={handleAnswer}
