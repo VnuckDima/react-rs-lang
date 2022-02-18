@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { wordExtended } from '../../../types/types';
+import { wordExtended } from '../../types/types';
 
-type TSavannahGame = {
+type TRightOrWrongBtns = {
   currentQuestion: wordExtended
   isDisabled: boolean
   handleAnswer: (text: string) => void
@@ -9,7 +9,11 @@ type TSavannahGame = {
 
 let keydown = false;
 
-export default function AnswerBtns({ currentQuestion, isDisabled, handleAnswer }: TSavannahGame) {
+export default function RightOrWrongBtns({
+  currentQuestion,
+  isDisabled,
+  handleAnswer,
+}: TRightOrWrongBtns) {
   const buttons = ['Неверно', 'Верно'];
   const refs = new Array(buttons.length);
   for (let i = 0; i < refs.length; i += 1) {

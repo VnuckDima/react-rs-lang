@@ -5,7 +5,7 @@ import { useTypedSelector } from '../../hooks/useTypeSelector';
 import useWordsActions from '../../hooks/useWordsAction';
 import { word, wordExtended } from '../../types/types';
 import { makeBVFROMRUArrayQuestions, randomNum, shuffle } from '../../utils/utils';
-import AudioCall from './audioCall/AudioCall';
+import AudioCall from './AudioCallGame/AudioCallGame';
 
 // TODO Переименовать AudioCallCategory в AudioCallMenu?
 function AudioCallCategory() {

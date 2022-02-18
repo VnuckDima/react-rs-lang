@@ -4,7 +4,7 @@ import { useTypedSelector } from '../../../hooks/useTypeSelector';
 import { IUserAddWords, word, wordExtended } from '../../../types/types';
 import { buildArrayQuestions, HEAD_URL } from '../../../utils/API';
 import { games, makeBVFROMRUArrayQuestions } from '../../../utils/utils';
-import AudioCall from '../../audio-call/audioCall/AudioCall';
+import AudioCall from '../../audio-call/AudioCallGame/AudioCallGame';
 import SavannahGame from '../../savannah/SavannahGame/SavannahGame';
 import SprintGame from '../../sprint/SprintGame/SprintGame';
 
@@ -46,9 +46,9 @@ export default function LoadGame({ gameOptions }: TLoadGame) {
     case games.SAVANNAH: {
       return <SavannahGame questions={gameWords} />;
     }
-    // case games.SPRINT: {
-    //   return <SprintGame />;
-    // }
+    case games.SPRINT: {
+      return <SprintGame questions={gameWords} />;
+    }
     default: {
       return <>Error</>;
     }

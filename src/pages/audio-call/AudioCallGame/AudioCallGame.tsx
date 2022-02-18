@@ -1,33 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import EndGame from '../../../components/EndGame/EndGame';
-import useUserActions from '../../../hooks/userAction';
-import RoundNumber from '../../../components/RoundNumber/RoundNumber';
-import Score from '../../../components/Score/Score';
 import { useTypedSelector } from '../../../hooks/useTypeSelector';
 import { wordsTypes } from '../../../store/reducers/words';
-import { IUserAddWords, TAnswers, wordExtended } from '../../../types/types';
-import {
-  soundBroken, soundCorrect, soundsPath,
-} from '../../../utils/const';
-import { playAudio, updateBody } from '../../../utils/utils';
-import AnswerBtns from '../AnswerBtns/AnswerBtns';
+import { TAnswers, word, wordExtended } from '../../../types/types';
+import { HEAD_URL } from '../../../utils/API';
+import { playAudio } from '../../../utils/utils';
+import AnswerBtns from '../../../components/AnswerBtns/AnswerBtns';
 import Question from '../Question/Question';
+import { soundCorrect, soundIncorrect, soundsPath } from '../../../utils/const';
+import Score from '../../../components/Score/Score';
+import RoundNumber from '../../../components/RoundNumber/RoundNumber';
 
-type TSavannahGame = {
+type TAudioCall = {
   questions: wordExtended[]
 }
 
-const ROUND_TIME = 5000;
-const SHOW_ANSWERS_TIME = 2000;
-let roundTimeout: ReturnType<typeof setTimeout> = setTimeout(() => { });
-let showAnswersTimeout: ReturnType<typeof setTimeout> = setTimeout(() => { });
 let scoreMultiplier = 1;
+let showAnswersTimeout: ReturnType<typeof setTimeout> = setTimeout(() => { });
+const SHOW_ANSWERS_TIME = 2000;
 
-export default function SavannahGame({ questions }: TSavannahGame) {
-  const { user, allWords } = useTypedSelector((state) => state.user);
-  const { words } = useTypedSelector((state) => state.words);
-  const { addUserWord, updateWord } = useUserActions();
+export default function AudioCallGame({ questions } : TAudioCall) {
   const dispatch = useDispatch();
   const [correctAnswers, setCorrectAnswers] = useState<TAnswers[]>([]);
   const [incorrectAnswers, setIncorrectAnswers] = useState<TAnswers[]>([]);
@@ -66,7 +59,7 @@ export default function SavannahGame({ questions }: TSavannahGame) {
     };
     setIncorrectAnswers((state) => [...state, incorrectAnswer]);
     setRightOrWrong('wrong');
-    playAudio(soundBroken, soundsPath);
+    playAudio(soundIncorrect, soundsPath);
     updateScore(false);
   }
 
@@ -78,7 +71,7 @@ export default function SavannahGame({ questions }: TSavannahGame) {
     };
     setIncorrectAnswers((state) => [...state, incorrectAnswer]);
     setRightOrWrong('broken');
-    playAudio(soundBroken, soundsPath);
+    playAudio(soundIncorrect, soundsPath);
   }
 
   function nextRound() {
@@ -90,50 +83,28 @@ export default function SavannahGame({ questions }: TSavannahGame) {
     setRightOrWrong('fall');
   }
 
-  function changeStatistic(userId: string, wordId: string, corrected: boolean) {
-    if (wordId in allWords) {
-      const newBody = updateBody(corrected, allWords[wordId].userWord.optional!);
-      /* if (newBody.correctOnTheRow === 4) {
-        updateWord(userId, wordId, 'learned', newBody);
-        dispatch({})если 4 подрят правильных ответа то добавить в learned
-      }
-      */
-      const { difficulty } = allWords[wordId].userWord;
-      updateWord(userId, wordId, difficulty, newBody);
-    } else {
-      addUserWord(wordId, userId, 'newWord', corrected);
-    }
-  }
-
   const handleAnswer = (text: string, wordId: string):void => {
-    clearTimeout(roundTimeout);
     if (text === 'noAnswer') {
       handleNoAnswer();
     } else if (text.includes(questions[questionNumber].wordTranslate)) {
         handleRightAnswer();
-        changeStatistic(user.userId, wordId, true);
+        // changeStatistic(user.userId, wordId, true);
       } else {
         handleWrongAnswer();
-        changeStatistic(user.userId, wordId, false);
+        // changeStatistic(user.userId, wordId, false);
     }
     setIsDisabled(true);
     setQuestionStart(false);
     showAnswersTimeout = setTimeout(() => nextRound(), SHOW_ANSWERS_TIME);
   };
 
-  useEffect(() => {
-    setQuestionStart(true);
-    setRightOrWrong('fall');
-    return () => {
-      dispatch({ type: wordsTypes.RESET_WORDS });
-      clearTimeout(showAnswersTimeout);
-      clearTimeout(roundTimeout);
-    };
+  useEffect(() => () => {
+    dispatch({ type: wordsTypes.RESET_WORDS });
   }, []);
 
   useEffect(() => {
     if (questionNumber < questions.length) {
-      roundTimeout = setTimeout(() => handleAnswer('noAnswer', questions[questionNumber].id), ROUND_TIME);
+      setTimeout(() => playAudio(questions[questionNumber].audio, HEAD_URL), 300);
     }
   }, [questionNumber]);
 
@@ -145,22 +116,18 @@ export default function SavannahGame({ questions }: TSavannahGame) {
       />
     );
   }
-    return (
+  return (
     <div className="audiocall">
       <div className="audiocall__container">
         <Score score={score} />
         <RoundNumber questionNumber={questionNumber} COUNT_QUESTIONS={questions.length} />
-        <Question
-          rightOrWrong={rightOrWrong}
-          question={questions[questionNumber].word}
-          start={questionStart}
-        />
+        <Question questionAudio={questions[questionNumber].audio} />
         <div className="answers__container">
-          <AnswerBtns
+        <AnswerBtns
           currentQuestion={questions[questionNumber]}
           isDisabled={isDisabled}
           handleAnswer={handleAnswer}
-          />
+        />
         </div>
       </div>
     </div>
