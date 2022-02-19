@@ -1,9 +1,42 @@
-.main-content {
-  padding: 30px 0;
-  flex-grow: 1;
+.main__container {
+  padding: 0 30px;
+  text-align: center;
+  font-size: 1.4em;
 }
 
-.wrapper {
-  padding-right: 30px;
-  padding-left: 30px;
+.main__container h2 {
+  font-size: 2rem;
+}
+
+.main__container h3 {
+  font-size: 1.6rem;
+}
+
+.main__container section {
+  margin-bottom: 30px;
+}
+
+.developers__container {
+}
+
+.developers__card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin: 10px;
+}
+
+.developers__card-image {
+  margin-right: 30px;
+}
+
+.developers__card-image img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.developers__card-info h3 {
+  text-align: left;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import './App.css';
+import './App.scss';
 import Header from './components/header/Header';
 import Home from './pages/home/Home';
 import Navigation from './components/navigation/Navigation';
@@ -15,9 +15,12 @@ import Footer from './components/footer/Footer';
 function App() {
   return (
     <div className="container">
-      <Header />
+      <aside>
         <Navigation />
-        <main className="main">
+      </aside>
+      <main className="main">
+        <Header />
+        <div className="main__container">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="audio-call" element={<AudioCallMenu />} />
@@ -27,8 +30,9 @@ function App() {
             <Route path="statistics" element={<Statistics />} />
             <Route path="login" element={<Modal />} />
           </Routes>
-        </main>
+        </div>
         <Footer />
+      </main>
     </div>
   );
 }
