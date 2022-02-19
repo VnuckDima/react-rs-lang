@@ -1,13 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useTypedSelector } from '../../hooks/useTypeSelector';
 import { wordExtended } from '../../types/types';
 
 type TSavannahGame = {
   currentQuestion: wordExtended
   isDisabled: boolean
   handleAnswer: (text: string, wordId: string) => void
+  setNewWords: (value: number | ((prevVar: number) => number)) => void;
 }
-
-export default function AnswerBtns({ currentQuestion, isDisabled, handleAnswer }: TSavannahGame) {
+export default function AnswerBtns({
+  currentQuestion,
+  isDisabled,
+  handleAnswer,
+  setNewWords,
+}: TSavannahGame) {
+  const { allWords } = useTypedSelector((state) => state.user);
   const refs = new Array(currentQuestion.answers.length);
   for (let i = 0; i < refs.length; i += 1) {
     refs[i] = useRef(null);
@@ -16,7 +23,10 @@ export default function AnswerBtns({ currentQuestion, isDisabled, handleAnswer }
   function handleAnswerClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     const target = e.target as HTMLButtonElement;
     target.style.outline = '3px solid black';
-
+    if (!Object.prototype.hasOwnProperty.call(allWords, currentQuestion.id)) {
+      setNewWords((state: number) => state + 1);
+      console.log(allWords);
+    }
     handleAnswer(target.innerHTML, currentQuestion.id);
   }
 

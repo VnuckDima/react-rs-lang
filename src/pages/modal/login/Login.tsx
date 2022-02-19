@@ -27,6 +27,7 @@ export default function Login({ setIsLoginForm }: ILogin) {
     await login(email, password)
     .then((data) => {
       navigate('/');
+      localStorage.setItem('entryTime', new Date().toString());
       dispatch({ type: userType.UPDATE_USER, payload: data });
     })
     .catch((e) => setIsCorrectLogin(false));

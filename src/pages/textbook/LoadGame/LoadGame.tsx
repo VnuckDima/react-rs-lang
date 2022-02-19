@@ -46,9 +46,9 @@ export default function LoadGame({ gameOptions }: TLoadGame) {
     case games.SAVANNAH: {
       return <SavannahGame questions={gameWords} />;
     }
-    case games.SPRINT: {
-      return <SprintGame questions={gameWords} />;
-    }
+    // case games.SPRINT: {
+    //   return <SprintGame />;
+    // }
     default: {
       return <>Error</>;
     }

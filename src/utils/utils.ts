@@ -152,3 +152,60 @@ export function updateBody(corrected: boolean, oldBody: TBody): TBody {
   }
   return getInitialBody(corrected);
 }
+
+export function checkDate(date: string | null): boolean {
+  if (typeof date !== 'string') {
+    localStorage.setItem('date', new Date().toString());
+    return false;
+  }
+  const oldDate = new Date(date);
+  const currentDate = new Date();
+  if (
+    oldDate.getDate() === currentDate.getDate()
+    && oldDate.getMonth() === currentDate.getMonth()
+  ) {
+    return true;
+  }
+  localStorage.setItem('date', new Date().toString());
+  return false;
+}
+
+export function setWindowTitle() {
+  const { pathname } = window.location;
+  let pageTitle = 'Главная';
+  const pagePrefix = 'RS Lang - ';
+  switch (pathname) {
+    case '/textbook':
+      pageTitle = 'Учебник';
+      break;
+    case '/audio-call':
+      pageTitle = 'Аудиовызов';
+      break;
+    case '/sprint':
+      pageTitle = 'Спринт';
+      break;
+    case '/savannah':
+      pageTitle = 'Саванна';
+      break;
+    case '/statistics':
+      pageTitle = 'Статистика';
+      break;
+    case '/login':
+      pageTitle = 'Логин';
+      break;
+    default:
+      break;
+  }
+  document.title = pagePrefix + pageTitle;
+  return pageTitle;
+}
+
+export function checkAuthTimer(date: string) {
+  const oldDate = new Date(date);
+  const currentDate = new Date();
+  currentDate.setHours(oldDate.getHours() + 4);
+  if (new Date().setHours(oldDate.getHours() + 4) - new Date(date).getTime() > 14400000) {
+    return true;
+  }
+  return false;
+}

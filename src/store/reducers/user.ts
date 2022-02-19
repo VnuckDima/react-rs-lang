@@ -19,7 +19,12 @@ const initialState = {
   statistics: {
     learnedWords: 0,
     optional: {
-      games: [],
+      allTimeStat: { games: [] },
+      oneDayStats: {
+        newWords: 0,
+        learned: 0,
+        games: [],
+      },
     },
   },
   user: initialUserState,

@@ -2,21 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { TAnswers } from '../../types/types';
+import { IStatistic, TAnswers } from '../../types/types';
 import { playAudio } from '../../utils/utils';
-import { HEAD_URL } from '../../utils/API';
+import { HEAD_URL, updateUserStatistic } from '../../utils/API';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
 import useUserActions from '../../hooks/userAction';
 
 type TEndAudioGame = {
   answers: {correctAnswers: TAnswers[], incorrectAnswers: TAnswers[]}
   score: number
+  newWords: number
+  correctOnTheRow: number
 }
 
-export default function EndAudioGame({ answers, score }: TEndAudioGame) {
+export default function EndAudioGame({
+  answers,
+  score,
+  newWords,
+  correctOnTheRow,
+}: TEndAudioGame) {
   const [modalShow, setModalShow] = useState(true);
   const { user, statistics } = useTypedSelector((state) => state.user);
-  const { updateUserStatistic } = useUserActions();
   const navigate = useNavigate();
   const { correctAnswers, incorrectAnswers } = answers;
   function handleOk() {
@@ -24,18 +30,24 @@ export default function EndAudioGame({ answers, score }: TEndAudioGame) {
   }
 
   useEffect(() => () => {
-    const learnedWords = correctAnswers.length + incorrectAnswers.length;
-    const optional = {
-      games: [{ corrected: correctAnswers.length, incorrected: incorrectAnswers.length }],
-    };
-    updateUserStatistic(
-      user.userId,
-      statistics,
-      {
-        learnedWords,
-        optional,
+    const newStats: IStatistic = {
+      learnedWords: 0,
+      optional: {
+        allTimeStat: {
+          games: [],
+        },
+        oneDayStats: {
+          newWords,
+          learned: 0,
+          games: [{
+            corrected: correctAnswers.length,
+            incorrected: incorrectAnswers.length,
+            correctOnTheRow,
+          }],
+        },
       },
-    );
+    };
+    updateUserStatistic(user.userId, newStats);
   }, []);
 
   function handleCancel() {

@@ -1,12 +1,18 @@
 import {
+  IStatistic,
   IUserAddWords,
   IUserDataInLS,
   IUserTokensInLS,
   wordExtended,
 } from '../types/types';
-import { makeBVFROMRUArrayQuestions, saveUserDataInLS, saveUserTokenInLS } from './utils';
+import {
+  checkAuthTimer,
+  makeBVFROMRUArrayQuestions,
+  saveUserDataInLS,
+  saveUserTokenInLS,
+} from './utils';
 
-export const HEAD_URL = 'https://react-learn-words-rs-school.herokuapp.com';
+export const HEAD_URL = 'http://localhost:3001';
 export const token = () => {
   const value = localStorage.getItem('userTokens') ? JSON.parse(localStorage.getItem('userTokens')!).token : '';
   return value;
@@ -85,6 +91,7 @@ export async function fetchWithAuth(url: string, options: any) {
     message: '',
     userId: '',
   };
+  const entryTime = localStorage.getItem('entryTime')!;
   if (localStorage.getItem('userTokens') && localStorage.getItem('userData')) {
     tokenData = JSON.parse(localStorage.getItem('userTokens')!);
     userData = JSON.parse(localStorage.getItem('userData')!);
@@ -98,9 +105,12 @@ export async function fetchWithAuth(url: string, options: any) {
 
   if (tokenData && userData) {
     try {
-      await refreshToken(userData.userId, tokenData.refreshToken);
+      if (!checkAuthTimer(entryTime)) {
+        await refreshToken(userData.userId, tokenData.refreshToken);
+      }
     } catch (error) {
-      localStorage.clear();
+      localStorage.removeItem('userData');
+      localStorage.removeItem('userTokens');
       return window.location.replace(loginUrl);
     }
     newOptions.headers.Authorization = `Bearer ${tokenData.token}`;
@@ -128,6 +138,7 @@ export async function buildArrayQuestions(
   });
   const responses = await Promise.all(promises);
   const arraysWords = await Promise.all(responses.map((arr) => arr.json()));
+  // arraysWords - массив массивов с каждой страницы
   arraysWords.forEach((item) => {
     if (answers.length < maxWordsInGame) {
       const arrayWords = item.filter((word: { id: string; }) => (
@@ -138,6 +149,7 @@ export async function buildArrayQuestions(
       answers.push(...arrayWords);
     }
   });
+  // answers все слова - изученные слова
   if (answers.length > maxWordsInGame) {
     answers.length = maxWordsInGame;
   }
@@ -145,4 +157,61 @@ export async function buildArrayQuestions(
     return [];
   }
   return makeBVFROMRUArrayQuestions(answers);
+}
+
+export async function getUserStatistics(userId: string) {
+  const res = await fetchWithAuth(`${HEAD_URL}/users/${userId}/statistics`, { headers: HEADERS_WHEN_USER_LOGIN(token()) });
+  if (res) {
+    const data = await res.json();
+    return data;
+  }
+  return {};
+}
+
+export async function resetUserStatistics(userId: string) {
+  const oldStats = await getUserStatistics(userId);
+  const newStats: IStatistic = {
+    learnedWords: oldStats.learnedWords,
+    optional: {
+      allTimeStat: oldStats.optional.allTimeStat,
+      oneDayStats: {
+        newWords: 0,
+        learned: 0,
+        games: [],
+      },
+    },
+  };
+  fetchWithAuth(
+    `${HEAD_URL}/users/${userId}/statistics`,
+    {
+      method: 'PUT',
+      headers: HEADERS_WHEN_USER_LOGIN(token()),
+      body: JSON.stringify(newStats),
+    },
+  );
+}
+
+export async function updateUserStatistic(userId: string, newData: IStatistic) {
+  const oldStats = await getUserStatistics(userId);
+  const newStats: IStatistic = {
+    learnedWords: oldStats.learnedWords + newData.learnedWords,
+    optional: {
+      allTimeStat: {
+        games: [...oldStats.optional.allTimeStat.games, ...newData.optional.allTimeStat.games],
+      },
+      oneDayStats: {
+        newWords: oldStats.optional.oneDayStats.newWords + newData.optional.oneDayStats.newWords,
+        learned: oldStats.optional.oneDayStats.learned + newData.optional.oneDayStats.learned,
+        games: [...oldStats.optional.oneDayStats.games, ...newData.optional.oneDayStats.games],
+      },
+    },
+  };
+  fetchWithAuth(
+    `${HEAD_URL}/users/${userId}/statistics`,
+    {
+      method: 'PUT',
+      headers: HEADERS_WHEN_USER_LOGIN(token()),
+      body: JSON.stringify(newStats),
+    },
+  );
 }
