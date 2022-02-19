@@ -1,4 +1,5 @@
 @import 'antd/dist/antd.css';
+@import './colors.scss';
 @import './pages/home/Home.scss';
 @import './components/navigation/Navigation.scss';
 @import './pages/home/main/Main.scss';
@@ -23,6 +24,13 @@ body {
   padding: 0;
 }
 
+button {
+  background-color: transparent;
+  border-width: 0;
+  outline: 0;
+  cursor: pointer;
+}
+
 ol, ul, dl {
   margin: 0;
 }
@@ -32,15 +40,27 @@ ul {
 }
 
 .container {
+  display: flex;
   width: 100%;
-  margin: 0 auto;
-  display: grid;
-  grid-template-areas: "nav header header" "nav main main" "nav footer footer";
-  grid-template-columns: 14% 43% 43%;;
+  min-height: 100vh;
+  background-color: var(--main-bg-color);
 }
 
-.main {
-  height: calc(100vh - 200px);
+main {
   width: 100%;
-  grid-area: main;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+aside {
+  flex: 0 0 auto;
+}
+
+.main__container {
+  flex-grow: 1;
+}
+
+.wrapper {
+  padding: 0 30px;
 }
