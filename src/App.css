@@ -11,6 +11,9 @@
 @import './components/CategorySelect/category.scss';
 @import './components/EndGame/endGame.scss';
 
+body {
+  font-family: 'Roboto', sans-serif;
+}
 
 *,
 ::before,
@@ -18,6 +21,14 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+ol, ul, dl {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
 }
 
 .container {
