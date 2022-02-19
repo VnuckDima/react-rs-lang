@@ -3,21 +3,48 @@ footer {
   grid-area: footer;
 }
 
-.footer-container {
+footer a {
+  color: black;
+}
+
+footer a:hover {
+  color: deepskyblue;
+}
+
+.footer__container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 30px 0;
+  padding: 15px 0;
 }
 
-.footer-container ul {
+.footer__container ul {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
 
-.footer-container li {
+.footer__container li {
   margin-left: 10px;
+}
+
+.footer__container-year {
+  font-size: 1.1rem;
+}
+
+.footer__container-githubs {
+  font-size: 0.8rem;
+}
+
+.github__link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.github__link svg {
+  margin-right: 5px;
+  margin-left: 5px;
 }
