@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import EndGame from '../../../components/EndGame/EndGame';
 import RoundNumber from '../../../components/RoundNumber/RoundNumber';
@@ -10,9 +10,10 @@ import { TAnswers, wordExtended } from '../../../types/types';
 import {
   soundBroken, soundCorrect, soundIncorrect, soundsPath,
 } from '../../../utils/const';
-import { playAudio, randomNum } from '../../../utils/utils';
+import { playAudio, randomNum, updateBody } from '../../../utils/utils';
 import Question from '../Question/Question';
 import RightOrWrongBtns from '../../../components/RightOrWrongBtns/RightOrWrongBtns';
+import useUserActions from '../../../hooks/userAction';
 
 type TSprintGame = {
   questions: wordExtended[]
@@ -26,7 +27,8 @@ let scoreMultiplier = 1;
 let randomTranslation = '';
 
 export default function SprintGame({ questions }: TSprintGame) {
-  const { words } = useTypedSelector((state) => state.words);
+  const { user, allWords } = useTypedSelector((state) => state.user);
+  const { addUserWord, updateWord } = useUserActions();
   const dispatch = useDispatch();
   const [correctAnswers, setCorrectAnswers] = useState<TAnswers[]>([]);
   const [incorrectAnswers, setIncorrectAnswers] = useState<TAnswers[]>([]);
@@ -37,6 +39,9 @@ export default function SprintGame({ questions }: TSprintGame) {
   const [score, setScore] = useState(0);
   const [equality, setEquality] = useState('=');
   const [timer, setTimer] = useState(GAME_TIME);
+  const [newWords, setNewWords] = useState(0);
+  const [correctOnTheRow, setCorrectOnTheRow] = useState(0);
+  const currentCorrectOnTheRow = useRef<number>(0);
 
   function handleTimer() {
     setTimer((state) => state - 1);
@@ -107,11 +112,28 @@ export default function SprintGame({ questions }: TSprintGame) {
     setRightOrWrong('fall');
   }
 
-  const handleAnswer = (text: string):void => {
+  function changeStatistic(userId: string, wordId: string, corrected: boolean) {
+    if (wordId in allWords) {
+      const newBody = updateBody(corrected, allWords[wordId].userWord.optional!);
+      const { difficulty } = allWords[wordId].userWord;
+      updateWord(userId, wordId, difficulty, newBody);
+    } else {
+      addUserWord(wordId, userId, 'newWord', corrected);
+    }
+  }
+
+  const handleAnswer = (text: string, wordId: string):void => {
     if ((randomTranslation === questions[questionNumber].wordTranslate && text === 'Верно') || (randomTranslation !== questions[questionNumber].wordTranslate && text !== 'Верно')) {
       handleRightAnswer();
+      currentCorrectOnTheRow.current += 1;
+      changeStatistic(user.userId, wordId, true);
     } else {
       handleWrongAnswer();
+      currentCorrectOnTheRow.current = 0;
+      changeStatistic(user.userId, wordId, false);
+    }
+    if (correctOnTheRow < currentCorrectOnTheRow.current) {
+      setCorrectOnTheRow(currentCorrectOnTheRow.current);
     }
     setIsDisabled(true);
     setQuestionStart(false);
@@ -137,6 +159,8 @@ export default function SprintGame({ questions }: TSprintGame) {
   if (questionNumber === questions.length || timer <= 0) {
     return (
       <EndGame
+      correctOnTheRow={correctOnTheRow}
+      newWords={newWords}
       answers={{ correctAnswers, incorrectAnswers }}
       score={score}
       />
@@ -155,6 +179,7 @@ export default function SprintGame({ questions }: TSprintGame) {
         />
         <div className="answers__container">
           <RightOrWrongBtns
+          setNewWords={setNewWords}
           currentQuestion={questions[questionNumber]}
           isDisabled={isDisabled}
           handleAnswer={handleAnswer}

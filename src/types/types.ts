@@ -90,10 +90,19 @@ export interface IStatisticGames {
   incorrected: number
 }
 
+export interface IStatisticOneDay extends IStatisticGames {
+  correctOnTheRow: number
+}
+
 export interface IStatistic {
   learnedWords: number,
   optional: {
-    games: IStatisticGames[],
+    allTimeStat: { games: IStatisticGames[] }
+    oneDayStats: {
+      newWords: number
+      learned: number
+      games: IStatisticOneDay[]
+    }
   }
 }
 

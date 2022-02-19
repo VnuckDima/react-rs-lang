@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react';
+import { useTypedSelector } from '../../hooks/useTypeSelector';
 import { wordExtended } from '../../types/types';
 
 type TRightOrWrongBtns = {
   currentQuestion: wordExtended
   isDisabled: boolean
-  handleAnswer: (text: string) => void
+  handleAnswer: (text: string, wordId: string) => void
+  setNewWords: (value: number | ((prevVar: number) => number)) => void;
 }
 
 let keydown = false;
@@ -13,7 +15,9 @@ export default function RightOrWrongBtns({
   currentQuestion,
   isDisabled,
   handleAnswer,
+  setNewWords,
 }: TRightOrWrongBtns) {
+  const { allWords } = useTypedSelector((state) => state.user);
   const buttons = ['Неверно', 'Верно'];
   const refs = new Array(buttons.length);
   for (let i = 0; i < refs.length; i += 1) {
@@ -32,8 +36,10 @@ export default function RightOrWrongBtns({
     //     target.style.background = 'red';
     //   }
     // });
-
-    handleAnswer(target.innerHTML);
+    if (currentQuestion.id in allWords) {
+      setNewWords((state: number) => state + 1);
+    }
+    handleAnswer(target.innerHTML, currentQuestion.id);
   }
 
   function handleAnswerKeypress(key: string) {

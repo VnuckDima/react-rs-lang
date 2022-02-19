@@ -3,34 +3,45 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import useUserActions from '../../hooks/userAction';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
-import { userType } from '../../types/types';
-import { token } from '../../utils/API';
+import { IStatistic, userType } from '../../types/types';
+import {
+  fetchWithAuth,
+  getUserStatistics,
+  HEADERS_WHEN_USER_LOGIN,
+  HEAD_URL,
+  resetUserStatistics,
+  token,
+} from '../../utils/API';
+import { checkDate, setWindowTitle } from '../../utils/utils';
 import './style.scss';
 
 export default function Header() {
   const [loginButtonState, setLoginButtonState] = useState(true);
-  const {
-    uploadAllWords,
-    uploadUserWords,
-    getUserStatistic,
-    updateUserStatistic,
-  } = useUserActions();
+  const { uploadAllWords, uploadUserWords } = useUserActions();
   const dispatch = useDispatch();
   const { user, statistics } = useTypedSelector((state) => state.user);
+  const [title, setTitle] = useState('');
   const navigate = useNavigate();
   async function test() {
-    console.log(statistics, 'statistics');
-    // getUserStatistic(user.userId)
+    const stats = await getUserStatistics(user.userId);
+  }
+
+  async function checkStats() {
+    const oldDate = localStorage.getItem('date');
+    if (!checkDate(oldDate)) {
+      console.log('новый день, сброс статистики');
+      resetUserStatistics(user.userId);
+    } else {
+      console.log('статистика не сброшена, новый день не начался');
+    }
   }
 
   useEffect(() => {
     if (user.message === 'Authenticated') {
       (async () => {
         await uploadAllWords(user.userId);
-        uploadUserWords(user.userId);
-        // await updateUserStatistic(user.userId, { learnedWords: 0, optional:
-        // { games: [] } }, { learnedWords: 1, optional: { games: [] } });
-        // getUserStatistic(user.userId);
+        await uploadUserWords(user.userId);
+        checkStats();
       })();
       setLoginButtonState(false);
     } else {
@@ -39,49 +50,19 @@ export default function Header() {
   }, [user.message]);
 
   function handleSignOut() {
-    localStorage.clear();
+    localStorage.removeItem('userData');
+    localStorage.removeItem('userTokens');
     dispatch({ type: userType.RESET_USER_DATA });
     dispatch({ type: userType.END_LOADING });
     setLoginButtonState(true);
   }
 
+  useEffect(() => {
+    setTitle(setWindowTitle());
+  }, [window.location.pathname]);
+
   const signOutButton = <button className="header__button-sign" onClick={handleSignOut} type="button">Sign out</button>;
   const signInButton = <button className="header__button-sign" onClick={() => navigate('/login')} type="button">Sign in</button>;
-  const [title, setTitle] = useState('');
-
-  function setWindowTitle() {
-    const { pathname } = window.location;
-    let pageTitle = 'Главная';
-    const pagePrefix = 'RS Lang - ';
-    switch (pathname) {
-      case '/textbook':
-        pageTitle = 'Учебник';
-        break;
-      case '/audio-call':
-        pageTitle = 'Аудиовызов';
-        break;
-      case '/sprint':
-        pageTitle = 'Спринт';
-        break;
-      case '/savannah':
-        pageTitle = 'Саванна';
-        break;
-      case '/statistics':
-        pageTitle = 'Статистика';
-        break;
-      case '/login':
-        pageTitle = 'Логин';
-        break;
-      default:
-        break;
-    }
-    setTitle(pageTitle);
-    document.title = pagePrefix + pageTitle;
-  }
-
-  useEffect(() => {
-    setWindowTitle();
-  }, [window.location.pathname]);
 
   return (
     <header className="header">

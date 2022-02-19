@@ -1,7 +1,6 @@
 import React, { Dispatch } from 'react';
 import {
   IStatistic,
-  IStatisticGames,
   IUserAction,
   IUserAddWords,
   TBody,
@@ -18,7 +17,6 @@ import {
   getInitialBody,
   makeObjectFromAllWordsArray,
   makeObjectFromArray,
-  updateBody,
 } from '../../utils/utils';
 
 export function addUserWord(wordId: string, userId: string, difficulty: string, correct?: boolean) {
@@ -118,7 +116,41 @@ export function updateUserStatistic(userId: string, oldStats: IStatistic, newDat
   return async (dispatch: Dispatch<IUserAction>) => {
     const newStats: IStatistic = {
       learnedWords: oldStats.learnedWords + newData.learnedWords,
-      optional: { games: [...oldStats.optional.games, ...newData.optional.games] },
+      optional: {
+        allTimeStat: {
+          games: [...oldStats.optional.allTimeStat.games, ...newData.optional.allTimeStat.games],
+        },
+        oneDayStats: {
+          newWords: oldStats.optional.oneDayStats.newWords + newData.optional.oneDayStats.newWords,
+          learned: oldStats.optional.oneDayStats.learned + newData.optional.oneDayStats.learned,
+          games: [...oldStats.optional.oneDayStats.games, ...newData.optional.oneDayStats.games],
+        },
+      },
+    };
+    fetchWithAuth(
+      `${HEAD_URL}/users/${userId}/statistics`,
+      {
+        method: 'PUT',
+        headers: HEADERS_WHEN_USER_LOGIN(token()),
+        body: JSON.stringify(newStats),
+      },
+    );
+    dispatch(({ type: userType.UPDATE_STATISTIC, payload: newStats }));
+  };
+}
+
+export function resetUserStatistic(userId: string, oldStats: IStatistic, newData: IStatistic) {
+  return async (dispatch: Dispatch<IUserAction>) => {
+    const newStats: IStatistic = {
+      learnedWords: oldStats.learnedWords + newData.learnedWords,
+      optional: {
+        allTimeStat: oldStats.optional.allTimeStat,
+        oneDayStats: {
+          newWords: 0,
+          learned: 0,
+          games: [],
+        },
+      },
     };
     fetchWithAuth(
       `${HEAD_URL}/users/${userId}/statistics`,

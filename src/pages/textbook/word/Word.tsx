@@ -87,12 +87,12 @@ export default function Word({ data, authorizedUser }: TWord) {
     </div>
     <div className="card__footer">
       <div className="card__examples_first">
-        <p>{data.textMeaning}</p>
-        <p className="card__examples-text">{data.textMeaningTranslate}</p>
+        <p dangerouslySetInnerHTML={{ __html: data.textMeaning }} />
+        <p className="card__examples-text" dangerouslySetInnerHTML={{ __html: data.textMeaningTranslate }} />
       </div>
       <div className="card__examples_seconds">
-        <p>{data.textExample}</p>
-        <p className="card__examples-text">{data.textExampleTranslate}</p>
+        <p dangerouslySetInnerHTML={{ __html: data.textExample }} />
+        <p className="card__examples-text" dangerouslySetInnerHTML={{ __html: data.textExampleTranslate }} />
       </div>
     </div>
   </div>

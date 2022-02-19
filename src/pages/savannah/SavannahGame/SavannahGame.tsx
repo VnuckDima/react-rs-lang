@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import EndGame from '../../../components/EndGame/EndGame';
 import useUserActions from '../../../hooks/userAction';
@@ -11,8 +11,8 @@ import {
   soundBroken, soundCorrect, soundsPath,
 } from '../../../utils/const';
 import { playAudio, updateBody } from '../../../utils/utils';
-import AnswerBtns from '../AnswerBtns/AnswerBtns';
 import Question from '../Question/Question';
+import AnswerBtns from '../../../components/AnswerBtns/AnswerBtns';
 
 type TSavannahGame = {
   questions: wordExtended[]
@@ -36,6 +36,10 @@ export default function SavannahGame({ questions }: TSavannahGame) {
   const [isDisabled, setIsDisabled] = useState(false);
   const [rightOrWrong, setRightOrWrong] = useState('');
   const [score, setScore] = useState(0);
+  const [newWords, setNewWords] = useState(0);
+  const [correctOnTheRow, setCorrectOnTheRow] = useState(0);
+  // const [currentCorrectOnTheRow, setCurrentCorrectOnTheRow] = useState(0);
+  const currentCorrectOnTheRow = useRef<number>(0);
 
   function updateScore(isRightAnswer: boolean): void {
     if (isRightAnswer) {
@@ -93,11 +97,6 @@ export default function SavannahGame({ questions }: TSavannahGame) {
   function changeStatistic(userId: string, wordId: string, corrected: boolean) {
     if (wordId in allWords) {
       const newBody = updateBody(corrected, allWords[wordId].userWord.optional!);
-      /* if (newBody.correctOnTheRow === 4) {
-        updateWord(userId, wordId, 'learned', newBody);
-        dispatch({})если 4 подрят правильных ответа то добавить в learned
-      }
-      */
       const { difficulty } = allWords[wordId].userWord;
       updateWord(userId, wordId, difficulty, newBody);
     } else {
@@ -109,12 +108,23 @@ export default function SavannahGame({ questions }: TSavannahGame) {
     clearTimeout(roundTimeout);
     if (text === 'noAnswer') {
       handleNoAnswer();
+      changeStatistic(user.userId, wordId, false);
     } else if (text.includes(questions[questionNumber].wordTranslate)) {
-        handleRightAnswer();
-        changeStatistic(user.userId, wordId, true);
+      handleRightAnswer();
+      changeStatistic(user.userId, wordId, true);
+      currentCorrectOnTheRow.current += 1;
+      console.log(currentCorrectOnTheRow.current, 'correct answer');
+      // setCurrentCorrectOnTheRow((state) => state + 1);
       } else {
-        handleWrongAnswer();
-        changeStatistic(user.userId, wordId, false);
+      handleWrongAnswer();
+      changeStatistic(user.userId, wordId, false);
+      currentCorrectOnTheRow.current = 0;
+      console.log(currentCorrectOnTheRow.current, 'incorrect answer');
+    }
+    if (correctOnTheRow < currentCorrectOnTheRow.current) {
+      setCorrectOnTheRow(currentCorrectOnTheRow.current);
+      // currentCorrectOnTheRow.current = 0;
+      // setCurrentCorrectOnTheRow(0);
     }
     setIsDisabled(true);
     setQuestionStart(false);
@@ -140,6 +150,8 @@ export default function SavannahGame({ questions }: TSavannahGame) {
   if (questionNumber === questions.length) {
     return (
       <EndGame
+      correctOnTheRow={correctOnTheRow}
+      newWords={newWords}
       answers={{ correctAnswers, incorrectAnswers }}
       score={score}
       />
@@ -157,6 +169,7 @@ export default function SavannahGame({ questions }: TSavannahGame) {
         />
         <div className="answers__container">
           <AnswerBtns
+          setNewWords={setNewWords}
           currentQuestion={questions[questionNumber]}
           isDisabled={isDisabled}
           handleAnswer={handleAnswer}
