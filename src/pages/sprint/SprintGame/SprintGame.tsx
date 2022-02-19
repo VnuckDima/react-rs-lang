@@ -39,7 +39,7 @@ export default function SprintGame({ questions }: TSprintGame) {
   const [timer, setTimer] = useState(GAME_TIME);
 
   function handleTimer() {
-    setTimer(timer - 1);
+    setTimer((state) => state - 1);
     if (timer > 0) {
       setTimeout(() => handleTimer(), 1000);
     }
