@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { wordExtended } from '../../../types/types';
+import { wordExtended } from '../../types/types';
 
 type TSavannahGame = {
   currentQuestion: wordExtended

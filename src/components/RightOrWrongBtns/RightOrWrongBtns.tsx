@@ -1,13 +1,19 @@
 import React, { useEffect, useRef } from 'react';
-import { wordExtended } from '../../../types/types';
+import { wordExtended } from '../../types/types';
 
-type TSavannahGame = {
+type TRightOrWrongBtns = {
   currentQuestion: wordExtended
   isDisabled: boolean
   handleAnswer: (text: string) => void
 }
 
-export default function AnswerBtns({ currentQuestion, isDisabled, handleAnswer }: TSavannahGame) {
+let keydown = false;
+
+export default function RightOrWrongBtns({
+  currentQuestion,
+  isDisabled,
+  handleAnswer,
+}: TRightOrWrongBtns) {
   const buttons = ['Неверно', 'Верно'];
   const refs = new Array(buttons.length);
   for (let i = 0; i < refs.length; i += 1) {
@@ -31,6 +37,7 @@ export default function AnswerBtns({ currentQuestion, isDisabled, handleAnswer }
   }
 
   function handleAnswerKeypress(key: string) {
+    if (keydown) return;
     switch (key) {
       case 'ArrowLeft':
         refs[0].current.click();
@@ -41,12 +48,15 @@ export default function AnswerBtns({ currentQuestion, isDisabled, handleAnswer }
       default:
         break;
     }
+    keydown = true;
   }
 
   useEffect(() => {
     document.addEventListener('keydown', (e) => { handleAnswerKeypress(e.key); });
+    document.addEventListener('keyup', (e) => { keydown = false; });
     return () => {
       document.removeEventListener('keydown', (e) => { handleAnswerKeypress(e.key); });
+      document.removeEventListener('keyup', (e) => { keydown = false; });
     };
   }, []);
 

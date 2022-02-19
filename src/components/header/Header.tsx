@@ -47,11 +47,46 @@ export default function Header() {
 
   const signOutButton = <button className="header__button-sign" onClick={handleSignOut} type="button">Sign out</button>;
   const signInButton = <button className="header__button-sign" onClick={() => navigate('/login')} type="button">Sign in</button>;
+  const [title, setTitle] = useState('');
+
+  function setWindowTitle() {
+    const { pathname } = window.location;
+    let pageTitle = 'Главная';
+    const pagePrefix = 'RS Lang - ';
+    switch (pathname) {
+      case '/textbook':
+        pageTitle = 'Учебник';
+        break;
+      case '/audio-call':
+        pageTitle = 'Аудиовызов';
+        break;
+      case '/sprint':
+        pageTitle = 'Спринт';
+        break;
+      case '/savannah':
+        pageTitle = 'Саванна';
+        break;
+      case '/statistics':
+        pageTitle = 'Статистика';
+        break;
+      case '/login':
+        pageTitle = 'Логин';
+        break;
+      default:
+        break;
+    }
+    setTitle(pageTitle);
+    document.title = pagePrefix + pageTitle;
+  }
+
+  useEffect(() => {
+    setWindowTitle();
+  }, [window.location.pathname]);
 
   return (
     <header className="header">
       <div className="header__container">
-        <h1 className="header__title">Главная</h1>
+        <h1 className="header__title">{title}</h1>
         <button onClick={test} type="button">test button</button>
         {loginButtonState ? signInButton : signOutButton}
       </div>
