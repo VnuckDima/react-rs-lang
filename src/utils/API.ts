@@ -8,6 +8,7 @@ import {
 import {
   checkAuthTimer,
   makeBVFROMRUArrayQuestions,
+  makeObjectFromAllWordsArray,
   saveUserDataInLS,
   saveUserTokenInLS,
 } from './utils';
@@ -106,10 +107,10 @@ export async function fetchWithAuth(url: string, options: any) {
   if (tokenData && userData) {
     try {
       if (!checkAuthTimer(entryTime)) {
+        console.log('refreshed token');
         await refreshToken(userData.userId, tokenData.refreshToken);
       }
     } catch (error) {
-      localStorage.removeItem('userData');
       localStorage.removeItem('userTokens');
       return window.location.replace(loginUrl);
     }
@@ -191,8 +192,12 @@ export async function resetUserStatistics(userId: string) {
   );
 }
 
-export async function updateUserStatistic(userId: string, newData: IStatistic) {
+export async function updateUserStatistic(userId: string, data: IStatistic) {
   const oldStats = await getUserStatistics(userId);
+  const newData = data;
+  if (newData.optional.oneDayStats.games[0]) {
+    newData.optional.oneDayStats.games[0].index = oldStats.optional.oneDayStats.games.length + 1;
+  }
   const newStats: IStatistic = {
     learnedWords: oldStats.learnedWords + newData.learnedWords,
     optional: {
@@ -214,4 +219,13 @@ export async function updateUserStatistic(userId: string, newData: IStatistic) {
       body: JSON.stringify(newStats),
     },
   );
+}
+
+export async function getUserHardWords(userId: string) {
+  const userHardWords = await fetchWithAuth(FILTER_WORDS_URL(userId, 'hard'), { headers: HEADERS_WHEN_USER_LOGIN(token()) });
+  if (userHardWords) {
+    const responseAllWords = await userHardWords.json();
+    return responseAllWords;
+  }
+  return [];
 }

@@ -27,13 +27,8 @@ export default function SavannahMenu() {
     }
   }, [isLoadedWords]);
 
-  // useEffect(() => {
-  //   console.log('questions');
-  //   console.log(questions);
-  // }, [questions]);
-
   if (!isGame) {
-    return <CategorySelect setIsGame={setIsGame} setSelectedCategory={setSelectedCategory} />;
+    return <CategorySelect gameName="Саванна" setIsGame={setIsGame} setSelectedCategory={setSelectedCategory} />;
   }
 
   if (!isLoadedWords || questions.length === 0) {

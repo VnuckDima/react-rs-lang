@@ -105,5 +105,20 @@
 
 .ant-pagination {
   text-align: center;
-  margin-bottom: 20px;
+}
+
+.textbook__top-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.textbook__games {
+  display: flex;
+  gap: 5px;
+  button {
+    background-color: #06b906;
+    border-radius: 15px;
+    padding: 3px 10px;
+  }
 }

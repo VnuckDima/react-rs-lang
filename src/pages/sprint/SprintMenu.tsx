@@ -34,7 +34,7 @@ export default function SprintMenu() {
   // }, [questions]);
 
   if (!isGame) {
-    return <CategorySelect setIsGame={setIsGame} setSelectedCategory={setSelectedCategory} />;
+    return <CategorySelect gameName="Спринт" setIsGame={setIsGame} setSelectedCategory={setSelectedCategory} />;
   }
 
   if (!isLoadedWords || questions.length === 0) {

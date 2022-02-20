@@ -2,6 +2,7 @@ import React from 'react';
 import {
   IAggregatedWord,
   ILoginData,
+  IStatisticOneDay,
   IUserAddWords,
   IUserDataInLS,
   IUserTokensInLS,
@@ -203,9 +204,23 @@ export function setWindowTitle() {
 export function checkAuthTimer(date: string) {
   const oldDate = new Date(date);
   const currentDate = new Date();
-  currentDate.setHours(oldDate.getHours() + 4);
-  if (new Date().setHours(oldDate.getHours() + 4) - new Date(date).getTime() > 14400000) {
+  oldDate.setHours(oldDate.getHours() + 4);
+  if (new Date().getTime() - new Date(oldDate).getTime() < 0) {
     return true;
   }
   return false;
+}
+
+export function percentCorrectAnswers(games: IStatisticOneDay[]) {
+  let correct = 0;
+  let incorrect = 0;
+  games.forEach((game) => {
+    correct += game.corrected;
+    incorrect += game.incorrected;
+  });
+  return Math.round(((correct * 100) / (correct + incorrect)));
+}
+
+export function saveLSBeforeUnload(page: number, category: number) {
+  localStorage.setItem('lastTextbookPage', JSON.stringify({ page, category }));
 }

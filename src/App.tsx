@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.scss';
 import Header from './components/header/Header';
@@ -11,6 +11,7 @@ import SavannahMenu from './pages/savannah/SavannahMenu';
 import TextbookMenu from './pages/textbook/TextbookMenu';
 import Modal from './pages/modal/Modal';
 import Footer from './components/footer/Footer';
+import { useTypedSelector } from './hooks/useTypeSelector';
 
 function App() {
   return (

@@ -9,24 +9,24 @@ import SavannahGame from '../../savannah/SavannahGame/SavannahGame';
 import SprintGame from '../../sprint/SprintGame/SprintGame';
 
 type TLoadGame = {
-  gameOptions: { group: number, pageState:number, game:string }
+  gameOptions: { selectedCategory: number, pageState:number, game:string }
 }
 
 export default function LoadGame({ gameOptions }: TLoadGame) {
   const { learnedWords } = useTypedSelector((state) => state.user);
   const [gameWords, setGameWords] = useState<wordExtended[]>([]);
   const [load, setLoad] = useState(false);
-  const { group, pageState, game } = gameOptions;
+  const { selectedCategory, pageState, game } = gameOptions;
   useEffect(() => {
     if (game === games.SPRINT) {
       (async () => {
-        const words = await buildArrayQuestions(pageState, learnedWords, group, 80);
+        const words = await buildArrayQuestions(pageState, learnedWords, selectedCategory, 80);
         setGameWords(words);
         setLoad(true);
       })();
     }
     (async () => {
-      const words = await buildArrayQuestions(pageState, learnedWords, group, 20);
+      const words = await buildArrayQuestions(pageState, learnedWords, selectedCategory, 20);
       setGameWords(words);
       setLoad(true);
     })();
@@ -46,9 +46,9 @@ export default function LoadGame({ gameOptions }: TLoadGame) {
     case games.SAVANNAH: {
       return <SavannahGame questions={gameWords} />;
     }
-    // case games.SPRINT: {
-    //   return <SprintGame />;
-    // }
+     case games.SPRINT: {
+       return <SprintGame questions={gameWords} />;
+     }
     default: {
       return <>Error</>;
     }

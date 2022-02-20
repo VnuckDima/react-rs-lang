@@ -92,6 +92,8 @@ export interface IStatisticGames {
 
 export interface IStatisticOneDay extends IStatisticGames {
   correctOnTheRow: number
+  index?: number
+  gameName: string
 }
 
 export interface IStatistic {

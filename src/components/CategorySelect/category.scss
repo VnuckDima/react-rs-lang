@@ -17,6 +17,7 @@
 
 .audio__buttons {
   display: flex;
+  justify-content: center;
   gap: 20px;
   margin-top: 30px;
 }
@@ -57,4 +58,14 @@
 
 .audio__button:nth-of-type(6) {
   background-color: #ff0000;
+}
+
+.audio__button:nth-of-type(7) {
+  background-color: #a10606;;
+}
+
+.game__about {
+  span {
+    font-weight: bold;
+  }
 }

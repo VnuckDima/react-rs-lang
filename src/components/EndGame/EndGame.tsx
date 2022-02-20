@@ -13,6 +13,7 @@ type TEndAudioGame = {
   score: number
   newWords: number
   correctOnTheRow: number
+  gameName: string
 }
 
 export default function EndAudioGame({
@@ -20,6 +21,7 @@ export default function EndAudioGame({
   score,
   newWords,
   correctOnTheRow,
+  gameName,
 }: TEndAudioGame) {
   const [modalShow, setModalShow] = useState(true);
   const { user, statistics } = useTypedSelector((state) => state.user);
@@ -30,24 +32,27 @@ export default function EndAudioGame({
   }
 
   useEffect(() => () => {
-    const newStats: IStatistic = {
-      learnedWords: 0,
-      optional: {
-        allTimeStat: {
-          games: [],
+    if (user.message === 'Authenticated') {
+      const newStats: IStatistic = {
+        learnedWords: 0,
+        optional: {
+          allTimeStat: {
+            games: [],
+          },
+          oneDayStats: {
+            newWords,
+            learned: 0,
+            games: [{
+              corrected: correctAnswers.length,
+              incorrected: incorrectAnswers.length,
+              correctOnTheRow,
+              gameName,
+            }],
+          },
         },
-        oneDayStats: {
-          newWords,
-          learned: 0,
-          games: [{
-            corrected: correctAnswers.length,
-            incorrected: incorrectAnswers.length,
-            correctOnTheRow,
-          }],
-        },
-      },
-    };
-    updateUserStatistic(user.userId, newStats);
+      };
+      updateUserStatistic(user.userId, newStats);
+    }
   }, []);
 
   function handleCancel() {

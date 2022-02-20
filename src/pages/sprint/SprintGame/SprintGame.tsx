@@ -113,6 +113,7 @@ export default function SprintGame({ questions }: TSprintGame) {
   }
 
   function changeStatistic(userId: string, wordId: string, corrected: boolean) {
+    if (user.message !== 'Authenticated') return;
     if (wordId in allWords) {
       const newBody = updateBody(corrected, allWords[wordId].userWord.optional!);
       const { difficulty } = allWords[wordId].userWord;
@@ -152,13 +153,17 @@ export default function SprintGame({ questions }: TSprintGame) {
   }, []);
 
   useEffect(() => {
-    generateRandomTranslation();
-    setEquality('=');
+    if (questionNumber !== questions.length && timer >= 0) {
+      console.log(questionNumber, questions.length);
+      generateRandomTranslation();
+      setEquality('=');
+    }
   }, [questionNumber]);
 
   if (questionNumber === questions.length || timer <= 0) {
     return (
       <EndGame
+      gameName="Sprint"
       correctOnTheRow={correctOnTheRow}
       newWords={newWords}
       answers={{ correctAnswers, incorrectAnswers }}

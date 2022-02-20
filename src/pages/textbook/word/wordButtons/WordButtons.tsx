@@ -4,17 +4,21 @@ import { DownloadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import useUserActions from '../../../../hooks/userAction';
 import { useTypedSelector } from '../../../../hooks/useTypeSelector';
-import { userType, word } from '../../../../types/types';
+import { IStatistic, userType, word } from '../../../../types/types';
 import { getSecondClass } from '../../../../utils/utils';
+import { updateUserStatistic } from '../../../../utils/API';
+import useWordsActions from '../../../../hooks/useWordsAction';
 
 type TWordButtons = {
   word: word;
   buttonsState: { difficulty: string; setDifficulty: (state: string) => void };
+  selectedCategory: number
 };
 
-export default function WordButtons({ word, buttonsState }: TWordButtons) {
+export default function WordButtons({ word, buttonsState, selectedCategory }: TWordButtons) {
   const { user, allWords } = useTypedSelector((state) => state.user);
   const dispatch = useDispatch();
+  const { loadHardWords } = useWordsActions();
   const { addUserWord, updateWord } = useUserActions();
   const { difficulty, setDifficulty } = buttonsState;
 
@@ -62,20 +66,31 @@ export default function WordButtons({ word, buttonsState }: TWordButtons) {
     setDifficulty('сложных');
   }
   function handleAddLearnedWord() {
+    const data: IStatistic = {
+      learnedWords: 1,
+      optional: {
+        allTimeStat: { games: [] },
+        oneDayStats: {
+          newWords: 0,
+          learned: 1,
+          games: [],
+        },
+      },
+    };
     toggleDifficulty(word.id, 'learned');
+    updateUserStatistic(user.userId, data);
     setDifficulty('изученных');
   }
   function handleDeleteWord() {
     if (difficulty === 'сложных') {
+      if (selectedCategory === 6) {
+        loadHardWords(user.userId);
+      }
       dispatch({ type: userType.DELETE_USER_WORD, payload: { wordId: word.id, difficulty: 'hard' } });
     } else {
       dispatch({ type: userType.DELETE_USER_WORD, payload: { wordId: word.id, difficulty: 'learned' } });
     }
     deleteDifficulty();
-      // deleteUserWord(word.id, user.userId, 'hard');
-     // else {
-    //   deleteUserWord(word.id, user.userId, 'learned');
-    // }
     setDifficulty('none');
   }
 

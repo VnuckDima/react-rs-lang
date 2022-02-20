@@ -9,9 +9,10 @@ import WordButtons from './wordButtons/WordButtons';
 type TWord = {
   data: word;
   authorizedUser: boolean
+  selectedCategory: number
 };
 
-export default function Word({ data, authorizedUser }: TWord) {
+export default function Word({ data, authorizedUser, selectedCategory }: TWord) {
   const { allWords, hardWords, learnedWords } = useTypedSelector((state) => state.user);
   const [difficulty, setDifficulty] = useState('выбор');
   const [countAnswers, setCountAnswers] = useState({ correct: 0, incorrect: 0 });
@@ -19,7 +20,6 @@ export default function Word({ data, authorizedUser }: TWord) {
   // const sounds = [data.audio, data.audioExample, data.audioMeaning];
   function playAudio() {
     const audio = new Audio(`${HEAD_URL}/${data.audio}`);
-    console.log(audio.duration);
     audio.volume = 0.5;
     audio.play();
     /* let firstmus = audioStart;
@@ -61,7 +61,11 @@ export default function Word({ data, authorizedUser }: TWord) {
     <div className="card__image" style={{ backgroundImage: `linear-gradient(transparent, rgba(255, 255, 255, 1)), url(${HEAD_URL}/${data.image})` }}>
     <div className="card__header">
       {authorizedUser && (
-        <WordButtons word={data} buttonsState={{ difficulty, setDifficulty }} />
+        <WordButtons
+          selectedCategory={selectedCategory}
+          word={data}
+          buttonsState={{ difficulty, setDifficulty }}
+        />
       )}
       <svg
         xmlns="http://www.w3.org/2000/svg"
