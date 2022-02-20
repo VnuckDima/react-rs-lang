@@ -1,8 +1,12 @@
 import { Pagination } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import useUserActions from '../../../hooks/userAction';
 import { useTypedSelector } from '../../../hooks/useTypeSelector';
 import useWordsActions from '../../../hooks/useWordsAction';
+import { wordsTypes } from '../../../store/reducers/words';
+import { getUserHardWords } from '../../../utils/API';
+import { saveLSBeforeUnload } from '../../../utils/utils';
 import TextbookButtons from '../TextbookButtons/TextbookButtons';
 import Word from '../word/Word';
 
@@ -10,26 +14,59 @@ type TTextBook = {
   setGame: (state: string) => void
   pageStateProp: { pageState: number, setPageState: (state: number) => void }
   authorizedUser: boolean
+  category: { selectedCategory: number, setSelectedCategory: (state: number) => void }
 }
 
-export default function TextBook({ setGame, pageStateProp, authorizedUser }: TTextBook) {
-  const { user } = useTypedSelector((state) => state.user);
+export default function TextBook({
+  setGame,
+  pageStateProp,
+  authorizedUser,
+  category,
+}: TTextBook) {
   const { words } = useTypedSelector((state) => state.words);
-  const { loadWords } = useWordsActions();
+  const { user, hardWords } = useTypedSelector((state) => state.user);
+  const { loadWords, loadHardWords } = useWordsActions();
   const { pageState, setPageState } = pageStateProp;
+  const { selectedCategory, setSelectedCategory } = category;
 
   useEffect(() => {
-    loadWords(pageState - 1, 0);
-  }, [pageState]);
+    if (selectedCategory === 6) {
+      loadHardWords(user.userId);
+    } else {
+      loadWords(pageState, selectedCategory);
+    }
+    saveLSBeforeUnload(pageState, selectedCategory);
+  }, [pageState, selectedCategory]);
+
+  // useEffect(() => {
+  //   console.log('change');
+  //   if (selectedCategory === 6) {
+  //     loadHardWords(user.userId);
+  //   }
+  // }, [hardWords]);
 
   return (
     <main className="textbook">
       <div className="textbook__wrapper">
-        <TextbookButtons pageStateProp={{ pageState, setPageState }} setGame={setGame} />
+        <TextbookButtons
+          authorizedUser={authorizedUser}
+          category={{ selectedCategory, setSelectedCategory }}
+          pageStateProp={{ pageState, setPageState }}
+          setGame={setGame}
+        />
         <div className="cards__container">
-          {words.map((word) => <Word data={word} key={word.id} authorizedUser={authorizedUser} />)}
+          {words.map((word) => (
+            <Word
+              data={word}
+              key={word.id}
+              authorizedUser={authorizedUser}
+              selectedCategory={selectedCategory}
+            />
+          ))}
         </div>
-        <Pagination current={pageState} onChange={(page) => setPageState(page)} total={300} />
+        {selectedCategory === 6
+          ? <div />
+          : <Pagination current={pageState} onChange={(page) => setPageState(page)} total={300} />}
       </div>
     </main>
   );

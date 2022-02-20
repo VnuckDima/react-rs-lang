@@ -6,6 +6,7 @@ import { useTypedSelector } from '../../hooks/useTypeSelector';
 import { IStatistic, userType } from '../../types/types';
 import {
   fetchWithAuth,
+  FILTER_WORDS_URL,
   getUserStatistics,
   HEADERS_WHEN_USER_LOGIN,
   HEAD_URL,
@@ -19,20 +20,17 @@ export default function Header() {
   const [loginButtonState, setLoginButtonState] = useState(true);
   const { uploadAllWords, uploadUserWords } = useUserActions();
   const dispatch = useDispatch();
-  const { user, statistics } = useTypedSelector((state) => state.user);
+  const { user, hardWords } = useTypedSelector((state) => state.user);
   const [title, setTitle] = useState('');
   const navigate = useNavigate();
   async function test() {
-    const stats = await getUserStatistics(user.userId);
+    console.log(hardWords);
   }
 
   async function checkStats() {
     const oldDate = localStorage.getItem('date');
     if (!checkDate(oldDate)) {
-      console.log('новый день, сброс статистики');
       resetUserStatistics(user.userId);
-    } else {
-      console.log('статистика не сброшена, новый день не начался');
     }
   }
 

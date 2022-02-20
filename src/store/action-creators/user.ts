@@ -139,10 +139,10 @@ export function updateUserStatistic(userId: string, oldStats: IStatistic, newDat
   };
 }
 
-export function resetUserStatistic(userId: string, oldStats: IStatistic, newData: IStatistic) {
+export function resetUserStatistic(userId: string, oldStats: IStatistic) {
   return async (dispatch: Dispatch<IUserAction>) => {
     const newStats: IStatistic = {
-      learnedWords: oldStats.learnedWords + newData.learnedWords,
+      learnedWords: oldStats.learnedWords,
       optional: {
         allTimeStat: oldStats.optional.allTimeStat,
         oneDayStats: {

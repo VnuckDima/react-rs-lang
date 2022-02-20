@@ -6,23 +6,26 @@ import { useTypedSelector } from '../../hooks/useTypeSelector';
 import useWordsActions from '../../hooks/useWordsAction';
 import { wordsTypes } from '../../store/reducers/words';
 import { userType } from '../../types/types';
-import { games } from '../../utils/utils';
+import { games, saveLSBeforeUnload } from '../../utils/utils';
 import LoadGame from './LoadGame/LoadGame';
 import TextBook from './TextBookPage/TextBook';
 
 function TextbookMenu() {
+  const initialOptions = JSON.parse(localStorage.getItem('lastTextbookPage')!);
+  const initialPage = initialOptions ? initialOptions.page : 0;
+  const initialCategory = initialOptions ? initialOptions.category : 0;
   const { user, isLoadedUserData } = useTypedSelector((state) => state.user);
   const { isLoadedWords } = useTypedSelector((state) => state.words);
   const { loadWords } = useWordsActions();
   const dispatch = useDispatch();
   const [authorizedUser, setAuthorizedUser] = useState(false);
   const [isGame, setIsGame] = useState(false);
-  const [pageState, setPageState] = useState(1);
-  const [group, setGroup] = useState(0);
+  const [pageState, setPageState] = useState(initialPage);
   const [game, setGame] = useState<string>(games.NONE);
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
 
   useEffect(() => {
-    loadWords(0, 0);
+    loadWords(pageState, selectedCategory);
     if (user.message === 'Authenticated') {
       setAuthorizedUser(true);
     } else {
@@ -46,11 +49,11 @@ function TextbookMenu() {
   }
 
   if (game !== games.NONE) {
-    // dispatch({ type: wordsTypes.RESET_WORDS });
-    return <LoadGame gameOptions={{ group, pageState, game }} />;
+    return <LoadGame gameOptions={{ selectedCategory, pageState, game }} />;
   }
   return (
     <TextBook
+      category={{ selectedCategory, setSelectedCategory }}
       authorizedUser={authorizedUser}
       setGame={setGame}
       pageStateProp={{ pageState, setPageState }}

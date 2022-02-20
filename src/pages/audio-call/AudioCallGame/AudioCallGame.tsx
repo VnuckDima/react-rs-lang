@@ -89,6 +89,7 @@ export default function AudioCallGame({ questions } : TAudioCall) {
   }
 
   function changeStatistic(userId: string, wordId: string, corrected: boolean) {
+    if (user.message !== 'Authenticated') return;
     if (wordId in allWords) {
       const newBody = updateBody(corrected, allWords[wordId].userWord.optional!);
       const { difficulty } = allWords[wordId].userWord;
@@ -131,6 +132,7 @@ export default function AudioCallGame({ questions } : TAudioCall) {
   if (questionNumber === questions.length) {
     return (
       <EndGame
+      gameName="Audio-call"
       correctOnTheRow={correctOnTheRow}
       newWords={newWords}
       answers={{ correctAnswers, incorrectAnswers }}

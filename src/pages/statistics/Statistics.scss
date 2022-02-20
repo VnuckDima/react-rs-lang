@@ -1,0 +1,51 @@
+.statistic__game {
+  text-align-last: left;
+  margin-top: 50px;
+  position: relative;
+  &::after {
+    display: block;
+    content: "";
+    background: linear-gradient(#000000, #0008ff 100%);;
+    height: 1px;
+    width: 100%;
+    margin-top: 15px;
+  }
+  canvas {
+    position: absolute;
+    bottom: 10px;
+  }
+}
+
+.statistic__left {
+  h4 {
+    span {
+      font-weight: bold;
+    }
+  }
+}
+
+.statistic__text {
+  p {
+    span {
+      font-weight: bold;
+    }
+  }
+}
+
+.statistic__info {
+  display: flex;
+  p {
+    margin: 0;
+  }
+}
+
+.statistic__game-number {
+  span {
+    font-weight: bold;
+  }
+}
+
+.statistic__chart {
+  width: 100px;
+  height: 100px;
+}

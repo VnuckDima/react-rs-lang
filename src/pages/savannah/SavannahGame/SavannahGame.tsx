@@ -26,7 +26,6 @@ let scoreMultiplier = 1;
 
 export default function SavannahGame({ questions }: TSavannahGame) {
   const { user, allWords } = useTypedSelector((state) => state.user);
-  const { words } = useTypedSelector((state) => state.words);
   const { addUserWord, updateWord } = useUserActions();
   const dispatch = useDispatch();
   const [correctAnswers, setCorrectAnswers] = useState<TAnswers[]>([]);
@@ -38,7 +37,6 @@ export default function SavannahGame({ questions }: TSavannahGame) {
   const [score, setScore] = useState(0);
   const [newWords, setNewWords] = useState(0);
   const [correctOnTheRow, setCorrectOnTheRow] = useState(0);
-  // const [currentCorrectOnTheRow, setCurrentCorrectOnTheRow] = useState(0);
   const currentCorrectOnTheRow = useRef<number>(0);
 
   function updateScore(isRightAnswer: boolean): void {
@@ -95,6 +93,7 @@ export default function SavannahGame({ questions }: TSavannahGame) {
   }
 
   function changeStatistic(userId: string, wordId: string, corrected: boolean) {
+    if (user.message !== 'Authenticated') return;
     if (wordId in allWords) {
       const newBody = updateBody(corrected, allWords[wordId].userWord.optional!);
       const { difficulty } = allWords[wordId].userWord;
@@ -113,18 +112,13 @@ export default function SavannahGame({ questions }: TSavannahGame) {
       handleRightAnswer();
       changeStatistic(user.userId, wordId, true);
       currentCorrectOnTheRow.current += 1;
-      console.log(currentCorrectOnTheRow.current, 'correct answer');
-      // setCurrentCorrectOnTheRow((state) => state + 1);
       } else {
       handleWrongAnswer();
       changeStatistic(user.userId, wordId, false);
       currentCorrectOnTheRow.current = 0;
-      console.log(currentCorrectOnTheRow.current, 'incorrect answer');
     }
     if (correctOnTheRow < currentCorrectOnTheRow.current) {
       setCorrectOnTheRow(currentCorrectOnTheRow.current);
-      // currentCorrectOnTheRow.current = 0;
-      // setCurrentCorrectOnTheRow(0);
     }
     setIsDisabled(true);
     setQuestionStart(false);
@@ -150,6 +144,7 @@ export default function SavannahGame({ questions }: TSavannahGame) {
   if (questionNumber === questions.length) {
     return (
       <EndGame
+      gameName="Savannah"
       correctOnTheRow={correctOnTheRow}
       newWords={newWords}
       answers={{ correctAnswers, incorrectAnswers }}
