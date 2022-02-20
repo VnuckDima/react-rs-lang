@@ -48,6 +48,7 @@ export default function TextBook({
   return (
     <main className="textbook">
       <div className="textbook__wrapper">
+        <h1 className="textbook__header">Учебник</h1>
         <TextbookButtons
           authorizedUser={authorizedUser}
           category={{ selectedCategory, setSelectedCategory }}

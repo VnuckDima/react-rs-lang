@@ -1,15 +1,17 @@
 .mainpage__container {
-  text-align: justify;
-  font-size: 1.4em;
+  text-align: left;
+  font-size: 1.2rem;
 }
 
 .mainpage__container h2 {
   text-align: center;
+  margin-bottom: 0;
 }
 
 .mainpage__container-header {
   font-size: 2.2rem;
-  color: var(--mainpage-h2-color)
+  color: var(--mainpage-h2-color);
+  margin-top: 30px;
 }
 
 .mainpage__container section h2 {
@@ -22,11 +24,11 @@
 }
 
 .mainpage__container section {
-  margin: 50px 0;
+  margin: 80px 0;
 }
 
 .main__features li {
-  margin-bottom: 50px;
+  margin: 20px 0 50px 0;
 }
 
 .developers__card {
@@ -34,6 +36,7 @@
   align-items: center;
   padding: 10px;
   margin: 10px;
+  font-size: 1.3rem;
 }
 
 .developers__card-image {
@@ -53,6 +56,7 @@
 
 .developers__card-info h3 {
   text-align: left;
+  font-size: 1.7rem;
 }
 
 .developers__container {
@@ -80,5 +84,5 @@
 }
 
 .video-wrapper {
-  margin: 0 5%;
+  margin: 20px 5%;
 }

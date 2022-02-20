@@ -7,7 +7,7 @@
 @import './components/footer/Footer.scss';
 @import './pages/textbook/Textbook.scss';
 @import './pages/textbook/word/word.scss';
-@import './pages/audio-call/AudioCallMenu.scss';
+@import './pages/audio-call/AudioCall.scss';
 @import './pages/savannah/Savannah.scss';
 @import './pages/sprint/Sprint.scss';
 @import './components/CategorySelect/category.scss';
@@ -62,6 +62,71 @@ aside {
   flex-grow: 1;
 }
 
+.main__container.sprint {
+  background-color: var(--sprint-bg-color);
+}
+.main__container.audiocall {
+  background-color: var(--audiocall-bg-color);
+}
+.main__container.savannah {
+  background-color: var(--savannah-bg-color);
+}
+
 .wrapper {
   padding: 0 5%;
+}
+
+.minigame__container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.answers__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.minigame__score {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+}
+
+.minigame__round {
+  font-size: 2rem;
+}
+
+.minigame__timer {
+  font-size: 4rem;
+}
+
+.minigame__answer-btn {
+  padding: 7px 20px 6px 20px; 
+  margin: 5px 10px;
+  border-radius: 20px;
+  border: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s linear;
+  font-size: 1rem;
+  background-color: yellow;
+}
+
+.minigame__hint {
+  margin-top: 50px;
+}
+
+.minigame__answer-btn:not([disabled]):hover {
+  background-color: khaki;
+}
+
+.minigame__answer-btn:disabled {
+  cursor: initial;
 }

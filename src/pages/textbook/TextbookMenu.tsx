@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import Footer from '../../components/footer/Footer';
 import Preloader from '../../components/Preloader/Preloader';
 import useUserActions from '../../hooks/userAction';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
@@ -52,12 +53,19 @@ function TextbookMenu() {
     return <LoadGame gameOptions={{ selectedCategory, pageState, game }} />;
   }
   return (
-    <TextBook
-      category={{ selectedCategory, setSelectedCategory }}
-      authorizedUser={authorizedUser}
-      setGame={setGame}
-      pageStateProp={{ pageState, setPageState }}
-    />
+    <>
+    <div className="main__container">
+      <div className="wrapper">
+        <TextBook
+          category={{ selectedCategory, setSelectedCategory }}
+          authorizedUser={authorizedUser}
+          setGame={setGame}
+          pageStateProp={{ pageState, setPageState }}
+        />
+      </div>
+    </div>
+    <Footer />
+    </>
   );
 }
 

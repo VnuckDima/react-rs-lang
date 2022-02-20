@@ -1,11 +1,65 @@
 import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import useUserActions from '../../hooks/userAction';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
+import { userType } from '../../types/types';
+import { resetUserStatistics } from '../../utils/API';
+import { checkDate, setWindowTitle } from '../../utils/utils';
 
-function Navigation() {
-  const { user } = useTypedSelector((state) => state.user);
+export default function Navigation() {
+  const [loginButtonState, setLoginButtonState] = useState(true);
+  const { uploadAllWords, uploadUserWords } = useUserActions();
+  const dispatch = useDispatch();
+  const { user, hardWords } = useTypedSelector((state) => state.user);
+  const [title, setTitle] = useState('');
+  const navigate = useNavigate();
   const [navClass, setNavClas] = useState('shrink');
   const [userAuth, setUserAuth] = useState(false);
+
+  async function test() {
+    console.log(hardWords);
+  }
+
+  async function checkStats() {
+    const oldDate = localStorage.getItem('date');
+    if (!checkDate(oldDate)) {
+      resetUserStatistics(user.userId);
+    }
+  }
+
+  function handleMenuBtn() {
+    if (navClass === 'shrink') {
+      setNavClas('expanded');
+    } else {
+      setNavClas('shrink');
+    }
+  }
+
+  useEffect(() => {
+    if (user.message === 'Authenticated') {
+      (async () => {
+        await uploadAllWords(user.userId);
+        await uploadUserWords(user.userId);
+        checkStats();
+      })();
+      setLoginButtonState(false);
+    } else {
+      setLoginButtonState(true);
+    }
+  }, [user.message]);
+
+  function handleSignOut() {
+    localStorage.removeItem('userData');
+    localStorage.removeItem('userTokens');
+    dispatch({ type: userType.RESET_USER_DATA });
+    dispatch({ type: userType.END_LOADING });
+    setLoginButtonState(true);
+  }
+
+  useEffect(() => {
+    setTitle(setWindowTitle());
+  }, [window.location.pathname]);
 
   useEffect(() => {
     if (user.message === 'Authenticated') {
@@ -15,13 +69,23 @@ function Navigation() {
     }
   }, [user]);
 
-  function handleMenuBtn() {
-    if (navClass === 'shrink') {
-      setNavClas('expanded');
-    } else {
-      setNavClas('shrink');
-    }
-  }
+  const signOutButton = (
+  <button className="nav__link nav__link-loginbtn" onClick={handleSignOut} type="button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+      <path fillRule="evenodd" d="M12.146 5.146a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z" />
+    </svg>
+    Выйти
+  </button>
+  );
+  const signInButton = (
+  <button className="nav__link nav__link-loginbtn" onClick={() => navigate('/login')} type="button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+    </svg>
+    Войти
+  </button>
+  );
 
   return (
     <nav className={navClass}>
@@ -35,6 +99,9 @@ function Navigation() {
               Меню
             </span>
           </button>
+        </li>
+        <li>
+          {loginButtonState ? signInButton : signOutButton}
         </li>
         <li>
           <NavLink to="/" className={({ isActive }) => `nav__link nav__link-main ${(isActive ? 'active' : 'inactive')}`}>
@@ -104,5 +171,3 @@ function Navigation() {
     </nav>
   );
 }
-
-export default Navigation;

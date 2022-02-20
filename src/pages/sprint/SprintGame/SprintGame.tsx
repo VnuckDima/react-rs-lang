@@ -172,25 +172,30 @@ export default function SprintGame({ questions }: TSprintGame) {
     );
   }
     return (
-    <div className="sprint">
-      <div className="sprint__container">
-        <Score score={score} />
-        <Timer timer={timer} />
-        <Question
-          rightOrWrong={rightOrWrong}
-          question={questions[questionNumber].word}
-          equality={equality}
-          randomTranslation={randomTranslation}
-        />
-        <div className="answers__container">
-          <RightOrWrongBtns
-          setNewWords={setNewWords}
-          currentQuestion={questions[questionNumber]}
-          isDisabled={isDisabled}
-          handleAnswer={handleAnswer}
-          />
+      <div className="main__container sprint">
+        <div className="wrapper">
+          <div className="audiocall__container minigame__container">
+            <Score score={score} />
+            <Timer timer={timer} />
+            <Question
+              rightOrWrong={rightOrWrong}
+              question={questions[questionNumber].word}
+              equality={equality}
+              randomTranslation={randomTranslation}
+            />
+            <div className="answers__container">
+              <RightOrWrongBtns
+              setNewWords={setNewWords}
+              currentQuestion={questions[questionNumber]}
+              isDisabled={isDisabled}
+              handleAnswer={handleAnswer}
+              />
+            </div>
+            <div className="minigame__hint">
+              Используйте клавиши вправо и влево для управления с клавитауры.
+            </div>
+          </div>
         </div>
       </div>
-    </div>
   );
 }
