@@ -153,24 +153,29 @@ export default function SavannahGame({ questions }: TSavannahGame) {
     );
   }
     return (
-    <div className="audiocall">
-      <div className="audiocall__container">
-        <Score score={score} />
-        <RoundNumber questionNumber={questionNumber} COUNT_QUESTIONS={questions.length} />
-        <Question
-          rightOrWrong={rightOrWrong}
-          question={questions[questionNumber].word}
-          start={questionStart}
-        />
-        <div className="answers__container">
-          <AnswerBtns
-          setNewWords={setNewWords}
-          currentQuestion={questions[questionNumber]}
-          isDisabled={isDisabled}
-          handleAnswer={handleAnswer}
-          />
+      <div className="main__container savannah">
+        <div className="wrapper">
+          <div className="audiocall__container minigame__container">
+            <Score score={score} />
+            <RoundNumber questionNumber={questionNumber} COUNT_QUESTIONS={questions.length} />
+            <Question
+              rightOrWrong={rightOrWrong}
+              question={questions[questionNumber].word}
+              start={questionStart}
+            />
+            <div className="answers__container">
+              <AnswerBtns
+              setNewWords={setNewWords}
+              currentQuestion={questions[questionNumber]}
+              isDisabled={isDisabled}
+              handleAnswer={handleAnswer}
+              />
+            </div>
+            <div className="minigame__hint">
+              Используйте клавиши 1-5 для управления с клавитауры.
+            </div>
+          </div>
         </div>
       </div>
-    </div>
   );
 }

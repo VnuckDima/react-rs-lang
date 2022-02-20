@@ -7,7 +7,6 @@ import { word, wordExtended } from '../../types/types';
 import { makeBVFROMRUArrayQuestions, randomNum, shuffle } from '../../utils/utils';
 import AudioCall from './AudioCallGame/AudioCallGame';
 
-// TODO Переименовать AudioCallCategory в AudioCallMenu?
 function AudioCallCategory() {
   const { words, isLoadedWords } = useTypedSelector((state) => state.words);
   const { loadWords } = useWordsActions();

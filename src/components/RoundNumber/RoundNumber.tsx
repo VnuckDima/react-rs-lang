@@ -7,12 +7,12 @@ type TRoundInfo = {
 
 function RoundNumber({ questionNumber, COUNT_QUESTIONS }: TRoundInfo) {
   return (
-    <h1>
+    <div className="minigame__round">
       Раунд:&nbsp;
       {questionNumber + 1}
       /
       {COUNT_QUESTIONS}
-    </h1>
+    </div>
   );
 }
 

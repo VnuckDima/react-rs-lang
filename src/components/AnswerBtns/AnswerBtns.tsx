@@ -74,7 +74,7 @@ export default function AnswerBtns({
 
   return (
     <>
-      {currentQuestion.answers.map((answer, index) => <button ref={refs[index]} style={{ backgroundColor: 'yellow' }} onClick={(e) => handleAnswerClick(e)} key={currentQuestion.id + answer} disabled={isDisabled} className="savannah__answer-button" type="button">{`${index + 1}. ${answer}`}</button>)}
+      {currentQuestion.answers.map((answer, index) => <button ref={refs[index]} style={{ }} onClick={(e) => handleAnswerClick(e)} key={currentQuestion.id + answer} disabled={isDisabled} className="minigame__answer-btn" type="button">{`${index + 1}. ${answer}`}</button>)}
     </>
   );
 }
