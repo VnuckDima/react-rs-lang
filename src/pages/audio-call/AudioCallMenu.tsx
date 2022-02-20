@@ -28,7 +28,7 @@ function AudioCallCategory() {
   }, [isLoadedWords]);
 
   if (!isGame) {
-    return <CategorySelect gameName="Аудио-вызов" setIsGame={setIsGame} setSelectedCategory={setSelectedCategory} />;
+    return <CategorySelect gameName="Аудиовызов" setIsGame={setIsGame} setSelectedCategory={setSelectedCategory} />;
   }
 
   if (!isLoadedWords || questions.length === 0) {

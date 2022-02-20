@@ -20,9 +20,6 @@ function App() {
         <Navigation />
       </aside>
       <main className="main">
-        <Header />
-        <div className="main__container">
-          <div className="wrapper">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="audio-call" element={<AudioCallMenu />} />
@@ -32,9 +29,6 @@ function App() {
               <Route path="statistics" element={<Statistics />} />
               <Route path="login" element={<Modal />} />
             </Routes>
-          </div>
-        </div>
-        <Footer />
       </main>
     </div>
   );

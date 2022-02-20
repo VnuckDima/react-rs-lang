@@ -60,6 +60,17 @@ aside {
 
 .main__container {
   flex-grow: 1;
+  padding-top: 10px;
+}
+
+.main__container.sprint {
+  background-color: var(--sprint-bg-color);
+}
+.main__container.audiocall {
+  background-color: var(--audiocall-bg-color);
+}
+.main__container.savannah {
+  background-color: var(--savannah-bg-color);
 }
 
 .wrapper {
