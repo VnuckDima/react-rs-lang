@@ -192,6 +192,28 @@ export async function resetUserStatistics(userId: string) {
   );
 }
 
+export async function getInitialStatistic(userId: string) {
+  const initialStats: IStatistic = {
+    learnedWords: 0,
+    optional: {
+      allTimeStat: { games: [] },
+      oneDayStats: {
+        newWords: 0,
+        learned: 0,
+        games: [],
+      },
+    },
+  };
+  fetchWithAuth(
+    `${HEAD_URL}/users/${userId}/statistics`,
+    {
+      method: 'PUT',
+      headers: HEADERS_WHEN_USER_LOGIN(token()),
+      body: JSON.stringify(initialStats),
+    },
+  );
+}
+
 export async function updateUserStatistic(userId: string, data: IStatistic) {
   const oldStats = await getUserStatistics(userId);
   const newData = data;

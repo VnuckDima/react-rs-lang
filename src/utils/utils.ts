@@ -34,6 +34,7 @@ export function saveUserDataInLS(data: IUserDataInLS) {
 
 export function saveUserTokenInLS(data: IUserTokensInLS) {
   localStorage.setItem('userTokens', JSON.stringify(data));
+  localStorage.setItem('entryTime', new Date().toString());
 }
 
 export function validateRegistration(email: string, password: string, name: string): boolean {

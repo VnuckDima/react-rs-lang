@@ -4,6 +4,7 @@ nav {
   top: 0;
   height: 100vh;
   overflow-x: hidden;
+  overflow-y: hidden;
   transition: 0.3s;
   white-space: nowrap;
   background-color: var(--menu-bg-color);
@@ -35,6 +36,11 @@ nav.expanded .menubtn__icon {
   font-size: 18px;
 }
 
+nav button {
+  width: 100%;
+  text-align: left;
+}
+
 .nav__link svg {
   flex: 0 0 auto;
 }
@@ -45,6 +51,7 @@ nav.expanded .menubtn__icon {
 
 .nav__link.active {
   background-color: var(--menu-active-bg-color);
+  transition: 0.3s;
 }
 
 .nav__link:hover {
@@ -58,11 +65,16 @@ nav.expanded .menubtn__icon {
   margin-right: 20px;
 }
 
+.menubtn__icon.burger {
+  display: none;
+}
+
 .nav__link-menubtn {
-  margin-bottom: 5px;
+  margin-bottom: 20px;
   font-size: 22px;
 }
 
 .nav__link-loginbtn {
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
+

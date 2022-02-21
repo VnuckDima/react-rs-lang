@@ -130,3 +130,58 @@ aside {
 .minigame__answer-btn:disabled {
   cursor: initial;
 }
+
+
+
+
+@media (max-width: 900px) { 
+
+  html {
+    font-size: 12px;
+  }
+
+  aside {
+    position: fixed;
+    z-index: 999;
+  } 
+
+  nav.shrink {
+    height: 72px;
+    background: transparent;
+  }
+
+  nav.shrink .nav__link.active {
+    background-color: transparent;
+  }
+
+  nav.shrink .nav__link {
+    color: #555;
+    transition: 0.3s;
+    &:hover {
+      color: #000;
+    } 
+  }
+
+  .menubtn__icon.fullsize {
+    display: none;
+  }
+
+  .menubtn__icon.burger {
+    display: block;
+  }
+
+  nav.shrink .nav__link {
+    padding: 10px 10px;
+  }
+
+  nav.shrink .menubtn__icon.burger {
+    width: 48px;
+    height: 48px;
+  }
+
+
+  .mainpage__container h2 {
+    margin-left: 50px;
+  }
+
+}
