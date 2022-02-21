@@ -7,6 +7,7 @@ import { playAudio } from '../../utils/utils';
 import { HEAD_URL, updateUserStatistic } from '../../utils/API';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
 import useUserActions from '../../hooks/userAction';
+import { wordsTypes } from '../../store/reducers/words';
 
 type TEndAudioGame = {
   answers: {correctAnswers: TAnswers[], incorrectAnswers: TAnswers[]}
@@ -26,6 +27,7 @@ export default function EndAudioGame({
   const [modalShow, setModalShow] = useState(true);
   const { user } = useTypedSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { correctAnswers, incorrectAnswers } = answers;
   function handleOk() {
     navigate('/');
@@ -60,6 +62,8 @@ export default function EndAudioGame({
     if (window.location.href.includes('/textbook')) {
       const navigateTo = gameName[0].toLowerCase() + gameName.substring(1);
       navigate(`/${navigateTo}`);
+    } else {
+      dispatch({ type: wordsTypes.RESET_WORDS });
     }
   }
   return (

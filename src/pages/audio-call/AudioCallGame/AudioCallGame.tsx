@@ -200,9 +200,9 @@ export default function AudioCallGame({ questions } : TAudioCall) {
             handleAnswer={handleAnswer}
           />
           </div>
-          <div className="minigame__hint">
+          <p className="minigame__hint">
             Используйте клавиши 1-5 для управления с клавитауры.
-          </div>
+          </p>
         </div>
       </div>
     </div>

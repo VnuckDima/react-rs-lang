@@ -231,9 +231,9 @@ export default function SprintGame({ questions }: TSprintGame) {
               handleAnswer={handleAnswer}
               />
             </div>
-            <div className="minigame__hint">
+            <p className="minigame__hint">
               Используйте клавиши вправо и влево для управления с клавитауры.
-            </div>
+            </p>
           </div>
         </div>
       </div>
