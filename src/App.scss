@@ -183,5 +183,14 @@ aside {
   .mainpage__container h2 {
     margin-left: 50px;
   }
+  
+  .statistic__header {
+    margin-left: 50px;
+  }
+
+  .textbook__top-wrapper {
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
 
 }

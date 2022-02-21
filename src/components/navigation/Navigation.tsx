@@ -53,6 +53,7 @@ export default function Navigation() {
   }, [user.message]);
 
   function handleSignOut() {
+    handleMenuClose();
     localStorage.removeItem('userData');
     localStorage.removeItem('userTokens');
     dispatch({ type: userType.RESET_USER_DATA });
@@ -183,9 +184,7 @@ export default function Navigation() {
           )}
         </li>
         <li>
-          <button type="button" onClick={handleMenuClose}>
-            {loginButtonState ? signInButton : signOutButton}
-          </button>
+          {loginButtonState ? signInButton : signOutButton}
         </li>
       </ul>
     </nav>
