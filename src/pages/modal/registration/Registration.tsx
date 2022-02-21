@@ -39,7 +39,7 @@ function Registration({ setIsLoginForm }:IRegistration) {
 
   function incorrectRegistration() {
     setTimeout(() => setIsCorrectRegistration(true), 3500);
-    return <h4 className="login__error">incorrect email or password</h4>;
+    return <h4 className="login__error">Неподходящий логин или пароль</h4>;
   }
 
   useEffect(() => () => {

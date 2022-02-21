@@ -21,7 +21,7 @@
 .login__sumbit {
   text-transform: uppercase;
   outline: 0;
-  background: #4caf50;
+  background: var(--menu-bg-color);
   width: 100%;
   border: 0;
   padding: 15px;
@@ -29,9 +29,10 @@
   font-size: 14px;
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
+  border-radius: 10px;
   cursor: pointer;
   &:hover {
-    background: #4b9b4e;
+    background: var(--menu-active-bg-color);
   }
 }
 
@@ -43,8 +44,11 @@
     margin-left: 5px;
     border: none;
     background-color: #ffffff;
-    color: #4caf50;
+    color: var(--mainpage-h2-color);
     cursor: pointer;
+    &:hover {
+      color: #1f1fd4;
+    }
   }
 }
 

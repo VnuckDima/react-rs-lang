@@ -38,13 +38,6 @@ export default function TextBook({
     saveLSBeforeUnload(pageState, selectedCategory);
   }, [pageState, selectedCategory]);
 
-  // useEffect(() => {
-  //   console.log('change');
-  //   if (selectedCategory === 6) {
-  //     loadHardWords(user.userId);
-  //   }
-  // }, [hardWords]);
-
   return (
     <main className="textbook">
       <div className="textbook__wrapper">
