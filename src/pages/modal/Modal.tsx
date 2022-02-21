@@ -9,32 +9,36 @@ export default function Modal() {
   const navigate = useNavigate();
 
   return (
-    <div
-      role="textbox"
-      tabIndex={0}
-      className="modal active"
-      onMouseDown={() => navigate('/')}
-      onKeyPress={(e) => e.stopPropagation()}
-    >
-      <div
-        role="textbox"
-        tabIndex={0}
-        className="modal__content active"
-        onMouseDown={(e) => e.stopPropagation()}
-        onKeyPress={(e) => e.stopPropagation()}
-      >
-        {isLoginForm
-        ? (
-        <Login
-          setIsLoginForm={setIsLoginForm}
-        />
-        )
-        : (
-        <Registration
-          setIsLoginForm={setIsLoginForm}
-        />
-        )}
+      <div className="main__container">
+        <div className="wrapper">
+          <div
+            role="textbox"
+            tabIndex={0}
+            className="modal active"
+            onMouseDown={() => navigate('/')}
+            onKeyPress={(e) => e.stopPropagation()}
+          >
+            <div
+              role="textbox"
+              tabIndex={0}
+              className="modal__content active"
+              onMouseDown={(e) => e.stopPropagation()}
+              onKeyPress={(e) => e.stopPropagation()}
+            >
+              {isLoginForm
+              ? (
+              <Login
+                setIsLoginForm={setIsLoginForm}
+              />
+              )
+              : (
+              <Registration
+                setIsLoginForm={setIsLoginForm}
+              />
+              )}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
   );
 }

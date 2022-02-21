@@ -1,53 +1,10 @@
-.savannah {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  background-color: #eeaeef;
-  height: calc(100vh - 98px);
-}
-
 .savannah__container {
   text-align: center;
 }
 
-
-.bi.bi-volume-up-fill.savannah__svg {
-  width: 150px;
-  height: 150px;
-  fill:aqua;
-  transition: all 0.4s linear;
-  border-radius: 50%;
-  margin-bottom: 10%;
-  border-color: transparent;
-}
-
-.bi.bi-volume-up-fill.savannah__svg:hover {
-  background-color: #fb87fd;
-}
-
-.savannah__answer-button {
-  padding: 7px 22px; 
-  margin: 0 20px;
-  border-radius: 20px;
-  border: none;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.4s linear;
-}
-
-.savannah__answer-button:not([disabled]):hover {
-  background-color: #db75e7;
-  color: #fff;
-}
-
-.savannah__answer-button:disabled {
-  cursor: initial;
-}
-
   .savannah__question-container {
-  
-  height: 400px;
+  width: 100%;
+  height: 50vh;
   position: relative;
   overflow: hidden;
   text-align: left;
@@ -73,14 +30,13 @@
 }
 
 .savannah__question {
-  font-size: 36px;
+  font-size: 3rem;
   text-transform: uppercase;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   color: transparent;
 	font-family: "arial black";
-	font-size: 5em;
   animation: none;
 }
 
@@ -148,58 +104,4 @@
   transform: rotate(5deg);
   color: red;
 }
-
-
-/*.savannah__question-enter {
-  bottom: 100%
-}
-.savannah__question-enter-active {
-  bottom: 0;
-  transition: bottom 2000ms linear;
-}
-.savannah__question-exit {
-  transition: 0;
-  opacity: 0;
-}
-.savannah__question-enter-done {
-  transition: 1000ms;
-  bottom: 0;
-}
-
-.savannah__question-enter-done:before {
-  top: -5px;
-	left: -10px;
-  transform: rotate(-5deg);
-}
-.savannah__question-enter-done:after {
-  top: 5px;
-	left: 10px;
-  transform: rotate(5deg);
-}
-
-
-.savannah__question {
-	margin: 0;
-	padding: 0;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	text-transform: uppercase;
-	transform: translate(-50%, -50%);
-	color: transparent;
-	font-family: "arial black";
-	font-size: 5em;
-}*/
-
-
-/*.savannah__question:hover:before {
-	top: -5px;
-	left: -10px;
-	transform: rotate(-5deg);
-}
-.savannah__question:hover:after {
-	top: 5px;
-	left: 10px;
-	transform: rotate(5deg);
-}*/
 

@@ -25,15 +25,15 @@ export default function TextbookButtons({
   return (
   <div className="textbook__top-wrapper">
     <div className="textbook__games">
-      <button onClick={() => openGame(games.AUDIO_CALL)} type="button">audio game</button>
-      <button onClick={() => openGame(games.SPRINT)} type="button">sprint game</button>
-      <button onClick={() => openGame(games.SAVANNAH)} type="button">savannah game</button>
+      <button onClick={() => openGame(games.AUDIO_CALL)} type="button">Аудиовызов</button>
+      <button onClick={() => openGame(games.SPRINT)} type="button">Спринт</button>
+      <button onClick={() => openGame(games.SAVANNAH)} type="button">Саванна</button>
     </div>
     {category.selectedCategory === 6
       ? <div />
       : <Pagination current={pageState} onChange={(page) => setPageState(page)} total={300} />}
     <div className="">
-    {arrayButtons.map((button, ind) => <button className="audio__button" key={button} onClick={() => category.setSelectedCategory(ind)} type="button">{ind + 1}</button>)}
+    {arrayButtons.map((button, ind) => <button className="category__select-button button__textbook" key={button} onClick={() => category.setSelectedCategory(ind)} type="button">{ind + 1}</button>)}
     </div>
   </div>
   );

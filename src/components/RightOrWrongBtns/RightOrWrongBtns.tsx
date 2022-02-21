@@ -68,7 +68,7 @@ export default function RightOrWrongBtns({
 
   return (
     <>
-      {buttons.map((answer, index) => <button ref={refs[index]} style={{ backgroundColor: 'yellow' }} onClick={(e) => handleAnswerClick(e)} key={currentQuestion.id + answer} disabled={isDisabled} className="sprint__answer-button" type="button">{answer}</button>)}
+      {buttons.map((answer, index) => <button ref={refs[index]} style={{ backgroundColor: '' }} onClick={(e) => handleAnswerClick(e)} key={currentQuestion.id + answer} disabled={isDisabled} className="minigame__answer-btn" type="button">{answer}</button>)}
     </>
   );
 }

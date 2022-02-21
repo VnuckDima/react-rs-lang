@@ -141,18 +141,23 @@ export default function AudioCallGame({ questions } : TAudioCall) {
     );
   }
   return (
-    <div className="audiocall">
-      <div className="audiocall__container">
-        <Score score={score} />
-        <RoundNumber questionNumber={questionNumber} COUNT_QUESTIONS={questions.length} />
-        <Question questionAudio={questions[questionNumber].audio} />
-        <div className="answers__container">
-        <AnswerBtns
-          setNewWords={setNewWords}
-          currentQuestion={questions[questionNumber]}
-          isDisabled={isDisabled}
-          handleAnswer={handleAnswer}
-        />
+    <div className="main__container audiocall">
+      <div className="wrapper">
+        <div className="audiocall__container minigame__container">
+          <Score score={score} />
+          <RoundNumber questionNumber={questionNumber} COUNT_QUESTIONS={questions.length} />
+          <Question questionAudio={questions[questionNumber].audio} />
+          <div className="answers__container">
+          <AnswerBtns
+            setNewWords={setNewWords}
+            currentQuestion={questions[questionNumber]}
+            isDisabled={isDisabled}
+            handleAnswer={handleAnswer}
+          />
+          </div>
+          <div className="minigame__hint">
+            Используйте клавиши 1-5 для управления с клавитауры.
+          </div>
         </div>
       </div>
     </div>

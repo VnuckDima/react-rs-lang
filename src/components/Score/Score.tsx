@@ -6,8 +6,8 @@ type TScore = {
 
 export default function Score({ score }: TScore) {
   return (
-    <div>
-      Score:&nbsp;
+    <div className="minigame__score">
+      Счет:&nbsp;
       {score}
     </div>
   );

@@ -65,8 +65,8 @@ export default function Header() {
   return (
     <header className="header">
       <div className="header__container">
-        <h1 className="header__title">{title}</h1>
-        <button onClick={test} type="button">test button</button>
+        {/* <h1 className="header__title">{title}</h1> */}
+        {/* <button onClick={test} type="button">test button</button> */}
         {loginButtonState ? signInButton : signOutButton}
       </div>
     </header>

@@ -20,19 +20,15 @@ function App() {
         <Navigation />
       </aside>
       <main className="main">
-        <Header />
-        <div className="main__container">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="audio-call" element={<AudioCallMenu />} />
-            <Route path="sprint" element={<SprintMenu />} />
-            <Route path="savannah" element={<SavannahMenu />} />
-            <Route path="textbook" element={<TextbookMenu />} />
-            <Route path="statistics" element={<Statistics />} />
-            <Route path="login" element={<Modal />} />
-          </Routes>
-        </div>
-        <Footer />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="audio-call" element={<AudioCallMenu />} />
+              <Route path="sprint" element={<SprintMenu />} />
+              <Route path="savannah" element={<SavannahMenu />} />
+              <Route path="textbook" element={<TextbookMenu />} />
+              <Route path="statistics" element={<Statistics />} />
+              <Route path="login" element={<Modal />} />
+            </Routes>
       </main>
     </div>
   );

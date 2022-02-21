@@ -6,6 +6,6 @@ type TTimer = {
 
 export default function Timer({ timer }: TTimer) {
   return (
-    <div>{timer}</div>
+    <div className="minigame__timer">{timer}</div>
   );
 }
