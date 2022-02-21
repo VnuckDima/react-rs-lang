@@ -10,18 +10,16 @@
     width: 100%;
     margin-top: 15px;
   }
-  canvas {
-  }
 }
 
 .statistic__header {
   font-size: 2rem;
   margin-top: 30px;
+  text-align: center;
 }
 
 .statistic__left {
-  text-align: center;
-  padding-top: 100px;
+  text-align: left;
   h2 {
     font-size: 1.7rem;
     font-weight: bold;
@@ -35,6 +33,10 @@
       font-weight: bold;
     }
   }
+}
+
+.statistic_common {
+  text-align: center;
 }
 
 .statistic__clear {

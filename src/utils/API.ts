@@ -107,7 +107,6 @@ export async function fetchWithAuth(url: string, options: any) {
   if (tokenData && userData) {
     try {
       if (!checkAuthTimer(entryTime)) {
-        console.log('refreshed token');
         await refreshToken(userData.userId, tokenData.refreshToken);
       }
     } catch (error) {

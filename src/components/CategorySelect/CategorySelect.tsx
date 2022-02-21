@@ -65,12 +65,12 @@ export default function CategorySelect({
           <div className="category__select-selection">
             <h3>Выберите сложность:</h3>
             <div className="category__select-buttons">
-              <button className="category__select-button" onClick={() => handleCategory(0)} type="button">1</button>
-              <button className="category__select-button" onClick={() => handleCategory(1)} type="button">2</button>
-              <button className="category__select-button" onClick={() => handleCategory(2)} type="button">3</button>
-              <button className="category__select-button" onClick={() => handleCategory(3)} type="button">4</button>
-              <button className="category__select-button" onClick={() => handleCategory(4)} type="button">5</button>
-              <button className="category__select-button" onClick={() => handleCategory(5)} type="button">6</button>
+              <button className="category__select-button category-button" onClick={() => handleCategory(0)} type="button">1</button>
+              <button className="category__select-button category-button" onClick={() => handleCategory(1)} type="button">2</button>
+              <button className="category__select-button category-button" onClick={() => handleCategory(2)} type="button">3</button>
+              <button className="category__select-button category-button" onClick={() => handleCategory(3)} type="button">4</button>
+              <button className="category__select-button category-button" onClick={() => handleCategory(4)} type="button">5</button>
+              <button className="category__select-button category-button" onClick={() => handleCategory(5)} type="button">6</button>
             </div>
           </div>
         </div>

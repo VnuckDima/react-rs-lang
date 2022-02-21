@@ -72,9 +72,9 @@ export default function SprintGame({ questions }: TSprintGame) {
 
   function updateScore(isRightAnswer: boolean): void {
     if (isRightAnswer) {
-      setScore(score + (30 * scoreMultiplier));
+      setScore(score + Number((30 * scoreMultiplier).toFixed(2)));
       scoreMultiplier += 0.1;
-    } else if (scoreMultiplier > 0.1) {
+    } else if (scoreMultiplier > 0.2) {
      scoreMultiplier -= 0.1;
     }
   }

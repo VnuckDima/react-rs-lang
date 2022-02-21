@@ -27,12 +27,6 @@ export default function SprintMenu() {
     setQuestions(questionsArr);
     }
   }, [isLoadedWords]);
-
-  // useEffect(() => {
-  //   console.log('questions');
-  //   console.log(questions);
-  // }, [questions]);
-
   if (!isGame) {
     return <CategorySelect gameName="Спринт" setIsGame={setIsGame} setSelectedCategory={setSelectedCategory} />;
   }

@@ -7,6 +7,7 @@ import { useTypedSelector } from '../../hooks/useTypeSelector';
 import useWordsActions from '../../hooks/useWordsAction';
 import { wordsTypes } from '../../store/reducers/words';
 import { userType } from '../../types/types';
+import { textbookBackground } from '../../utils/const';
 import { games, saveLSBeforeUnload } from '../../utils/utils';
 import LoadGame from './LoadGame/LoadGame';
 import TextBook from './TextBookPage/TextBook';
@@ -23,10 +24,10 @@ function TextbookMenu() {
   const [isGame, setIsGame] = useState(false);
   const [pageState, setPageState] = useState(initialPage);
   const [game, setGame] = useState<string>(games.NONE);
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [selectedCategory, setSelectedCategory] = useState<number>(initialCategory);
 
   useEffect(() => {
-    loadWords(pageState, selectedCategory);
+    loadWords(pageState - 1, selectedCategory);
     if (user.message === 'Authenticated') {
       setAuthorizedUser(true);
     } else {
@@ -54,7 +55,7 @@ function TextbookMenu() {
   }
   return (
     <>
-    <div className="main__container">
+    <div className="main__container" style={{ background: textbookBackground[selectedCategory] }}>
       <div className="wrapper">
         <TextBook
           category={{ selectedCategory, setSelectedCategory }}

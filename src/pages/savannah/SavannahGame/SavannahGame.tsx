@@ -46,9 +46,9 @@ export default function SavannahGame({ questions }: TSavannahGame) {
 
   function updateScore(isRightAnswer: boolean): void {
     if (isRightAnswer) {
-      setScore(score + (30 * scoreMultiplier));
+      setScore(score + Number((30 * scoreMultiplier).toFixed(2)));
       scoreMultiplier += 0.1;
-    } else if (scoreMultiplier > 0.1) {
+    } else if (scoreMultiplier > 0.2) {
      scoreMultiplier -= 0.1;
     }
   }
@@ -215,9 +215,9 @@ export default function SavannahGame({ questions }: TSavannahGame) {
               handleAnswer={handleAnswer}
               />
             </div>
-            <div className="minigame__hint">
+            <p className="minigame__hint">
               Используйте клавиши 1-5 для управления с клавитауры.
-            </div>
+            </p>
           </div>
         </div>
       </div>
