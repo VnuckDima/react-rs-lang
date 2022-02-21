@@ -131,6 +131,12 @@ aside {
   cursor: initial;
 }
 
+.loadgame__error {
+  margin-left: 50px;
+  margin-top: 30px;
+  font-size: 2rem;
+}
+
 
 
 
@@ -147,7 +153,8 @@ aside {
 
   nav.shrink {
     height: 72px;
-    background: transparent;
+    background: var(--main-bg-color);
+    border-radius: 10px;
   }
 
   nav.shrink .nav__link.active {
