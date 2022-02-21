@@ -25,6 +25,8 @@ export default function SprintMenu() {
     // Возможно эту строчку можно сократить, но понял как разобраться с типами
     const questionsArr = makeBVFROMRUArrayQuestions(words);
     setQuestions(questionsArr);
+    } else {
+      setIsGame(false);
     }
   }, [isLoadedWords]);
   if (!isGame) {

@@ -7,7 +7,6 @@ import { useTypedSelector } from '../../hooks/useTypeSelector';
 import useWordsActions from '../../hooks/useWordsAction';
 import { wordsTypes } from '../../store/reducers/words';
 import { userType } from '../../types/types';
-import { textbookBackground } from '../../utils/const';
 import { games, saveLSBeforeUnload } from '../../utils/utils';
 import LoadGame from './LoadGame/LoadGame';
 import TextBook from './TextBookPage/TextBook';
@@ -55,7 +54,7 @@ function TextbookMenu() {
   }
   return (
     <>
-    <div className="main__container" style={{ background: textbookBackground[selectedCategory] }}>
+    <div className="main__container">
       <div className="wrapper">
         <TextBook
           category={{ selectedCategory, setSelectedCategory }}
