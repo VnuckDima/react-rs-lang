@@ -4,7 +4,7 @@ import Preloader from '../../components/Preloader/Preloader';
 import StatisticGame from '../../components/StatisticGame/StatisticGame';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
 import { IStatistic } from '../../types/types';
-import { getUserStatistics } from '../../utils/API';
+import { getInitialStatistic, getUserStatistics } from '../../utils/API';
 import { percentCorrectAnswers } from '../../utils/utils';
 
 function Statistics() {
@@ -16,8 +16,14 @@ function Statistics() {
   const oneDayStats = statisticInfo?.optional.oneDayStats;
   useEffect(() => {
     (async () => {
-      const stats = await getUserStatistics(user.userId);
-      setStatisticInfo(stats);
+      try {
+        const stats = await getUserStatistics(user.userId);
+        setStatisticInfo(stats);
+      } catch {
+        await getInitialStatistic(user.userId);
+        const stats = await getUserStatistics(user.userId);
+        setStatisticInfo(stats);
+      }
       setLoaded(true);
     })();
   }, []);
