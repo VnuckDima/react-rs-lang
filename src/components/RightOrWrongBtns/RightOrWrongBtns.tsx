@@ -28,23 +28,15 @@ export default function RightOrWrongBtns({
     const target = e.target as HTMLButtonElement;
     target.style.outline = '3px solid black';
 
-    // refs.forEach((button) => {
-    //   const target = button.current;
-    //   if (target.innerHTML.includes(currentQuestion.wordTranslate)) {
-    //     target.style.background = 'green';
-    //   } else {
-    //     target.style.background = 'red';
-    //   }
-    // });
     if (currentQuestion.id in allWords) {
       setNewWords((state: number) => state + 1);
     }
     handleAnswer(target.innerHTML, currentQuestion.id);
   }
 
-  function handleAnswerKeypress(key: string) {
+  function handleAnswerKeypress(event: KeyboardEvent | React.KeyboardEvent) {
     if (keydown) return;
-    switch (key) {
+    switch (event.key) {
       case 'ArrowLeft':
         refs[0].current.click();
         break;
@@ -57,12 +49,16 @@ export default function RightOrWrongBtns({
     keydown = true;
   }
 
+  function handleKeyup() {
+    keydown = false;
+  }
+
   useEffect(() => {
-    document.addEventListener('keydown', (e) => { handleAnswerKeypress(e.key); });
-    document.addEventListener('keyup', (e) => { keydown = false; });
+    document.addEventListener('keydown', handleAnswerKeypress);
+    document.addEventListener('keyup', handleKeyup);
     return () => {
-      document.removeEventListener('keydown', (e) => { handleAnswerKeypress(e.key); });
-      document.removeEventListener('keyup', (e) => { keydown = false; });
+      document.removeEventListener('keydown', handleAnswerKeypress);
+      document.removeEventListener('keyup', handleKeyup);
     };
   }, []);
 

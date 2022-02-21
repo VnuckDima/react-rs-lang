@@ -25,7 +25,6 @@ export default function AnswerBtns({
     target.style.outline = '3px solid black';
     if (!Object.prototype.hasOwnProperty.call(allWords, currentQuestion.id)) {
       setNewWords((state: number) => state + 1);
-      console.log(allWords);
     }
     handleAnswer(target.innerHTML, currentQuestion.id);
   }
