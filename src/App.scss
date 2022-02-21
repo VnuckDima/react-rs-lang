@@ -1,0 +1,233 @@
+@import 'antd/dist/antd.css';
+@import './colors.scss';
+@import './pages/statistics/Statistics.scss';
+@import './pages/home/Home.scss';
+@import './components/navigation/Navigation.scss';
+@import './pages/home/main/Main.scss';
+@import './components/footer/Footer.scss';
+@import './pages/textbook/Textbook.scss';
+@import './pages/textbook/word/word.scss';
+@import './pages/audio-call/AudioCall.scss';
+@import './pages/savannah/Savannah.scss';
+@import './pages/sprint/Sprint.scss';
+@import './components/CategorySelect/category.scss';
+@import './components/EndGame/endGame.scss';
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  background-color: transparent;
+  border-width: 0;
+  outline: 0;
+  cursor: pointer;
+}
+
+ol, ul, dl {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--main-bg-color);
+}
+
+main {
+  width: 100%;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+aside {
+  flex: 0 0 auto;
+}
+
+.main__container {
+  flex-grow: 1;
+}
+
+.main__container.sprint {
+  background-color: var(--sprint-bg-color);
+}
+.main__container.audiocall {
+  background-color: var(--audiocall-bg-color);
+}
+.main__container.savannah {
+  background-color: var(--savannah-bg-color);
+}
+
+.wrapper {
+  padding: 0 3%;
+}
+
+.minigame__container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.answers__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.minigame__score {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+}
+
+.minigame__round {
+  font-size: 2rem;
+}
+
+.minigame__timer {
+  font-size: 4rem;
+}
+
+.minigame__answer-btn {
+  padding: 7px 20px 6px 20px; 
+  margin: 5px 10px;
+  border-radius: 20px;
+  border: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s linear;
+  font-size: 1rem;
+  background-color: yellow;
+}
+
+.minigame__hint {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.minigame__answer-btn:not([disabled]):hover {
+  background-color: khaki;
+}
+
+.minigame__answer-btn:disabled {
+  cursor: initial;
+}
+
+.loadgame__error {
+  margin-left: 50px;
+  margin-top: 30px;
+  font-size: 2rem;
+}
+
+@media (max-width: 1240px) { 
+  .ant-pagination-item.ant-pagination-item-4, 
+  .ant-pagination-item.ant-pagination-item-5.ant-pagination-item-before-jump-next,
+  .ant-pagination-item.ant-pagination-item-after-jump-prev,
+  .ant-pagination-item.ant-pagination-item-before-jump-next {
+    display: none;
+  }
+}
+
+@media (max-width: 1150px) { 
+  .textbook__category-button {
+    max-width: 160px;
+  }
+}
+
+@media (max-width: 970px) { 
+  .textbook__top-wrapper {
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
+  .textbook__category-button {
+    max-width: 100%;
+  }
+  .category__select-button {
+    width: 3.3rem;
+    height: 3.3rem;
+  }
+}
+
+@media (max-width: 900px) { 
+
+  html {
+    font-size: 12px;
+  }
+
+  aside {
+    position: fixed;
+    z-index: 999;
+  } 
+
+  nav.shrink {
+    height: 72px;
+    background: var(--main-bg-color);
+    border-radius: 10px;
+  }
+
+  nav.shrink .nav__link.active {
+    background-color: transparent;
+  }
+
+  nav.shrink .nav__link {
+    color: #555;
+    transition: 0.3s;
+    &:hover {
+      color: #000;
+    } 
+  }
+
+  .menubtn__icon.fullsize {
+    display: none;
+  }
+
+  .menubtn__icon.burger {
+    display: block;
+  }
+
+  nav.shrink .nav__link {
+    padding: 10px 10px;
+  }
+
+  nav.shrink .menubtn__icon.burger {
+    width: 48px;
+    height: 48px;
+  }
+
+
+  .mainpage__container h2 {
+    margin-left: 50px;
+  }
+
+  .category__select-button {
+    width: 3.8rem;
+    height: 3.8rem;
+  }
+
+}
+
+@media (max-width: 500px) { 
+  .modal__content.active {
+    width: 90%;
+    padding: 20px 35px;
+  }
+}

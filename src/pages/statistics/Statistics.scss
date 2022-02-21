@@ -1,0 +1,83 @@
+.statistic__game {
+  text-align-last: left;
+  margin-top: 50px;
+  position: relative;
+  &::after {
+    display: block;
+    content: "";
+    background: linear-gradient(#000000, #0008ff 100%);;
+    height: 1px;
+    width: 100%;
+    margin-top: 15px;
+  }
+}
+
+.statistic__header {
+  font-size: 2rem;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.statistic__left {
+  text-align: left;
+  h2 {
+    font-size: 1.7rem;
+    font-weight: bold;
+  }
+  h4 {
+    font-size: 1.2rem;
+  }
+
+  h4 {
+    span {
+      font-weight: bold;
+    }
+  }
+}
+
+.statistic_common {
+  text-align: center;
+}
+
+.statistic__clear {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+}
+
+.statistic__text {
+  p {
+    span {
+      font-weight: bold;
+    }
+  }
+}
+
+.statistic__info {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  p {
+    margin: 0;
+  }
+}
+
+.statistic__game-number {
+  span {
+    font-weight: bold;
+  }
+}
+
+.statistic__details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: space-around;
+}

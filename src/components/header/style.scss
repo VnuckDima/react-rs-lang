@@ -1,0 +1,25 @@
+header h1 {
+  font-size: 1.8rem;
+}
+
+
+
+.header__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.header__button-sign {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border-width: 1px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+    &:hover {
+      background-color: rgb(230, 230, 230);
+    }
+}
+

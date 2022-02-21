@@ -1,0 +1,107 @@
+.savannah__container {
+  text-align: center;
+}
+
+  .savannah__question-container {
+  width: 100%;
+  height: 50vh;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.savannah__question-container.right {
+  
+}
+.savannah__question-container.wrong {
+  
+}
+
+
+@keyframes fall {
+  from {
+    bottom: 100%;  
+  }
+
+  to {
+    bottom: 0%;  
+  }
+}
+
+.savannah__question {
+  font-size: 3rem;
+  text-transform: uppercase;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: transparent;
+	font-family: "arial black";
+  animation: none;
+}
+
+.savannah__question.fall {
+  animation: fall 5s linear forwards;
+  animation-play-state: running;  
+}
+
+.savannah__question.right {
+  animation: fall 5s linear forwards;
+  animation-play-state: paused;
+  transform: translate(-50%, -1000px);
+  transition: 1s ease-in;
+}
+
+.savannah__question.wrong {
+  animation: none;
+  bottom: 0;
+  transition: 1s ease-in;
+}
+
+.savannah__question.broken {
+  animation: fall 5s linear forwards;
+  animation-play-state: paused;
+}
+
+.savannah__question:before, .savannah__question:after {
+	content: attr(data-name);
+	color: blue;
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	transition: .3s;
+}
+
+.savannah__question.right:before, .savannah__question.right:after {
+  color: green;
+}
+
+.savannah__question.wrong:before, .savannah__question.wrong:after {
+  color: red;
+}
+
+.savannah__question:before {
+	-webkit-clip-path: polygon(55% 0, 0 0, 0 100%, 35% 100%);
+	clip-path: polygon(55% 0, 0 0, 0 100%, 35% 100%);
+}
+.savannah__question:after {
+	-webkit-clip-path: polygon(55% 0, 100% 0, 100% 100%, 35% 100%);
+	clip-path: polygon(55% 0, 100% 0, 100% 100%, 35% 100%);
+}
+
+.savannah__question-exit.broken:before,
+.savannah__question-exit.wrong:before {
+  top: -5px;
+	left: -10px;
+  transform: rotate(-5deg);
+  color: red;
+}
+.savannah__question-exit.broken:after,
+.savannah__question-exit.wrong:after {
+  top: 5px;
+	left: 10px;
+  transform: rotate(5deg);
+  color: red;
+}
+

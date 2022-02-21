@@ -1,0 +1,50 @@
+footer {
+  background-color: var(--footer-bg-color);
+  box-shadow: 0px 0px 10px rgb(0 0 0 / 15%);
+}
+
+footer a {
+  color: black;
+}
+
+footer a:hover {
+  color: #5d7baf;
+}
+
+.footer__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0;
+}
+
+.footer__container ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer__container li {
+  margin-left: 10px;
+}
+
+.footer__container-year {
+  font-size: 1.1rem;
+}
+
+.footer__container-githubs {
+  font-size: 0.8rem;
+}
+
+.github__link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.github__link svg {
+  margin-right: 5px;
+  margin-left: 5px;
+}

@@ -1,0 +1,14 @@
+.sprint__question-container {
+  font-size: 3rem;
+  padding: 30px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.sprint__question-container.right {
+  background-color: green;
+}
+
+.sprint__question-container.wrong {
+  background-color: red;
+}

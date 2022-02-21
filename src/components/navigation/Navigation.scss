@@ -1,0 +1,80 @@
+nav {
+  color: var(--menu-color);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  transition: 0.3s;
+  white-space: nowrap;
+  background-color: var(--menu-bg-color);
+}
+
+nav.shrink {
+  width: 72px;
+}
+
+nav.expanded {
+  width: 310px;
+}
+
+nav.shrink .menubtn__icon {
+  transition: transform 0.3s;
+}
+
+nav.expanded .menubtn__icon {
+  transition: transform 0.3s;
+  transform: rotate(-180deg);
+}
+
+.nav__link {
+  color: var(--menu-color);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 20px 20px;
+  font-size: 18px;
+}
+
+nav button {
+  width: 100%;
+  text-align: left;
+}
+
+.nav__link svg {
+  flex: 0 0 auto;
+}
+
+.nav__link span {
+  flex: 1 0 auto;
+}
+
+.nav__link.active {
+  background-color: var(--menu-active-bg-color);
+  transition: 0.3s;
+}
+
+.nav__link:hover {
+  color: whitesmoke;
+}
+
+.nav__link svg {
+  margin-right: 5px;
+  width: 32px;
+  height: 32px;
+  margin-right: 20px;
+}
+
+.menubtn__icon.burger {
+  display: none;
+}
+
+.nav__link-menubtn {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.nav__link-loginbtn {
+  margin-top: 20px;
+}
+
