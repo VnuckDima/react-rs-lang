@@ -4,7 +4,9 @@ import Preloader from '../../components/Preloader/Preloader';
 import StatisticGame from '../../components/StatisticGame/StatisticGame';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
 import { IStatistic } from '../../types/types';
+
 import { getInitialStatistic, getUserStatistics, resetUserStatistics } from '../../utils/API';
+
 import { percentCorrectAnswers } from '../../utils/utils';
 
 function Statistics() {
