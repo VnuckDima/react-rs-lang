@@ -11,12 +11,19 @@
     margin-top: 15px;
   }
   canvas {
-    position: absolute;
-    bottom: 10px;
   }
 }
 
+.statistic__header {
+  font-size: 2rem;
+  margin-top: 30px;
+}
+
 .statistic__left {
+  h4 {
+    font-size: 1.2rem;
+  }
+
   h4 {
     span {
       font-weight: bold;
@@ -34,6 +41,9 @@
 
 .statistic__info {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
   p {
     margin: 0;
   }
@@ -45,7 +55,9 @@
   }
 }
 
-.statistic__chart {
-  width: 100px;
-  height: 100px;
+.statistic__details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: space-around;
 }
