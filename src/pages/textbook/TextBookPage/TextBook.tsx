@@ -33,7 +33,7 @@ export default function TextBook({
     if (selectedCategory === 6) {
       loadHardWords(user.userId);
     } else {
-      loadWords(pageState, selectedCategory);
+      loadWords(pageState - 1, selectedCategory);
     }
     saveLSBeforeUnload(pageState, selectedCategory);
   }, [pageState, selectedCategory]);

@@ -50,7 +50,7 @@ export default function WordButtons({ word, buttonsState, selectedCategory }: TW
           },
         });
       }
-      updateWord(user.userId, wordId, newDifficulty, newOptions);
+      updateWord(user.userId, wordId, newDifficulty, true, newOptions);
     } else {
       addUserWord(word.id, user.userId, newDifficulty);
     }
@@ -58,7 +58,7 @@ export default function WordButtons({ word, buttonsState, selectedCategory }: TW
 
   function deleteDifficulty() {
     const oldOptional = allWords[word.id].userWord.optional;
-    updateWord(user.userId, word.id, 'newWord', oldOptional);
+    updateWord(user.userId, word.id, 'newWord', true, oldOptional);
   }
 
   function handleAddHardWord() {

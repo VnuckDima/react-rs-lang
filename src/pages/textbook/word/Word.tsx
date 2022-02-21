@@ -37,7 +37,7 @@ export default function Word({ data, authorizedUser, selectedCategory }: TWord) 
     if (data.id in allWords) {
       const optional = allWords[data.id].userWord?.optional!;
       if (optional) {
-        if (optional.correct !== 0 || optional.incorrect !== 0) {
+        if (optional.correct || optional.incorrect) {
           setCountAnswers({ correct: optional.correct!, incorrect: optional.incorrect! });
           setIsShowStatistic(true);
         }

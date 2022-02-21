@@ -1,16 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import EndGame from '../../../components/EndGame/EndGame';
-import RoundNumber from '../../../components/RoundNumber/RoundNumber';
 import Score from '../../../components/Score/Score';
 import Timer from '../../../components/Timer/Timer';
 import { useTypedSelector } from '../../../hooks/useTypeSelector';
 import { wordsTypes } from '../../../store/reducers/words';
-import { TAnswers, wordExtended } from '../../../types/types';
 import {
-  soundBroken, soundCorrect, soundIncorrect, soundsPath,
-} from '../../../utils/const';
-import { playAudio, randomNum, updateBody } from '../../../utils/utils';
+  TAnswers,
+  TBody,
+  userType,
+  wordExtended,
+} from '../../../types/types';
+import { soundCorrect, soundIncorrect, soundsPath } from '../../../utils/const';
+import { playAudio, updateBody } from '../../../utils/utils';
 import Question from '../Question/Question';
 import RightOrWrongBtns from '../../../components/RightOrWrongBtns/RightOrWrongBtns';
 import useUserActions from '../../../hooks/userAction';
@@ -112,12 +114,51 @@ export default function SprintGame({ questions }: TSprintGame) {
     setRightOrWrong('fall');
   }
 
+  function changeDifficulty(
+    userId: string,
+    wordId: string,
+    corrected: boolean,
+    newBody: TBody,
+    difficulty: string,
+    ) {
+    const data = {
+      id: userId,
+      wordId,
+      userWord: {
+        difficulty: 'learned',
+        optional: newBody,
+      },
+    };
+    if (difficulty === 'hard') {
+      if (corrected) {
+        if (newBody.correctOnTheRow! === 5) {
+          updateWord(userId, wordId, 'learned', corrected, newBody);
+          dispatch({ type: userType.DELETE_USER_WORD, payload: { wordId, difficulty: 'hard' } });
+          dispatch({ type: userType.ADD_LEARNED_WORD, payload: data });
+        } else {
+          updateWord(userId, wordId, difficulty, corrected, newBody);
+        }
+      } else {
+        updateWord(userId, wordId, difficulty, corrected, newBody);
+      }
+    } else if (difficulty === 'learned') {
+      updateWord(userId, wordId, difficulty, corrected, newBody);
+    } else if (difficulty === 'newWord') {
+      if (newBody.correctOnTheRow! === 3) {
+        updateWord(userId, wordId, 'learned', corrected, newBody);
+        dispatch({ type: userType.ADD_LEARNED_WORD, payload: data });
+      } else {
+        updateWord(userId, wordId, difficulty, corrected, newBody);
+      }
+    }
+  }
+
   function changeStatistic(userId: string, wordId: string, corrected: boolean) {
     if (user.message !== 'Authenticated') return;
     if (wordId in allWords) {
       const newBody = updateBody(corrected, allWords[wordId].userWord.optional!);
       const { difficulty } = allWords[wordId].userWord;
-      updateWord(userId, wordId, difficulty, newBody);
+      changeDifficulty(userId, wordId, corrected, newBody, difficulty);
     } else {
       addUserWord(wordId, userId, 'newWord', corrected);
     }
@@ -154,7 +195,6 @@ export default function SprintGame({ questions }: TSprintGame) {
 
   useEffect(() => {
     if (questionNumber !== questions.length && timer >= 0) {
-      console.log(questionNumber, questions.length);
       generateRandomTranslation();
       setEquality('=');
     }

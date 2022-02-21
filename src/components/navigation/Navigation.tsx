@@ -18,10 +18,6 @@ export default function Navigation() {
   const [userAuth, setUserAuth] = useState(false);
   const ADAPTIVE_BREAKPOINT = 900;
 
-  async function test() {
-    console.log(hardWords);
-  }
-
   async function checkStats() {
     const oldDate = localStorage.getItem('date');
     if (!checkDate(oldDate)) {
