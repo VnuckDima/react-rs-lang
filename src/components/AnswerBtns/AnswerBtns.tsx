@@ -30,8 +30,8 @@ export default function AnswerBtns({
     handleAnswer(target.innerHTML, currentQuestion.id);
   }
 
-  function handleAnswerKeypress(key: string) {
-    switch (key) {
+  function handleAnswerKeypress(event: KeyboardEvent | React.KeyboardEvent) {
+    switch (event.key) {
       case '1':
         refs[0].current.click();
         break;
@@ -53,9 +53,9 @@ export default function AnswerBtns({
   }
 
   useEffect(() => {
-    document.addEventListener('keypress', (e) => { handleAnswerKeypress(e.key); });
+    document.addEventListener('keypress', handleAnswerKeypress);
     return () => {
-      document.removeEventListener('keypress', (e) => { handleAnswerKeypress(e.key); });
+      document.removeEventListener('keypress', handleAnswerKeypress);
     };
   }, []);
 
