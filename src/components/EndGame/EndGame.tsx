@@ -24,7 +24,7 @@ export default function EndAudioGame({
   gameName,
 }: TEndAudioGame) {
   const [modalShow, setModalShow] = useState(true);
-  const { user, statistics } = useTypedSelector((state) => state.user);
+  const { user } = useTypedSelector((state) => state.user);
   const navigate = useNavigate();
   const { correctAnswers, incorrectAnswers } = answers;
   function handleOk() {
@@ -57,6 +57,10 @@ export default function EndAudioGame({
 
   function handleCancel() {
     setModalShow(false);
+    if (window.location.href.includes('/textbook')) {
+      const navigateTo = gameName[0].toLowerCase() + gameName.substring(1);
+      navigate(`/${navigateTo}`);
+    }
   }
   return (
     <Modal

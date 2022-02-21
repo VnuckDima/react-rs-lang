@@ -32,11 +32,10 @@ export default function TextbookButtons({
     {category.selectedCategory === 6
       ? <div />
       : <Pagination current={pageState} onChange={(page) => setPageState(page)} total={300} />}
-    <div className="">
-    {arrayButtons.map((button, ind) => <button className="category__select-button button__textbook" key={button} onClick={() => category.setSelectedCategory(ind)} type="button">{ind + 1}</button>)}
-    {authorizedUser && <button className="category__select-button button__textbook" onClick={() => category.setSelectedCategory(6)} type="button">{7}</button>}
+    <div className="textbook__category-button">
+    {arrayButtons.map((button, ind) => <button className={category.selectedCategory === ind ? 'category__select-button active__button' : 'category__select-button'} key={button} onClick={() => category.setSelectedCategory(ind)} type="button">{ind + 1}</button>)}
+    {authorizedUser && <button className="category__select-button" onClick={() => category.setSelectedCategory(6)} type="button">{7}</button>}
     </div>
   </div>
   );
 }
-// <CategorySelect setIsGame={setIsGame} setSelectedCategory={setSelectedCategory}/>

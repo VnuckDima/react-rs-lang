@@ -189,7 +189,6 @@ export function getUserStatistic(userId: string) {
     const res = await fetchWithAuth(`${HEAD_URL}/users/${userId}/statistics`, { headers: HEADERS_WHEN_USER_LOGIN(token()) });
     if (res) {
       const data = await res.json();
-      console.log(data, 'statistic add redux');
       dispatch(({ type: userType.UPDATE_STATISTIC, payload: data }));
     }
   };

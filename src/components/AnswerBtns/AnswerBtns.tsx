@@ -30,10 +30,9 @@ export default function AnswerBtns({
     handleAnswer(target.innerHTML, currentQuestion.id);
   }
 
-  function handleAnswerKeypress(key: string) {
-    switch (key) {
+  function handleAnswerKeypress(event: KeyboardEvent | React.KeyboardEvent) {
+    switch (event.key) {
       case '1':
-        // console.log(refs[0].current);
         refs[0].current.click();
         break;
       case '2':
@@ -53,22 +52,12 @@ export default function AnswerBtns({
     }
   }
 
-  // useEffect(() => {
-  //   console.log('notadd');
-  //   document.addEventListener('keypress', (e) => { handleAnswerKeypress(e.key); });
-  //   return () => {
-  //     document.removeEventListener('keypress', (e) => { handleAnswerKeypress(e.key); });
-  //   };
-  // }, []);
-
   useEffect(() => {
-    // console.log('add');
-    document.addEventListener('keypress', (e) => { handleAnswerKeypress(e.key); });
+    document.addEventListener('keypress', handleAnswerKeypress);
     return () => {
-      // console.log('remove');
-      document.removeEventListener('keypress', (e) => { handleAnswerKeypress(e.key); });
+      document.removeEventListener('keypress', handleAnswerKeypress);
     };
-  }, [currentQuestion]);
+  }, []);
 
   useEffect(() => {
     if (isDisabled) {

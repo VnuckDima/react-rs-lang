@@ -73,7 +73,7 @@ aside {
 }
 
 .wrapper {
-  padding: 0 5%;
+  padding: 0 3%;
 }
 
 .minigame__container {
@@ -121,6 +121,7 @@ aside {
 
 .minigame__hint {
   margin-top: 50px;
+  text-align: center;
 }
 
 .minigame__answer-btn:not([disabled]):hover {
@@ -137,8 +138,34 @@ aside {
   font-size: 2rem;
 }
 
+@media (max-width: 1240px) { 
+  .ant-pagination-item.ant-pagination-item-4, 
+  .ant-pagination-item.ant-pagination-item-5.ant-pagination-item-before-jump-next,
+  .ant-pagination-item.ant-pagination-item-after-jump-prev,
+  .ant-pagination-item.ant-pagination-item-before-jump-next {
+    display: none;
+  }
+}
 
+@media (max-width: 1150px) { 
+  .textbook__category-button {
+    max-width: 150px;
+  }
+}
 
+@media (max-width: 970px) { 
+  .textbook__top-wrapper {
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
+  .textbook__category-button {
+    max-width: 100%;
+  }
+  .category__select-button {
+    width: 3.3rem;
+    height: 3.3rem;
+  }
+}
 
 @media (max-width: 900px) { 
 
@@ -192,12 +219,19 @@ aside {
   }
   
   .statistic__header {
-    margin-left: 50px;
+    margin-top: 63px;
   }
 
-  .textbook__top-wrapper {
-    flex-direction: column-reverse;
-    gap: 20px;
+  .category__select-button {
+    width: 3.8rem;
+    height: 3.8rem;
   }
 
+}
+
+@media (max-width: 500px) { 
+  .modal__content.active {
+    width: 90%;
+    padding: 20px 35px;
+  }
 }

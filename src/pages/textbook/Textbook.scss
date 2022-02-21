@@ -74,10 +74,6 @@
   padding: 30px 0;
 }
 
-.textbook__wrapper {
-  padding: 0 20px;
-}
-
 .textbook__category {
   display: flex;
   justify-content: center;
@@ -145,4 +141,22 @@
 
 .ant-pagination-item-active {
   border-color: #5d7baf;
+}
+
+.category__select-button.active__button {
+  color: transparent;
+  &::after {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    background-image: url(./../../../public/assets/check.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }

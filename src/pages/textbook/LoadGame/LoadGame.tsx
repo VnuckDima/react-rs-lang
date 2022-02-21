@@ -29,6 +29,7 @@ export default function LoadGame({ gameOptions }: TLoadGame) {
       const words = await buildArrayQuestions(pageState, learnedWords, selectedCategory, 20);
       setGameWords(words);
       setLoad(true);
+      console.log(words);
     })();
   }, []);
 

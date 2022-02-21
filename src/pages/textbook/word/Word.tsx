@@ -13,18 +13,29 @@ type TWord = {
 };
 
 export default function Word({ data, authorizedUser, selectedCategory }: TWord) {
-  const { allWords, hardWords, learnedWords } = useTypedSelector((state) => state.user);
+  const {
+    user,
+    allWords,
+    hardWords,
+    learnedWords,
+  } = useTypedSelector((state) => state.user);
   const [difficulty, setDifficulty] = useState('выбор');
   const [countAnswers, setCountAnswers] = useState({ correct: 0, incorrect: 0 });
   const [isShowStatistic, setIsShowStatistic] = useState(false);
-  // const sounds = [data.audio, data.audioExample, data.audioMeaning];
+
   function playAudio() {
-    const audio = new Audio(`${HEAD_URL}/${data.audio}`);
-    audio.volume = 0.5;
-    audio.play();
-    /* let firstmus = audioStart;
-    firstmus += 1;
-     setTimeout(() => playAudio(firstmus), audio.duration); */
+    const sounds = [data.audio, data.audioMeaning, data.audioExample];
+    const audios = sounds.map((item, ind) => new Audio(`${HEAD_URL}/${sounds[ind]}`));
+    audios[0].volume = 0.5;
+    audios[0].play();
+    for (let i = 0; i < audios.length - 1; i += 1) {
+      audios[i].addEventListener('ended', () => {
+        if (audios[i].duration === audios[i].currentTime) {
+          audios[i + 1].volume = 0.5;
+          audios[i + 1].play();
+        }
+    });
+    }
   }
 
   useEffect(() => {
@@ -45,6 +56,12 @@ export default function Word({ data, authorizedUser, selectedCategory }: TWord) 
     }
   }, []);
 
+  useEffect(() => {
+    if (user.message !== 'Authenticated') {
+      setIsShowStatistic(false);
+    }
+  }, []);
+
   const statisticCount = (countAnswers: {correct: number, incorrect: number}) => (
     <>
       <div className="statistics-count right-answers-count" title="Правильных ответов">
@@ -58,7 +75,7 @@ export default function Word({ data, authorizedUser, selectedCategory }: TWord) 
 
   return (
   <div className={authorizedUser ? `textbook__card ${getSecondClass(difficulty)}` : 'textbook__card'}>
-    <div className="card__image" style={{ backgroundImage: `linear-gradient(transparent, rgba(255, 255, 255, 1)), url(${HEAD_URL}/${data.image})` }}>
+    <div className="card__image" style={{ backgroundImage: `linear-gradient(transparent, rgba(250, 252, 254, 1)), url(${HEAD_URL}/${data.image})` }}>
     <div className="card__header">
       {authorizedUser && (
         <WordButtons

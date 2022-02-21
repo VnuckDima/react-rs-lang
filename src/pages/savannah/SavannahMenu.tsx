@@ -16,7 +16,7 @@ export default function SavannahMenu() {
 
   useEffect(() => {
     if (isGame) {
-      loadWords(0, selectedCategory);
+      loadWords(randomNum(0, 19), selectedCategory);
     }
   }, [isGame]);
 
