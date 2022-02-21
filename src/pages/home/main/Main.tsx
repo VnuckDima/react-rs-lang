@@ -62,7 +62,7 @@ function Main() {
           <section className="main__video">
             <h2>Краткий курс по работе с приложением</h2>
             <div className="video-wrapper">
-              <div className="embed-container"><iframe src="https://www.youtube.com/embed//ENOXfNa4nt0" frameBorder="0" allowFullScreen title="RS Lang video" /></div>
+              <div className="embed-container"><iframe src="https://www.youtube.com/embed/zwG4mQah58k" frameBorder="0" allowFullScreen title="RS Lang video" /></div>
             </div>
           </section>
           <section className="main__developers">

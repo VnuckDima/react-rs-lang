@@ -14,6 +14,11 @@ import Footer from './components/footer/Footer';
 import { useTypedSelector } from './hooks/useTypeSelector';
 
 function App() {
+  console.log('Приветствуем проверяющего!');
+  console.log('Реализован весь основной функционал. В качестве дополнительного функционала сделана третья мини-игра "Саванна".');
+  console.log('В случае каких-либо проблем с работой приложения просим связаться с нами');
+  console.log('Артем (dino19981)#7264, Vitaliy (bvfromru)#4741');
+
   return (
     <div className="container">
       <aside>

@@ -35,7 +35,7 @@ export default function Login({ setIsLoginForm }: ILogin) {
 
   function incorrectLogin() {
     timeoutId.current = setTimeout(() => setIsCorrectLogin(true), 3500);
-    return <h4 className="login__error">incorrect email or password</h4>;
+    return <h4 className="login__error">Неверный логин или пароль</h4>;
   }
 
   useEffect(() => () => {
