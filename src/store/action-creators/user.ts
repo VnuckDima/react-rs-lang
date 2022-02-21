@@ -47,18 +47,38 @@ export function addUserWord(wordId: string, userId: string, difficulty: string, 
   };
 }
 
-export function updateWord(userId: string, wordId: string, difficulty: string, newBody?: TBody) {
+export function updateWord(
+  userId: string,
+  wordId: string,
+  difficulty: string,
+  corrected?: boolean,
+  newBody?: TBody,
+) {
   return async (dispatch: Dispatch<IUserAction>) => {
-    fetchWithAuth(
-      `${HEAD_URL}/users/${userId}/words/${wordId}`,
-      {
-        headers: HEADERS_WHEN_USER_LOGIN(token()),
-        method: 'PUT',
-        body: JSON.stringify({ difficulty, optional: newBody }),
-      },
-    );
-    const data = { id: userId, wordId, userWord: { difficulty, optional: newBody } };
-    dispatch({ type: userType.UPDATE_WORD, payload: data });
+    if (difficulty === 'learned' && !corrected) {
+      fetchWithAuth(
+        `${HEAD_URL}/users/${userId}/words/${wordId}`,
+        {
+          headers: HEADERS_WHEN_USER_LOGIN(token()),
+          method: 'PUT',
+          body: JSON.stringify({ difficulty: 'newWord', optional: newBody }),
+        },
+      );
+      const data = { id: userId, wordId, userWord: { difficulty: 'newWord', optional: newBody } };
+      dispatch({ type: userType.UPDATE_WORD, payload: data });
+      dispatch({ type: userType.DELETE_USER_WORD, payload: { wordId, difficulty: 'learned' } });
+    } else {
+      fetchWithAuth(
+        `${HEAD_URL}/users/${userId}/words/${wordId}`,
+        {
+          headers: HEADERS_WHEN_USER_LOGIN(token()),
+          method: 'PUT',
+          body: JSON.stringify({ difficulty, optional: newBody }),
+        },
+      );
+      const data = { id: userId, wordId, userWord: { difficulty, optional: newBody } };
+      dispatch({ type: userType.UPDATE_WORD, payload: data });
+    }
   };
 }
 

@@ -17,10 +17,6 @@ export default function Navigation() {
   const [navClass, setNavClas] = useState('shrink');
   const [userAuth, setUserAuth] = useState(false);
 
-  async function test() {
-    console.log(hardWords);
-  }
-
   async function checkStats() {
     const oldDate = localStorage.getItem('date');
     if (!checkDate(oldDate)) {

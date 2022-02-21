@@ -24,7 +24,6 @@ export default function Header() {
   const [title, setTitle] = useState('');
   const navigate = useNavigate();
   async function test() {
-    console.log(hardWords);
   }
 
   async function checkStats() {
@@ -66,7 +65,7 @@ export default function Header() {
     <header className="header">
       <div className="header__container">
         {/* <h1 className="header__title">{title}</h1> */}
-        {/* <button onClick={test} type="button">test button</button> */}
+        { <button onClick={test} type="button">test button</button> }
         {loginButtonState ? signInButton : signOutButton}
       </div>
     </header>

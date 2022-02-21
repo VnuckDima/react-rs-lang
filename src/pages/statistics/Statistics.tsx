@@ -4,20 +4,28 @@ import Preloader from '../../components/Preloader/Preloader';
 import StatisticGame from '../../components/StatisticGame/StatisticGame';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
 import { IStatistic } from '../../types/types';
-import { getUserStatistics } from '../../utils/API';
+import { getInitialStatistic, getUserStatistics, resetUserStatistics } from '../../utils/API';
 import { percentCorrectAnswers } from '../../utils/utils';
 
 function Statistics() {
   const { user } = useTypedSelector((state) => state.user);
   const [statisticInfo, setStatisticInfo] = useState<IStatistic>();
   const [loaded, setLoaded] = useState(false);
+  const [isHaveStatistics, setIsHaveStatistics] = useState(false);
   const navigate = useNavigate();
-  const games = statisticInfo?.optional.oneDayStats.games;
-  const oneDayStats = statisticInfo?.optional.oneDayStats;
   useEffect(() => {
     (async () => {
-      const stats = await getUserStatistics(user.userId);
-      setStatisticInfo(stats);
+      try {
+        const stats = await getUserStatistics(user.userId);
+        setStatisticInfo(stats);
+        if (stats.optional.oneDayStats.games.length) {
+          setIsHaveStatistics(true);
+        }
+      } catch {
+        await getInitialStatistic(user.userId);
+        const stats = await getUserStatistics(user.userId);
+        setStatisticInfo(stats);
+      }
       setLoaded(true);
     })();
   }, []);
@@ -32,8 +40,18 @@ function Statistics() {
     return <Preloader />;
   }
 
+  if (!isHaveStatistics) {
+    return (
+      <div className="statistic">
+        <div className="statistic__clear">
+          <h3>Пока что у вас нет данных в статистике, доиграйте хотябы одну игру до конца!</h3>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div>
+    <div className="statistic">
       <div className="statistic__left">
         <h2>Статистика по играм</h2>
         <h4>
