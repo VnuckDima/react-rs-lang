@@ -34,7 +34,7 @@ export default function TextbookButtons({
       : <Pagination current={pageState} onChange={(page) => setPageState(page)} total={300} />}
     <div className="textbook__category-button">
     {arrayButtons.map((button, ind) => <button className={category.selectedCategory === ind ? 'category__select-button active__button' : 'category__select-button'} key={button} onClick={() => category.setSelectedCategory(ind)} type="button">{ind + 1}</button>)}
-    {authorizedUser && <button className="category__select-button" onClick={() => category.setSelectedCategory(6)} type="button">{7}</button>}
+    {authorizedUser && <button className={category.selectedCategory === 6 ? 'category__select-button active__button' : 'category__select-button'} onClick={() => category.setSelectedCategory(6)} type="button">{7}</button>}
     </div>
   </div>
   );

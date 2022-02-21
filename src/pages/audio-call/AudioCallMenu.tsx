@@ -23,6 +23,8 @@ function AudioCallCategory() {
   useEffect(() => {
     if (isLoadedWords) {
       setQuestions(makeBVFROMRUArrayQuestions(words));
+    } else {
+      setIsGame(false);
     }
   }, [isLoadedWords]);
 

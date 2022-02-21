@@ -3,6 +3,7 @@ import useUserActions from '../../../hooks/userAction';
 import { useTypedSelector } from '../../../hooks/useTypeSelector';
 import { word } from '../../../types/types';
 import { HEAD_URL } from '../../../utils/API';
+import { secondClasses, textbookCategories } from '../../../utils/const';
 import { getSecondClass } from '../../../utils/utils';
 import WordButtons from './wordButtons/WordButtons';
 
@@ -60,7 +61,7 @@ export default function Word({ data, authorizedUser, selectedCategory }: TWord) 
     if (user.message !== 'Authenticated') {
       setIsShowStatistic(false);
     }
-  }, []);
+  }, [user.message]);
 
   const statisticCount = (countAnswers: {correct: number, incorrect: number}) => (
     <>
@@ -74,7 +75,7 @@ export default function Word({ data, authorizedUser, selectedCategory }: TWord) 
   );
 
   return (
-  <div className={authorizedUser ? `textbook__card ${getSecondClass(difficulty)}` : 'textbook__card'}>
+  <div className={authorizedUser ? `textbook__card ${getSecondClass(difficulty)}` : 'textbook__card'} style={{ borderColor: textbookCategories[selectedCategory] }}>
     <div className="card__image" style={{ backgroundImage: `linear-gradient(transparent, rgba(250, 252, 254, 1)), url(${HEAD_URL}/${data.image})` }}>
     <div className="card__header">
       {authorizedUser && (
@@ -106,7 +107,7 @@ export default function Word({ data, authorizedUser, selectedCategory }: TWord) 
       </div>
     </div>
     </div>
-    <div className="card__footer">
+    <div className={`card__footer ${secondClasses[selectedCategory]}`}>
       <div className="card__examples_first">
         <p dangerouslySetInnerHTML={{ __html: data.textMeaning }} />
         <p className="card__examples-text" dangerouslySetInnerHTML={{ __html: data.textMeaningTranslate }} />

@@ -24,6 +24,8 @@ export default function SavannahMenu() {
     if (isLoadedWords) {
     const questionsArr = makeBVFROMRUArrayQuestions(words);
     setQuestions(questionsArr);
+    } else {
+      setIsGame(false);
     }
   }, [isLoadedWords]);
 

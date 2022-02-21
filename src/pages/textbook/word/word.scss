@@ -8,7 +8,7 @@
 
 .textbook__card {
   width: 400px;
-  border: 1px solid grey;
+  border: 3px solid;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -17,11 +17,11 @@
 }
 
 .learned {
-  border: 2px solid green;
+  border: 3px solid green !important;
 }
 
 .hard {
-  border: 2px solid red;
+  border: 3px solid red !important;
 }
 
 .card__image {
@@ -65,8 +65,55 @@
 }
 
 .card__footer {
+  position: relative;
   padding: 10px;
   background-color: #FAFCFE;
+  &::before {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: red;
+    top: 0;
+    left:0;
+  }
+}
+
+.card__footer.first {
+  &::before { 
+    background-color: #f1b8b8;
+   }
+}
+.card__footer.second {
+  &::before { 
+    background-color: #efa8a8;
+   }
+}
+.card__footer.thirds {
+  &::before { 
+    background-color: #f39999;
+   }
+}
+.card__footer.fourch {
+  &::before { 
+    background-color: #f58a8a;
+   }
+}
+.card__footer.fiftch {
+  &::before { 
+    background-color: #fb8383;
+   }
+}
+.card__footer.sixth {
+  &::before { 
+    background-color: #f97878;
+   }
+}
+.card__footer.seventh {
+  &::before { 
+    background-color: red;
+   }
 }
 .card__footer p {
   margin: 0;

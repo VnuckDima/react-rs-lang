@@ -43,6 +43,11 @@
   border: 2px solid #fff;
   cursor: pointer;
   transition: transform 0.4s linear;
+  margin-left: 5px;
+}
+
+.category__select-button:first-of-type {
+  margin-left: 0;
 }
 
 .category-button {
