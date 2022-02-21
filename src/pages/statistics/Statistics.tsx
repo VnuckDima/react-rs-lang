@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../../components/footer/Footer';
 import Preloader from '../../components/Preloader/Preloader';
 import StatisticGame from '../../components/StatisticGame/StatisticGame';
 import { useTypedSelector } from '../../hooks/useTypeSelector';
@@ -44,15 +45,21 @@ function Statistics() {
 
   if (!isHaveStatistics) {
     return (
-      <div className="statistic">
-        <div className="statistic__clear">
-          <h3>Пока что у вас нет данных в статистике, доиграйте хотябы одну игру до конца!</h3>
+      <div className="main__container">
+        <div className="wrapper">
+          <div className="statistic">
+            <div className="statistic__clear">
+              <h3>Пока что у вас нет данных в статистике, доиграйте хотя бы одну игру до конца!</h3>
+            </div>
+          </div>
         </div>
+        <Footer />
       </div>
     );
   }
 
   return (
+    <>
     <div className="main__container">
       <div className="wrapper">
           <h2 className="statistic__header">Статистика по играм</h2>
@@ -82,6 +89,8 @@ function Statistics() {
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   );
 }
 

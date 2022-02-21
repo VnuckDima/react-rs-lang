@@ -13,7 +13,7 @@ import TextBook from './TextBookPage/TextBook';
 
 function TextbookMenu() {
   const initialOptions = JSON.parse(localStorage.getItem('lastTextbookPage')!);
-  const initialPage = initialOptions ? initialOptions.page : 0;
+  const initialPage = initialOptions ? initialOptions.page : 1;
   const initialCategory = initialOptions ? initialOptions.category : 0;
   const { user, isLoadedUserData } = useTypedSelector((state) => state.user);
   const { isLoadedWords } = useTypedSelector((state) => state.words);

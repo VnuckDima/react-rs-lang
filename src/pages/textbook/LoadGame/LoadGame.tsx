@@ -37,7 +37,13 @@ export default function LoadGame({ gameOptions }: TLoadGame) {
   }
 
   if (gameWords.length === 0) {
-    return <h2>Недостаточно слов для игры</h2>;
+    return (
+      <div className="main__container">
+        <div className="wrapper">
+          <h2 className="loadgame__error">Недостаточно слов для игры</h2>
+        </div>
+      </div>
+    );
   }
   switch (gameOptions.game) {
     case games.AUDIO_CALL: {
