@@ -17,7 +17,7 @@ export default function TextbookButtons({
   authorizedUser,
 }: TTextbookButtons) {
   const { pageState, setPageState } = pageStateProp;
-  const arrayButtons = [0, 1, 2, 3, 4, 5, 6];
+  const arrayButtons = [0, 1, 2, 3, 4, 5];
   function openGame(name: string) {
     setGame(name);
   }
@@ -34,6 +34,7 @@ export default function TextbookButtons({
       : <Pagination current={pageState} onChange={(page) => setPageState(page)} total={300} />}
     <div className="">
     {arrayButtons.map((button, ind) => <button className="category__select-button button__textbook" key={button} onClick={() => category.setSelectedCategory(ind)} type="button">{ind + 1}</button>)}
+    {authorizedUser && <button className="category__select-button button__textbook" onClick={() => category.setSelectedCategory(6)} type="button">{7}</button>}
     </div>
   </div>
   );

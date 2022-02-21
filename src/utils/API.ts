@@ -13,7 +13,7 @@ import {
   saveUserTokenInLS,
 } from './utils';
 
-export const HEAD_URL = 'https://react-learn-words-rs-school.herokuapp.com';
+export const HEAD_URL = 'http://localhost:3001';
 export const token = () => {
   const value = localStorage.getItem('userTokens') ? JSON.parse(localStorage.getItem('userTokens')!).token : '';
   return value;
