@@ -11,18 +11,18 @@ A web application for learning English by viewing repeated words and playing min
 - Redux
 
 ### Build tool
-Webpack
+- Webpack
 
 ### Styling
-SCSS
-Bootstrap icons
+- SCSS
+- Bootstrap icons
 
 ### Code quality
-Eslint
-Prettier
+- Eslint
+- Prettier
 
 ### Additional libraries
-React-router
-React-redux
-Redux-thunk
-Chart.js
+- React-router
+- React-redux
+- Redux-thunk
+- Chart.js
