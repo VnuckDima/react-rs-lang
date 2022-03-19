@@ -5,10 +5,16 @@ A web application for learning English by viewing repeated words and playing min
 
 ## Utilized technologies overview
 
-### Stack
+### Frontend
 - Typescript
 - React
 - Redux
+- GitHub gh-pages
+
+### Backend
+- NodeJS
+- MongoDB
+- Heroku
 
 ### Build tool
 - Webpack
