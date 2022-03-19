@@ -26,3 +26,4 @@ A web application for learning English by viewing repeated words and playing min
 - React-redux
 - Redux-thunk
 - Chart.js
+- Ant-design
